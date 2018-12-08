@@ -6,160 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daniel P. Wiese</title>
 
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="assets/css/styles.css">
-		
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	
-	<!-- Control background color of navbar -->
-	<script>
-    $(function(){
-    	var $header, $topbar, alterHeight, checkFix, header, triggerHeight;
-      $topbar = $('header');
-			alterHeight = triggerHeight = 50;
-			checkFix = function() {
-				var currentScrollTop;
-      	currentScrollTop = $(window).scrollTop();
-      	if (currentScrollTop > triggerHeight) {
-					if (!$topbar.hasClass('is-bright')) {
-						$topbar.addClass('is-bright',500);
-          }
-        } else {
-          $topbar.removeClass('is-bright',500);
-       	}
-			};
-			$(window).on('scroll', checkFix);
-			$(window).on('resize', checkFix);
-			checkFix();
-		});
-    </script>
-	<!-- End control background color of navbar -->
-	
-	<!-- $(this).stop().animate({
-	            backgroundColor: "#a7bf51"
-	        }, 800); -->
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <meta name="google-site-verification" content="awTSvqn5ZbIK0bNZeH0PRTo5EzHQ5hn6fFxkNtmwdw0" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-28861984-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-28861984-4');
+  </script>
 </head>
 
 <body>
-
-	<header>
-		<!-- <h2><a href="#">Daniel P. Wiese</a></h2> -->
-		&nbsp;
-		<nav>
-			<li><a href="#home">Home</a></li>
-			<li><a href="#about">About</a></li>
-			<li><a href="#research">Research</a></li>
-			<li><a href="#contact">Contact</a></li>
-		</nav>
-	</header>
-	
-	<section id="home" class="hero">
-		<div class="background-image" style="background-image: url(assets/img/hero.jpg);"></div>
-		<h1>Daniel P. Wiese</h1>
-			<ul>
-				<li><a href="https://www.linkedin.com/in/dpwiese/" target="_blank"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
-				<li><a href="https://twitter.com/danielpwiese" target="_blank"><i class="fa fa-twitter-square fa-lg"></i></a></li>
-				<li><a href="https://www.facebook.com/dpwiese" target="_blank"><i class="fa fa-facebook-square fa-lg"></i></a></li>
-				<li><a href="https://github.com/dpwiese" target="_blank"><i class="fa fa-github-square fa-lg"></i></a></li>
-			</ul>
-		<!-- <h3>A freebie by Tutorialzine.</h3>
-		<a href="http://tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox/" class="btn">Download it Here</a> -->
-	</section>
-
-	<section id="about" class="features">
-		<h3 class="title">About</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
-		<hr>
-
-		<ul class="grid">
-			<li>
-				<i class="fa fa-camera-retro"></i>
-				<h4>Photography</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices vitae pulvinar velit.</p>
-			</li>
-			<li>
-				<i class="fa fa-cubes"></i>
-				<h4>Web Development</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices vitae pulvinar velit.</p>
-			</li>
-			<li>
-				<i class="fa fa-newspaper-o"></i>
-				<h4>Content Editing</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices vitae pulvinar velit.</p>
-			</li>
-		</div>
-	</section>
-
-	<section id="research" class="our-work">
-		<h3 class="title">Research</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
-		<hr>
-
-		<ul class="grid">
-			<li class="small" style="background-image: url(assets/img/coast.jpg);"></li>
-			<li class="large" style="background-image: url(assets/img/island.jpg);"></li>
-			<li class="large" style="background-image: url(assets/img/balloon.jpg);"></li>
-			<li class="small" style="background-image: url(assets/img/mountain.jpg);"></li>
-		</div>
-	</section>
-	
-	<section id="contact" class="reviews">
-		<h3 class="title">What others say:</h3>
-
-		<p class="quote">Mauris sit amet mauris a arcu eleifend ultricies eget ut dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-		<p class="author">— Patrick Farrell</p>
-
-		<p class="quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
-		<p class="author">— George Smith</p>
-
-		<p class="quote">Donec commodo dolor augue, vitae faucibus tortor tincidunt in. Aliquam vitae leo quis mi pulvinar ornare. Integer eu iaculis metus.</p>
-		<p class="author">— Kevin Blake</p>
-
-		
-	</section>
-
-
-	<!-- <section class="contact">
-		<h3 class="title">Join our newsletter</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
-		<hr>
-
-		<form>
-			<input type="email" placeholder="Email">
-			<a href="#" class="btn">Subscribe now</a>
-		</form>
-	</section> -->
-
-	<footer>
-		Copyright Daniel P. Wiese 2017
-		<!-- <ul>
-			<li><a href="https://www.linkedin.com/in/dpwiese/" target="_blank"><i class="fa fa-linkedin-square"></i></a></li>
-			<li><a href="https://twitter.com/danielpwiese" target="_blank"><i class="fa fa-twitter-square"></i></a></li>
-			<li><a href="https://www.facebook.com/dpwiese" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
-			<li><a href="https://github.com/dpwiese" target="_blank"><i class="fa fa-github-square"></i></a></li>
-		</ul> -->
-	</footer>
-	
-	<script>
-	$("nav a").click(function() {
-	    $('html,body').animate({
-	        scrollTop: $($(this).attr('href')).offset().top},
-	        'slow');
-	});
-	</script>
-	
-	<!-- Allow href="foo" without showing in address bar -->
-	<script>
-		$('nav a').click(function(e)
-		{
-		    e.preventDefault();
-		});
-	</script>
-	<!-- End allow href="foo" without showing in address bar -->
-
+  <section id="home" class="hero">
+    <div class="background-image" style="background-image: url(assets/img/hero.jpg);"></div>
+    <h1>Daniel P. Wiese</h1>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/dpwiese/" target="_blank"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
+        <li><a href="https://twitter.com/danielpwiese" target="_blank"><i class="fa fa-twitter-square fa-lg"></i></a></li>
+        <li><a href="https://www.facebook.com/dpwiese" target="_blank"><i class="fa fa-facebook-square fa-lg"></i></a></li>
+        <li><a href="https://github.com/dpwiese" target="_blank"><i class="fa fa-github-square fa-lg"></i></a></li>
+      </ul>
+  </section>
 </body>
-
 </html>
