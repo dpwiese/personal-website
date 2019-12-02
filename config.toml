@@ -1,11 +1,11 @@
 baseURL = "https://danielwiese.com"
 languageCode = "en-us"
 defaultContentLanguage = "en"
-title = "Daniel Wiese"
+title = "Daniel P. Wiese"
 theme = "hermit"
 
 [author]
-  name = "Daniel Wiese"
+  name = "Daniel P. Wiese"
 
 [taxonomies]
   tag = "tags"
