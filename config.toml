@@ -1,11 +1,11 @@
 baseURL = "https://danielwiese.com"
 languageCode = "en-us"
 defaultContentLanguage = "en"
-title = "Daniel P. Wiese"
+title = "Daniel Wiese"
 theme = "hermit"
 
 [author]
-  name = "Daniel P. Wiese"
+  name = "Daniel Wiese"
 
 [taxonomies]
   tag = "tags"
@@ -42,3 +42,18 @@ theme = "hermit"
   [[params.social]]
     name = "github"
     url = "https://github.com/dpwiese"
+
+[menu]
+
+  [[menu.main]]
+    name = "About"
+    url = "about/"
+    weight = 20
+
+  [[menu.main]]
+    name = "Resources"
+    url = "resources/"
+    weight = 20
+
+[markup.goldmark.renderer]
+  unsafe = true
