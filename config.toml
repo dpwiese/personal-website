@@ -3,6 +3,8 @@ languageCode = "en-us"
 defaultContentLanguage = "en"
 title = "Daniel Wiese"
 theme = "hermit"
+pygmentsCodefences  = true
+pygmentsUseClasses  = true
 
 [author]
   name = "Daniel Wiese"
@@ -25,6 +27,8 @@ theme = "hermit"
   relatedPosts = false  # Add a related content section to all single posts page
 
   code_copy_button = true # Turn on/off the code-copy-button for code-fields
+
+  customCSS = ["css/code.css"]
 
   # Social Icons
   [[params.social]]
@@ -59,6 +63,10 @@ theme = "hermit"
     name = "Posts"
     url = "posts/"
     weight = 20
+
+[markup]
+  [markup.highlight]
+    lineNos = true
 
 [markup.goldmark.renderer]
   unsafe = true

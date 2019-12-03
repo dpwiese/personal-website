@@ -1,0 +1,9 @@
+/* reduce theme's large space between line numbers and code */
+.highlight pre {
+    padding-right: 0px;
+}
+
+/* background color for monokai chroma theme */
+.chroma, .chroma > * {
+    background-color: #272822;
+}
