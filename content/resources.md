@@ -8,7 +8,7 @@ draft: false
 
 <a href="../mit-notes.pdf" target="_blank">MIT grad school notes</a>
 
-<a href="../dynamics-note-sheet.pdf" target="_blank">Dyanmics Note Sheet</a>
+<a href="../dynamics-note-sheet.pdf" target="_blank">Dynamics Note Sheet</a>
 
 ## Research Publications
 
