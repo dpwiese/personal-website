@@ -4,9 +4,11 @@ date: 2019-12-02T15:56:26-05:00
 draft: false
 ---
 
+<a href="../using-go-in-react-native.pdf" target="_blank">Using Go in React Native</a>
+
 <a href="../mit-notes.pdf" target="_blank">MIT grad school notes</a>
 
-<a href="../using-go-in-react-native.pdf" target="_blank">Using Go in React Native</a>
+<a href="../dynamics-note-sheet.pdf" target="_blank">Dyanmics Note Sheet</a>
 
 ## Research Publications
 
