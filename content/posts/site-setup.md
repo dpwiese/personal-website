@@ -53,7 +53,8 @@ I ultimately went with Hugo for two primary reasons: benchmarks indicated it to 
 # Hugo
 
 This section will provide a brief overview of setting up Hugo, and my process and workflow for creating content and deploying the site.
-[Hugo Docs](https://gohugo.io/documentation/)
+<a href="https://gohugo.io/documentation/" target="_blank">Hugo Docs</a>
+Themes can be found at: {{< plainlink "https://themes.gohugo.io/" >}}
 
 ```bash
 # Install Hugo
