@@ -6,6 +6,8 @@ toc: false
 images:
 tags: 
   - programming
+katex: true
+markup: "mmark"
 ---
 
 <!-- edit this document for tense: past or present -->
@@ -145,9 +147,11 @@ I found by inspecting the generated html when doing this, the following where my
 <!-- raw HTML omitted -->
 ```
 
-After a bit of Googling and reading through the docs, I learned that with the latest version of Hugo v0.60 that was released just days before having installed it, the following addition to `config.toml` may be needed. Per the <a href="https://gohugo.io/news/0.60.0-relnotes/" target="_blank">v0.60 release notes</a>:
+After a bit of Googling and reading through the docs, I learned that with the latest version of Hugo v0.60 that was released just days before having installed it, the following addition to `config.toml` may be needed.
+Per the <a href="https://gohugo.io/news/0.60.0-relnotes/" target="_blank">v0.60 release notes</a> and also in the <a href="https://gohugo.io/getting-started/configuration-markup/#goldmark" target="_blank">Configure Markup</a> docs, the following statement is made regarding inline html.
 
-> Also, if you have lots of inline HTML in your Markdown files, you may have to enable the `unsafe` mode:
+> By default, Goldmark does not render raw HTMLs and potentially dangerous links.
+If you have lots of inline HTML in your Markdown files, you may have to enable the `unsafe` mode:
 
 ```toml
 [markup.goldmark.renderer]
@@ -177,6 +181,96 @@ In this case, the `plainlink` shortcode would be called and passed a url from wi
 The result, when the site was generated, was a correctly generated `a` tag that preserved the `target` attribute, ensuring the clicked link would be opened in a new window.
 
 ## Latex
+
+Next, I wanted a configuration that would enable Latex to be rendered on the page.
+I wanted to use <a href="https://katex.org/" target="_blank">KaTeX</a> as it is known to be faster and lighter weight than the obvious alternative, <a href="https://www.mathjax.org/" target="_blank">MathJax</a>.
+I found some nice information online, such as the blog post <a href="https://eankeen.github.io/blog/posts/render-latex-with-katex-in-hugo-blog/" target="_blank">Render LaTeX with KaTex in Hugo Blog</a>.
+However, due to issues with the default markdown processor Blackfriday, an alternative markdown processor was needed.
+The blog post above uses MMark, which at the time of writing is listed in the Hugo <a href="https://gohugo.io/content-management/formats/#list-of-content-formats" target="_blank">List of content formats</a> as being an alternative, with the comment:
+
+> Mmark is deprecated and will be removed in a future release.
+
+that seemed to have been just deprecated per the <a href="https://gohugo.io/news/0.60.0-relnotes/" target="_blank">v0.60 release notes</a>.
+I looked at other alternatives, such as <a href="https://kramdown.gettalong.org/index.html" target="_blank">kramdown</a>, described in the blog post <a href="https://takuti.me/note/hugo-kramdown-and-katex/" target="_blank">Hugo meets kramdown + KaTeX</a>.
+But the best options seemed to be either use MMark until it is removed or Goldmark supports KaTex, or use MathJax, as described in the blog post <a href="https://divadnojnarg.github.io/blog/mathjax/" target="_blank">Setting MathJax with Hugo</a>.
+
+While KaTeX does seem to be the prefered Latex interpreter today, MathJax also seems to have been long used and well liked.
+Since neither option seemed to be obviously better than the other I decided to do a quick look for any practical differences between these two Latex interpreters, primarily in their ability to render some of the complex equations I've written before and may write again.
+
+Overall both seemed more-or-less equivalent in their ability to render the equations I provided.
+I did notice, however, that upon finally trying to use the `uuline` function from the `ulem` package to double underline a character, that MathJax would properly display the equation with the unknwon function displayed in red plain text while KaTeX would display the entire Latex expression in plain text.
+For reference, here is a list of <a href="https://github.com/KaTeX/KaTeX/wiki/Package-Emulation" target="_blank">additional functions from other LaTeX packages that are emulated by KaTeX</a>.
+
+I decided that while the way MathJax handled the unknown function was prefered, it ultimately made no difference in my using MathJax over KaTeX - I'd still have to find alternative Latex functions/characters that would properly render the entirety of whatever equation I was writing.
+In the case of `\uuline{*}` this was as simple as `\underline{\underline{*}}`.
+I ultimately opted for KaTeX but know that in the future, should any reason arise, I can always easily switch to MathJax.
+The KaTeX integration was accomplished exactly as described in the blog post above, shown below for convenience.
+The KaTeX CSS and JavaScript was imported in a footer partial:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+  integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv"
+  crossorigin="anonymous"
+>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+  integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+  crossorigin="anonymous"
+></script>
+
+<script defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+```
+
+and the following lines added to the posts configuration YAML:
+
+```yaml
+katex: true
+markup: "mmark"
+```
+
+The results of this KaTeX integration are shown below. First is an underbraced integral expression of mass conservation:
+
+$$
+\underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
+=\underbrace{-\oint_{S}\rho\underline{v}\cdot\underline{n}dS}_{\text{Net inflow of mass}}
+$$
+
+```tex
+\underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
+=\underbrace{-\oint_{S}\rho\underline{v}\cdot\underline{n}dS}_{\text{Net inflow of mass}}
+```
+
+And next are the Incompressible <a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations" target="_blank">Navier-Stokes equations</a> in an `aligned` environment:
+
+$$
+\begin{aligned}
+\rho\left(\frac{\partial\underline{v}}{\partial t}+\underline{v}\cdot\underline{\nabla}\underline{v}\right)
+& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g} \\
+\rho\frac{D\underline{v}}{Dt}
+& =-\underline{\nabla}p+\underline{\nabla}\cdot\underline{\underline{\sigma}}+\rho\underline{g} \\
+\rho\frac{D\underline{v}}{Dt}
+& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g}
+\end{aligned}
+$$
+
+```tex
+\begin{aligned}
+\rho\left(\frac{\partial\underline{v}}{\partial t}+\underline{v}\cdot\underline{\nabla}\underline{v}\right)
+& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g} \\
+\rho\frac{D\underline{v}}{Dt}
+& =-\underline{\nabla}p+\underline{\nabla}\cdot\underline{\underline{\sigma}}+\rho\underline{g} \\
+\rho\frac{D\underline{v}}{Dt}
+& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g}
+\end{aligned}
+```
 
 ## Working with Hugo
 
