@@ -28,7 +28,7 @@ pygmentsUseClasses  = true
 
   code_copy_button = true # Turn on/off the code-copy-button for code-fields
 
-  customCSS = ["css/code.css"]
+  customCSS = ["css/code.css", "css/style.css"]
 
   # Social Icons
   [[params.social]]
