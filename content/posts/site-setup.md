@@ -1,12 +1,14 @@
 ---
-title: "Setting up This Site"
+title: "Setting up this Site"
 date: 2019-12-03T11:27:53-05:00
 draft: true
 toc: false
 images:
 tags: 
-  - untagged
+  - programming
 ---
+
+<!-- edit this document for tense: past or present -->
 
 # Introduction
 
@@ -14,7 +16,7 @@ Personal websites may have many uses, and at the time of writing, the uses for t
 **The two primary motivations for creating this site were:**
 
 1. Create a place to document and share my learnings
-2. Learn some new tooling to support 1
+2. Learn some new tooling to support motivation 1
 
 A tertiary motivation was to provide a place for people to learn more about me than might be possible via the infomration available on social media.
 
@@ -50,11 +52,13 @@ I didn't need the capabilities of React, or want the associated complexity of us
 Jekyll was an obvious consideration.
 I ultimately went with Hugo for two primary reasons: benchmarks indicated it to be significantly faster than most alternatives, very important for me and my 8 year old MacBook, and I wanted something built on Go, as opposed to Ruby, Python, or JavaScript.
 
-# Hugo
+# Setting up Hugo
+
+<a href="https://gohugo.io/documentation/" target="_blank">Hugo Docs</a>
 
 This section will provide a brief overview of setting up Hugo, and my process and workflow for creating content and deploying the site.
-<a href="https://gohugo.io/documentation/" target="_blank">Hugo Docs</a>
-Themes can be found at: {{< plainlink "https://themes.gohugo.io/" >}}
+Themes can be found at: {{< plainlink "https://themes.gohugo.io/" >}}.
+For this site I chose the <a href="https://themes.gohugo.io/hermit/" target="_blank">hermit</a> theme.
 
 ```bash
 # Install Hugo
@@ -65,34 +69,39 @@ $ hugo new site my-website
 
 # Install a theme
 $ cd my-website
-$ git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
+$ git submodule add https://github.com/Track3/hermit.git themes/hermit
 
-# Edit config
+# Edit config, setting author, title, theme, etc.
 $ vi config.toml
 
 # Create my first post
-$ hugo new posts/new-post.md
+$ hugo new posts/site-setup.md
 ```
 
-I wanted to host on Github Pages.
+I'll discuss hosting more in a following section, but the choice to host on Github Pages impacted this portion of the setup.
 Github Pages automatically generates Jekyll sites, but hosting Hugo sites on Github Pages simply requires only Hugo's output be plumbed to the Github Pages repository, which is easily accomplished using submodules.
 In this case, the Github Pages repository is `dpwiese.github.io`.
-The site generated above should be commited to a different repository, for example `my-site`.
+The site generated above should be commited to a different repository, for example `personal-website`.
 Then, the `public` folder, the output of Hugo, should be made a submodule from the `dpwiese.github.io` repository using the following command.
 
 ```bash
 $ git submodule add -b master git@github.com:dpwiese/dpwiese.github.io.git public
 ```
 
-This is described more completely in the Hugo docs: [Host on Github](https://gohugo.io/hosting-and-deployment/hosting-on-github/).
+This is described more completely in the Hugo docs: <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/" target="_blank">Host on Github</a>.
+Note the following in <a href="https://help.github.com/en/github/working-with-github-pages/about-github-pages#user--organization-pages" target="_blank">About GitHub Pages</a> that says, for a user or organization page, it must be hosted from the `master` branch.
+
+> The default publishing source for user and organization sites is the master branch.
+If the repository for your user or organization site has a master branch, your site will publish automatically from that branch.
+You cannot choose a different publishing source for user or organization sites.
 
 ## Workflow
 
-With everything now configured appropriately, the following workflow can be adopted.
-A new branch can be created within the `my-website` superproject repository to support whatever site changes are currently being made.
-The `hugo server` command can be used to monitor the changes to the site locally, as they are being made.
+With the Hugo site generated and now configured appropriately, with a first page of content and theme applied, the following workflow can be adopted.
+A new branch can be created within the `personal-website` superproject repository to support whatever site changes are currently being made.
+The `hugo server` command can be used to monitor the changes to the site locally as they are being made.
 Commits to the superproject repository can be made as needed.
-When the site is ready to deploy, simply use the `hugo` command to generate the latest contents in the `public` submodule, and then commit as follows:
+When the site is ready to deploy, simply use the `hugo` command to generate the latest contents in the `public` submodule, and then commit the submodule as follows:
 
 ```bash
 $ cd public
@@ -103,13 +112,74 @@ $ git push origin master
 
 Thus, every commit to the submodule `master` branch is a deployment.
 
-<!-- GitHub Pages Limitations#
-GitHub Pages makes it easy for someone to generate a site for their project for free and with minimal effort. However, the following limitations of GitHub Pages might force you to use an alternative solution for hosting your web content:
+## Styling
 
-Max. file size of 100MB
-Repositories below 1GB
-Risk of account deactivation if traffic is above average usage.
-Expiry is set to 10 minutes, which is bad performance-wise.
-Although GitHub Pages’ main advantage is its price point (free), the above limitations may not be acceptable for certain projects. For example, blogs that use many images or other large resources will quickly meet the 1GB GitHub size limitation. Therefore using one of the alternatives mentioned below for your GitHub CDN integration may prove to be a more acceptable solution.
+With the above simple workflow used to deploy this site, I then wanted to make some minor adjustments to the theme.
+This can be accomplished by duplicating theme files from, for example, `./themes/hermit/layouts/index.html` to `./layouts/index.html` and then editing as needed to adjust certain elements.
+Any such files in the equivalent path within the main project directory will overwrite those from the theme.
+This is true as well for assets in `./themes/hermit/assets/scss/_predefined.scss` by `./assets/scss/_predefined.scss`.
+Additionally, custom CSS can be applied from `./static/css/style.css`, for example by specifying in the `config.toml` file.
 
-GitHub Pages Alternative -->
+```toml
+[params]
+  customCSS = ["css/style.css"]
+```
+
+With these options, I wanted to be able to modify the theme in the least obtrusive way.
+Overwriting layouts seemed like a bad idea - I'd be duplicating a substantial amount of code to make minor modifications, and the modified code (a duplicated SCSS file) may not even apply should I change the them later.
+Because of this, I opted to import a couple small CSS files via `config.toml` and only change the few necessary elements.
+
+## Hosting
+
+I decided to use Github Pages for their free hosting, subject to the limitations described under their <a href="https://help.github.com/en/github/working-with-github-pages/about-github-pages#guidelines-for-using-github-pages" target="_blank">Guidelines for using GitHub Pages</a>.
+These limitations should not be a limitation for the purposes of this site.
+In any case, another natural alternative was S3, to which this site could be easily deployed by appropriate configuration of `config.toml` as described in the <a href="https://gohugo.io/hosting-and-deployment/hugo-deploy/" target="_blank">Hugo Deploy</a> docs.
+
+## Hyperlinks in Hugo
+
+When writing this post, one of the first things I wanted to do is create links that would open in a new tab.
+The seemingly most straightforward way to do this, and something that is often useful in markdown, is to simply use html.
+I found by inspecting the generated html when doing this, the following where my embedded html would have been:
+
+```html
+<!-- raw HTML omitted -->
+```
+
+After a bit of Googling and reading through the docs, I learned that with the latest version of Hugo v0.60 that was released just days before having installed it, the following addition to `config.toml` may be needed. Per the <a href="https://gohugo.io/news/0.60.0-relnotes/" target="_blank">v0.60 release notes</a>:
+
+> Also, if you have lots of inline HTML in your Markdown files, you may have to enable the `unsafe` mode:
+
+```toml
+[markup.goldmark.renderer]
+  unsafe = true
+```
+
+Another difficulty that was realized after adding html links such as the one below, was that when generating the static site, Hugo would interpret the text as a link and thus generate a standard `a` tag without the additional `target` attribute.
+
+```html
+<a href="https://gohugo.io/" target="_blank">https://gohugo.io/</a>
+```
+
+A relatively easy and simple way around this was using <a href="https://gohugo.io/content-management/shortcodes/" target="_blank">Shortcodes</a>.
+The following shortcode file was created in `./layouts/shortcodes/plainlink.html`.
+
+```html
+<a href={{ index .Params 0 | safeHTML }} target="_blank">{{ index .Params 0 | safeHTML }}</a>
+```
+
+This provides a shortcode that can be called by name, render the contents using the specified template and the passed parameters.
+In this case, the `plainlink` shortcode would be called and passed a url from within a posts markdown file as shown below.
+
+```md
+{{</* plainlink "https://themes.gohugo.io/" */>}}
+```
+
+The result, when the site was generated, was a correctly generated `a` tag that preserved the `target` attribute, ensuring the clicked link would be opened in a new window.
+
+## Latex
+
+## Working with Hugo
+
+```bash
+$ hugo list drafts
+```

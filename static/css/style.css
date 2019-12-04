@@ -102,3 +102,7 @@ pre tt {
 .tag {
   color: #1269d3;
 }
+
+blockquote {
+  color: #aaa;
+}

@@ -64,9 +64,8 @@ pygmentsUseClasses  = true
     url = "posts/"
     weight = 20
 
-[markup]
-  [markup.highlight]
-    lineNos = true
+[markup.highlight]
+  lineNos = true
 
 [markup.goldmark.renderer]
   unsafe = true

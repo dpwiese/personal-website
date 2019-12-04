@@ -7,3 +7,8 @@
 .chroma, .chroma > * {
     background-color: #272822;
 }
+
+/* background color for monokai chroma theme */
+.chroma .err {
+    background-color: #272822;
+}
