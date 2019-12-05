@@ -68,6 +68,7 @@ pygmentsUseClasses  = true
 
   [markup.highlight]
     lineNos = true
+    lineNumbersInTable = false
 
   [markup.goldmark]
     [markup.goldmark.renderer]

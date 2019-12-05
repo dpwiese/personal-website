@@ -1,43 +1,43 @@
 /* reduce theme's large space between line numbers and code */
 .highlight pre {
-    padding-right: 0px;
+  padding-right: 0px;
 }
 
 /* background color for monokai chroma theme */
 .chroma, .chroma > * {
-    background-color: #272822;
+  background-color: #272822;
 }
 
 /* background color for monokai chroma theme */
 .chroma .err {
-    background-color: #272822;
+  background-color: #272822;
 }
 
 /* a hack to prevent column of numbers from scrolling horizontally in Safari */
 .chroma .lnt {
-    padding-right: 0;
-    margin-right: 0;
-    padding-left: 0;
-    margin-left: 0;
+  padding-right: 0;
+  margin-right: 0;
+  padding-left: 0;
+  margin-left: 0;
 }
 
 /* this styles inline code, with the exception of code block numbering */
 code:not([class]) {
-    color: #24292e;
-    background: #eaedef;
-    padding: .2em .4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: rgba(27,31,35,.05);
-    border-radius: 3px;
+  color: #24292e;
+  background: #eaedef;
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
 }
 
 /* this styles code block numbering */
 pre.chroma code{
-    color: #eeeeee;
-    padding: 0;
-    margin: 0;
-    font-size: 1em;
+  color: #eeeeee;
+  padding: 0;
+  margin: 0;
+  font-size: 1em;
 }
 
 /*line numbers must be disabled for this to work correctly*/
@@ -45,5 +45,10 @@ pre.chroma code{
   white-space: pre-wrap;
   display: block;
   width: 940px;
+}
+
+/* fix wrapping problem in safari with this and lineNumbersInTable = false */
+code {
+  word-wrap: normal;
 }
 
