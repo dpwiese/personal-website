@@ -1,6 +1,6 @@
 ---
 title: "React Native Gomobile"
-date: 2019-12-04T22:44:22-05:00
+date: 2019-12-04
 draft: true
 toc: false
 images:
