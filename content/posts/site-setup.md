@@ -4,10 +4,8 @@ date: 2019-12-03T11:27:53-05:00
 draft: true
 toc: false
 images:
-tags: 
+tags:
   - programming
-katex: true
-markup: "mmark"
 ---
 
 <!-- edit this document for tense: past or present -->
@@ -83,13 +81,13 @@ $ hugo new posts/site-setup.md
 
 The site can be viewed locally while editing by running
 
-```bash
+```bash {linenos=false}
 $ hugo server -D
 ```
 
 and when you are ready to build the `public` folder for deployment simply type
 
-```bash
+```bash {linenos=false}
 $ hugo
 ```
 
@@ -101,7 +99,7 @@ In this case, the Github Pages repository is `dpwiese.github.io`.
 The site generated above should be commited to a different repository, for example `personal-website`.
 Then, the `public` folder should be made a submodule from the `dpwiese.github.io` repository using the following command.
 
-```bash
+```bash {linenos=false}
 $ git submodule add -b master git@github.com:dpwiese/dpwiese.github.io.git public
 ```
 
@@ -156,7 +154,7 @@ When writing this post, one of the first things I wanted to do is create links t
 The seemingly most straightforward way to do this, and something that is often useful in markdown anyway, is to use HTML.
 However, when inspecting the generated HTML when doing this, the following comment appeared where my embedded HTML would have been:
 
-```html
+```html {linenos=false}
 <!-- raw HTML omitted -->
 ```
 
@@ -175,7 +173,7 @@ It turns out later that in order to support Latex in this post I needed to use t
 
 Another difficulty that was realized after adding HTML links such as the one below, was that when generating the static site, Hugo would interpret the text as a link and thus generate a standard `a` tag without the additional `target` attribute.
 
-```html
+```html {linenos=false}
 <a href="https://gohugo.io/" target="_blank">https://gohugo.io/</a>
 ```
 
@@ -183,14 +181,14 @@ A relatively easy and simple way around this was using <a href="https://gohugo.i
 More information can be found in the Hugo Docs <a href="https://gohugo.io/templates/shortcode-templates" target="_blank">Create Your Own Shortcodes</a>.
 The following shortcode file was created in `./layouts/shortcodes/plainlink.html`.
 
-```html
+```html {linenos=false}
 <a href={{ index .Params 0 | safeHTML }} target="_blank">{{ index .Params 0 | safeHTML }}</a>
 ```
 
 This provides a shortcode that can be called by name, render the contents using the specified template and the passed parameters.
 In this case, the `plainlink` shortcode would be called and passed a url from within a posts markdown file as shown below.
 
-```md
+```md {linenos=false}
 {{</* plainlink "https://themes.gohugo.io/" */>}}
 ```
 
@@ -219,9 +217,13 @@ For reference, here is a list of <a href="https://github.com/KaTeX/KaTeX/wiki/Pa
 
 I decided that while the way MathJax handled the unknown function was prefered, it ultimately made no difference in my using MathJax over KaTeX - I'd still have to find alternative Latex functions/characters that would properly render the entirety of whatever equation I was writing.
 In the case of `\uuline{*}` this was as simple as `\underline{\underline{*}}`.
+
+### KaTeX
+
 I ultimately opted for KaTeX but know that in the future, should any reason arise, I can always easily switch to MathJax.
 The KaTeX integration was accomplished exactly as described in the blog post above, shown below for convenience.
-The KaTeX CSS and JavaScript was imported in a footer partial, in this case `extra-foot.html`:
+The KaTeX CSS and JavaScript was imported in a footer partial, in this case `extra-foot.html`.
+Here is the code from <a href="https://eankeen.github.io/blog/posts/render-latex-with-katex-in-hugo-blog/" target="_blank">Render LaTeX with KaTex in Hugo Blog</a>:
 
 ```html
 <link
@@ -254,6 +256,87 @@ markup: "mmark"
 ---
 ```
 
+example
+
+```tex
+% This works as expected in KaTeX
+\begin{aligned}
+a &= 1 \\
+b &= 2
+\end{aligned}
+```
+
+Overall the KaTeX integration worked great, but I realized I did not want to be forced to use Mmark.
+This came up in one particular instance in attempting to change line numbering from the global default as shown below:
+
+````bash
+```bash {linenos=false}
+$ hugo server -D
+```
+````
+
+Mmark was not able to handle this.
+
+### MathJax
+
+As with Katex, for MathJax the JavaScript was imported in a footer partial, in this case `extra-foot.html`.
+Here is the code from <a href="https://divadnojnarg.github.io/blog/mathjax/" target="_blank">Setting MathJax with Hugo</a>:
+
+```html
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    // Fix <code> tags after MathJax finishes running. This is a
+    // hack to overcome a shortcoming of Markdown. Discussion at
+    // https://github.com/mojombo/jekyll/issues/199
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  // Autonumbering by mathjax
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+```
+
+One difference between Katex 
+
+```tex
+% Extra backslashes used to make newline with MathJax
+\begin{aligned}
+a &= 1 \\\\
+b &= 2
+\end{aligned}
+```
+
+or alternatively
+
+```tex
+% \newline with MathJax
+\begin{aligned}
+a &= 1 \newline
+b &= 2
+\end{aligned}
+```
+
+This is a bit annoying, but overall a minor inconvenience.
+
+### Results
+
 The results of this KaTeX integration are shown below. First is an underbraced integral expression of mass conservation:
 
 $$
@@ -271,9 +354,9 @@ And next are the Incompressible <a href="https://en.wikipedia.org/wiki/Navier%E2
 $$
 \begin{aligned}
 \rho\left(\frac{\partial\underline{v}}{\partial t}+\underline{v}\cdot\underline{\nabla}\underline{v}\right)
-& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g} \\
+& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g} \\\\
 \rho\frac{D\underline{v}}{Dt}
-& =-\underline{\nabla}p+\underline{\nabla}\cdot\underline{\underline{\sigma}}+\rho\underline{g} \\
+& =-\underline{\nabla}p+\underline{\nabla}\cdot\underline{\underline{\sigma}}+\rho\underline{g} \\\\
 \rho\frac{D\underline{v}}{Dt}
 & =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g}
 \end{aligned}
@@ -282,15 +365,17 @@ $$
 ```tex
 \begin{aligned}
 \rho\left(\frac{\partial\underline{v}}{\partial t}+\underline{v}\cdot\underline{\nabla}\underline{v}\right)
-& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g} \\
+& =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g} \\\\
 \rho\frac{D\underline{v}}{Dt}
-& =-\underline{\nabla}p+\underline{\nabla}\cdot\underline{\underline{\sigma}}+\rho\underline{g} \\
+& =-\underline{\nabla}p+\underline{\nabla}\cdot\underline{\underline{\sigma}}+\rho\underline{g} \\\\
 \rho\frac{D\underline{v}}{Dt}
 & =-\underline{\nabla}p+\mu\nabla^{2}\underline{v}+\rho\underline{g}
 \end{aligned}
 ```
 
 These cases both rendered quickly and correctly, as desired.
+
+
 
 # Conclusion
 
