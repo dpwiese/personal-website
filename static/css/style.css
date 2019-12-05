@@ -104,3 +104,7 @@ pre tt {
 blockquote {
   color: #aaa;
 }
+
+.hide-me {
+  display: none;
+}

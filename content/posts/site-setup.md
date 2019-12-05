@@ -1,14 +1,32 @@
 ---
 title: "Setting up this Site"
-date: 2019-12-03T11:27:53-05:00
+date: 2019-12-02
 draft: true
 toc: false
 images:
 tags:
   - programming
+lang: "en"
+geometry:
+- margin=1in
+urlcolor: "cyan"
+fontsize: "10pt"
+papersize: "letter"
 ---
 
+<!--
+$ pandoc site-setup.md \
+  --number-sections \
+  --from markdown \
+  --template eisvogel \
+  --pdf-engine xelatex \
+  --listings \
+  -o site-setup.pdf
+-->
+
 <!-- edit this document for tense: past or present -->
+<!-- be able to copy code from the blocks without copying line numbers! -->
+<!-- what do to with shortcodes when using Pandoc? -->
 
 # Introduction
 
@@ -269,7 +287,11 @@ b &= 2
 Overall the KaTeX integration worked great, but I realized I did not want to be forced to use Mmark.
 This came up in one particular instance in attempting to change line numbering from the global default as shown below:
 
-````bash
+<!--
+  extra ticks needed to escape for hugo/goldmark
+  also {linenos=false}
+-->
+````md
 ```bash {linenos=false}
 $ hugo server -D
 ```
