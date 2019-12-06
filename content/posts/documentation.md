@@ -1,11 +1,14 @@
 ---
 title: "Documentation"
-date: 2019-12-03
+date: 2019-12-06
 draft: true
 toc: false
 images:
 tags:
-  - untagged
+  - pandoc
+  - programming
+  - latex
+keywords: [pandoc, programming, latex]
 lang: "en"
 geometry:
 - margin=1in
@@ -13,6 +16,10 @@ urlcolor: "cyan"
 fontsize: "10pt"
 papersize: "letter"
 ---
+
+<!-- To print this page with Pandoc:
+  $ ~/.pandoc/md2pdf.sh documentation.md ~/Desktop/documentation.pdf
+-->
 
 <!-- To print this page with Pandoc:
   $ sed 's/ {linenos=false}&nbsp;//g' documentation.md > documentation-out.md; \
@@ -24,17 +31,6 @@ papersize: "letter"
   --pdf-engine xelatex \
   --listings \
   -o ~/Desktop/documentation.pdf; rm documentation-out.md
--->
-
-<!--
-  --variable urlcolor=cyan \
-  --from markdown \
-  --from=markdown-markdown_in_html_blocks-native_divs \
-  --from=markdown-raw_html-native_divs-native_spans \
-  --from=markdown-markdown_in_html_blocks-native_spans \
-  --pdf-engine=lualatex \
-  -t latex-smart \
-  -r markdown-smart+pipe_tables+table_captions+yaml_metadata_block \
 -->
 
 <!--
@@ -50,6 +46,18 @@ papersize: "letter"
   https://www.mkyong.com/mac/sed-command-hits-undefined-label-error-on-mac-os-x/
   $ sed -i '.bak' 's/ {linenos=false}&nbsp;//g' test.md
   $ sed 's/ {linenos=false}&nbsp;//g' test.md | tee test-out-2.md
+-->
+
+<!--
+  pandoc template location
+  ~/.pandoc/templates
+-->
+
+<!--
+  fc-list | grep "DejaVu Sans"
+  fc-list | grep "SF-Pro-Text-Regular"
+  -V mainfont="SFNS Display" \
+  -V mainfont="San Francisco Display" \
 -->
 
 # Introduction
@@ -318,3 +326,13 @@ Between this and the website setup, do a few things.
 * Use MathJax to render Latex.
 * When omitting line numbers in Hugo, follow the argument with a character such as a non-breaking space: `{linenos=false} &nbsp;`.
 * Use sed before Pandoc to remove the argument Pandoc doesn't understand.
+
+https://gist.github.com/nhtranngoc/88b72d9bfb656a3de227eea38ed80627
+
+https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/
+
+> GitHub style markdown is recommended if you wish to use the same source (or with minor changes) in multiple places.
+
+https://github.com/supermarin/YosemiteSanFranciscoFont
+
+https://tex.stackexchange.com/questions/25249/how-do-i-use-a-particular-font-for-a-small-section-of-text-in-my-document

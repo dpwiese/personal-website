@@ -18,6 +18,10 @@ papersize: "letter"
 ---
 
 <!-- To print this page with Pandoc:
+  $ ~/.pandoc/md2pdf.sh site-setup.md ~/Desktop/site-setup.pdf
+-->
+
+<!-- To print this page with Pandoc:
   $ sed 's/ {linenos=false}&nbsp;//g' site-setup.md > site-setup-out.md; \
   pandoc site-setup-out.md \
   --variable fontsize=10pt \
