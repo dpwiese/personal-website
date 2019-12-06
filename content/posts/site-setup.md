@@ -75,7 +75,8 @@ I ultimately went with Hugo for two primary reasons: benchmarks indicated it to 
 
 This section will provide a brief overview of setting up Hugo, and my process and workflow for creating content and deploying the site.
 The best place to start is the <a href="https://gohugo.io/documentation/" target="_blank">Hugo Docs</a>.
-Themes can be found at: {{< plainlink "https://themes.gohugo.io/" >}}.
+Themes can be found at: <a href="https://themes.gohugo.io/" target="_blank">htt<span></span>ps://themes.gohugo.io/</a>.
+
 For this site I chose the <a href="https://themes.gohugo.io/hermit/" target="_blank">hermit</a> theme.
 With the following few commands we are ready to start writing content.
 
@@ -195,6 +196,8 @@ Another difficulty that was realized after adding HTML links such as the one bel
 <a href="https://gohugo.io/" target="_blank">https://gohugo.io/</a>
 ```
 
+### Shortcodes
+
 A relatively easy and simple way around this was using <a href="https://gohugo.io/content-management/shortcodes/" target="_blank">Shortcodes</a>.
 More information can be found in the Hugo Docs <a href="https://gohugo.io/templates/shortcode-templates" target="_blank">Create Your Own Shortcodes</a>.
 The following shortcode file was created in `./layouts/shortcodes/plainlink.html`.
@@ -211,6 +214,17 @@ In this case, the `plainlink` shortcode would be called and passed a url from wi
 ```
 
 The result, when the site was generated, was a correctly generated `a` tag that preserved the `target` attribute, ensuring the clicked link would be opened in a new window.
+
+### Superfluous Span Tag
+
+A downside to the above method is that the shortcode now contained in the markdown can only be interpreted by Hugo, via whichever markdown engine we want to use.
+This means that if this markdown source is ported anywhere else, I'll have to do something about the shortcode.
+An alternative method to write HTML links in a way that was more portable was desired.
+Fortunately I found the following suggestion in this <a href="https://stackoverflow.com/a/53462722" target="_blank">Stack Overflow answer</a>: simply insert an empty div in the URL text so it is not interpreted as a URL.
+
+```html {linenos=false}
+<a href="https://gohugo.io/" target="_blank">htt<span></span>ps://gohugo.io/</a>
+```
 
 ## Latex
 
