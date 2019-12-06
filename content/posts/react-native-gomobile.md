@@ -6,7 +6,25 @@ toc: false
 images:
 tags:
   - untagged
+lang: "en"
+geometry:
+- margin=1in
+urlcolor: "cyan"
+fontsize: "10pt"
+papersize: "letter"
 ---
+
+<!-- To print this page with Pandoc:
+  $ sed 's/ {linenos=false}&nbsp;//g' react-native-gomobile.md > react-native-gomobile-out.md; \
+  pandoc react-native-gomobile-out.md \
+  --variable fontsize=10pt \
+  --number-sections \
+  --from markdown \
+  --template eisvogel \
+  --pdf-engine xelatex \
+  --listings \
+  -o ~/Desktop/react-native-gomobile.pdf; rm react-native-gomobile-out.md
+-->
 
 # Introduction
 
@@ -79,7 +97,7 @@ Start by going through the Golang tutorial: [A Tour of Go](https://tour.golang.o
 
 * This program can be compiled and run from the command line using `go run`:
 
-  ```bash {linenos=false}
+  ```bash {linenos=false}&nbsp;
   $ go run example.go
   ```
 
@@ -119,11 +137,11 @@ Start by going through the Golang tutorial: [A Tour of Go](https://tour.golang.o
   }
   ```
 * Variables are declared with the type last: <br> <!-- hack for bullet alignment in safari -->
-  ```go {linenos=false}
+  ```go {linenos=false}&nbsp;
   var i int = 1
   ```
 * the `:=` short assignment statement can be used in place of a var declaration with implicit type <br> <!-- hack for bullet alignment in safari -->
-  ```go {linenos=false}
+  ```go {linenos=false}&nbsp;
   i := 1
   ```
 
@@ -208,7 +226,7 @@ func SolveBVP() float64 {
 
 Now we can generate our iOS Framework using the following command. To learn more about the build flags, use `go help build`.
 
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 $ gomobile bind -x -v -target=ios github.com/dpwiese/go-gomobile-demo
 ```
 
@@ -540,7 +558,7 @@ func TestConcatenateStrings(t *testing.T) {
 Note here, the struct fields need not start with a capital letter, as they are not used anywhere outside of the current package. This is unlike the structs defined above used to unmarshal the JSON, which needed to be capitalized when passed to the `json` package.
 
 To run this test, use the following command:
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 $ go test -v
 ```
 Your output will look something like the following:
@@ -563,12 +581,12 @@ Go testing package also offers benchmarking.
 
 ## Linting and Formatting
 * You can get help formatting your Go code with [Gofmt](https://golang.org/cmd/gofmt/)
-  ```bash {linenos=false}
+  ```bash {linenos=false}&nbsp;
   $ gofmt -d .
   ```
   where the `-d` flag shows a diff, instead of rewriting files.
 * [Golint](https://github.com/golang/lint) can be helpful as well:
-  ```bash {linenos=false}
+  ```bash {linenos=false}&nbsp;
   $ golint <filename>.go
   ```
 
@@ -578,7 +596,7 @@ Go testing package also offers benchmarking.
 
 Often proprietary code may be used in a client application, and it is often beneficial to offload computation to the client to reduce backend costs. With a React Native app, the JavaScript bundle is distributed, unencrypted, with the app. After archiving an app in Xcode, for example, you'll find within it as shown below, the JavaScript bundle:
 
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 ~/Library/Developer/Xcode/Archives/2019-02-13/ReactNativeGomobileDemo 2-13-19, 10.05 AM.xcarchive/Products/Applications/ReactNativeGomobileDemo/main.jsbundle
 ```
 
@@ -586,7 +604,7 @@ Although the code has been minified, it is available for all to see.
 
 <div class="wrap-code">
 
-```javascript {linenos=false}
+```javascript {linenos=false}&nbsp;
 __d(function(g,r,i,a,m,e,d){var n=r(d[0]);Object.defineProperty(e,"__esModule",{value:!0}),e.solveBVPWithoutInputs=function(n){t("{\"solverConfig\":{\"epsilon\": 0.1, \"maxIterations\": 250000, \"maxResidual\": 1.0e-11, \"domain\": {\"min\": -1.0, \"max\": 1.0 }}}",n)},e.solveBVPWithInputs=t;var o=n(r(d[1]));function t(n,t){var f=JSON.parse(n),s=f.solverConfig.domain.min,u=f.solverConfig.domain.max,l=f.solverConfig.epsilon,p=f.solverConfig.maxIterations,v=f.solverConfig.maxResidual,w=(u-s)/100,h=1,y=0,A=new Array(101),M=new Array(101),c=new Array(100),x=new Array,C=new Array(101),I=new Array(101),_=new Array(100),P=new Array(101),b=(new Date).getTime();for(i=0;i<=101;i++)A[i]=1;for(;h>v&&y<p;){for(i=1;i<101;i++)C[i]=-A[i]/(2*w)-l/Math.pow(w,2),I[i]=2*l/Math.pow(w,2),_[i]=A[i]/(2*w)-l/Math.pow(w,2),P[i]=0;for(C[0]=0,I[0]=1,_[0]=0,P[0]=1,C[100]=0,I[100]=1,P[100]=-1,i=1;i<=101;i++)I[i]=I[i]-_[i-1]*C[i]/I[i-1],P[i]=P[i]-P[i-1]*C[i]/I[i-1];for(M[100]=P[100]/I[100],i=99;i>=-1;i--)M[i]=(P[i]-_[i]*M[i+1])/I[i];for(y+=1,c[0]=0,i=1;i<100;i++)c[i]=M[i]*((M[i+1]-M[i-1])/(2*w))-l*((M[i-1]-2*M[i]+M[i+1])/Math.pow(w,2));var B=M.map(function(n,o){return 1.99*(n-A[o])});A=A.map(function(n,o){return n+B[o]});var D=c.map(function(n,o){return Math.abs(n)});h=Math.max.apply(Math,(0,o.default)(D)),x.push(h)}t({iteration:y,error:h,time:(new Date).getTime()-b})}},347,[1,15]);
 ```
 
