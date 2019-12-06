@@ -23,7 +23,7 @@ papersize: "letter"
   --template eisvogel \
   --pdf-engine xelatex \
   --listings \
-  -o documentation.pdf; rm documentation-out.md
+  -o ~/Desktop/documentation.pdf; rm documentation-out.md
 -->
 
 <!--

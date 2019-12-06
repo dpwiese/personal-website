@@ -23,7 +23,7 @@ papersize: "letter"
   --template eisvogel \
   --pdf-engine xelatex \
   --listings \
-  -o site-setup.pdf; rm site-setup-out.md
+  -o ~/Desktop/site-setup.pdf; rm site-setup-out.md
 -->
 
 <!-- edit this document for tense: past or present -->
