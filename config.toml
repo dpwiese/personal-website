@@ -68,7 +68,7 @@ pygmentsUseClasses  = true
 
   [markup.highlight]
     lineNos = true
-    lineNumbersInTable = false
+    lineNumbersInTable = true # otherwise copying code blocks copies the numbers
 
   [markup.goldmark]
     [markup.goldmark.renderer]
