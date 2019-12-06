@@ -14,19 +14,20 @@ fontsize: "10pt"
 papersize: "letter"
 ---
 
-<!--
-$ pandoc site-setup.md \
+<!-- To print this page with Pandoc:
+  $ sed 's/ {linenos=false}&nbsp;//g' site-setup.md > site-setup-out.md; \
+  pandoc site-setup-out.md \
+  --variable fontsize=10pt \
   --number-sections \
   --from markdown \
   --template eisvogel \
   --pdf-engine xelatex \
   --listings \
-  -o site-setup.pdf
+  -o site-setup.pdf; rm site-setup-out.md
 -->
 
 <!-- edit this document for tense: past or present -->
-<!-- be able to copy code from the blocks without copying line numbers! -->
-<!-- what do to with shortcodes when using Pandoc? -->
+<!-- be able to copy code from the blocks without copying line numbers -->
 
 # Introduction
 
@@ -167,7 +168,7 @@ With these options, I wanted to be able to modify the theme in the least obtrusi
 Overwriting layouts seemed like a bad idea - I'd be duplicating a substantial amount of code to make minor modifications, and the modified code (a duplicated SCSS file) may and likely would not even apply should I change the theme later.
 Because of this, I opted to import a simple small CSS file via `config.toml` and only change the few necessary elements to achieve the desired appearance.
 
-## Hyperlinks in Hugo
+# Hyperlinks in Hugo
 
 When writing this post, one of the first things I wanted to do is create links that would open in a new tab.
 The seemingly most straightforward way to do this, and something that is often useful in markdown anyway, is to use HTML.
@@ -196,7 +197,7 @@ Another difficulty that was realized after adding HTML links such as the one bel
 <a href="https://gohugo.io/" target="_blank">https://gohugo.io/</a>
 ```
 
-### Shortcodes
+## Shortcodes
 
 A relatively easy and simple way around this was using <a href="https://gohugo.io/content-management/shortcodes/" target="_blank">Shortcodes</a>.
 More information can be found in the Hugo Docs <a href="https://gohugo.io/templates/shortcode-templates" target="_blank">Create Your Own Shortcodes</a>.
@@ -215,7 +216,7 @@ In this case, the `plainlink` shortcode would be called and passed a url from wi
 
 The result, when the site was generated, was a correctly generated `a` tag that preserved the `target` attribute, ensuring the clicked link would be opened in a new window.
 
-### Superfluous Span Tag
+## Superfluous Span Tag
 
 A downside to the above method is that the shortcode now contained in the markdown can only be interpreted by Hugo, via whichever markdown engine we want to use.
 This means that if this markdown source is ported anywhere else, I'll have to do something about the shortcode.
@@ -226,7 +227,7 @@ Fortunately I found the following suggestion in this <a href="https://stackoverf
 <a href="https://gohugo.io/" target="_blank">htt<span></span>ps://gohugo.io/</a>
 ```
 
-## Latex
+# Latex
 
 Next I wanted a configuration that would enable Latex to be rendered on the page.
 I wanted to use <a href="https://katex.org/" target="_blank">KaTeX</a> as it is known to be faster and lighter weight than the obvious alternative, <a href="https://www.mathjax.org/" target="_blank">MathJax</a>.
@@ -250,7 +251,7 @@ For reference, here is a list of <a href="https://github.com/KaTeX/KaTeX/wiki/Pa
 I decided that while the way MathJax handled the unknown function was prefered, it ultimately made no difference in my using MathJax over KaTeX - I'd still have to find alternative Latex functions/characters that would properly render the entirety of whatever equation I was writing.
 In the case of `\uuline{*}` this was as simple as `\underline{\underline{*}}`.
 
-### KaTeX
+## KaTeX
 
 I ultimately opted for KaTeX but know that in the future, should any reason arise, I can always easily switch to MathJax.
 The KaTeX integration was accomplished exactly as described in the blog post above, shown below for convenience.
@@ -301,19 +302,16 @@ b &= 2
 Overall the KaTeX integration worked great, but I realized I did not want to be forced to use Mmark.
 This came up in one particular instance in attempting to change line numbering from the global default as shown below:
 
-<!--
-  extra ticks needed to escape for hugo/goldmark
-  also {linenos=false}&nbsp;
--->
+<!-- extra ticks needed to escape for hugo/goldmark -->
 ````md
-```bash {linenos=false}&nbsp;
+```bash {linenos=false}
 $ hugo server -D
 ```
 ````
 
 Mmark was not able to handle this.
 
-### MathJax
+## MathJax
 
 As with Katex, for MathJax the JavaScript was imported in a footer partial, in this case `extra-foot.html`.
 Here is the code from <a href="https://divadnojnarg.github.io/blog/mathjax/" target="_blank">Setting MathJax with Hugo</a>:
@@ -371,7 +369,7 @@ b &= 2
 
 This is a bit annoying, but overall a minor inconvenience.
 
-### Results
+## Results
 
 The results of this KaTeX integration are shown below. First is an underbraced integral expression of mass conservation:
 
@@ -387,6 +385,7 @@ $$
 
 And next are the Incompressible <a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations" target="_blank">Navier-Stokes equations</a> in an `aligned` environment:
 
+<!-- when using pandoc, the double slashes make a large gap, and newline doesn't work -->
 $$
 \begin{aligned}
 \rho\left(\frac{\partial\underline{v}}{\partial t}+\underline{v}\cdot\underline{\nabla}\underline{v}\right)
