@@ -100,13 +100,13 @@ $ hugo new posts/site-setup.md
 
 The site can be viewed locally while editing by running
 
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 $ hugo server -D
 ```
 
 and when you are ready to build the `public` folder for deployment simply type
 
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 $ hugo
 ```
 
@@ -118,7 +118,7 @@ In this case, the Github Pages repository is `dpwiese.github.io`.
 The site generated above should be commited to a different repository, for example `personal-website`.
 Then, the `public` folder should be made a submodule from the `dpwiese.github.io` repository using the following command.
 
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 $ git submodule add -b master git@github.com:dpwiese/dpwiese.github.io.git public
 ```
 
@@ -173,7 +173,7 @@ When writing this post, one of the first things I wanted to do is create links t
 The seemingly most straightforward way to do this, and something that is often useful in markdown anyway, is to use HTML.
 However, when inspecting the generated HTML when doing this, the following comment appeared where my embedded HTML would have been:
 
-```html {linenos=false}
+```html {linenos=false}&nbsp;
 <!-- raw HTML omitted -->
 ```
 
@@ -192,7 +192,7 @@ It turns out later that in order to support Latex in this post I needed to use t
 
 Another difficulty that was realized after adding HTML links such as the one below, was that when generating the static site, Hugo would interpret the text as a link and thus generate a standard `a` tag without the additional `target` attribute.
 
-```html {linenos=false}
+```html {linenos=false}&nbsp;
 <a href="https://gohugo.io/" target="_blank">https://gohugo.io/</a>
 ```
 
@@ -202,14 +202,14 @@ A relatively easy and simple way around this was using <a href="https://gohugo.i
 More information can be found in the Hugo Docs <a href="https://gohugo.io/templates/shortcode-templates" target="_blank">Create Your Own Shortcodes</a>.
 The following shortcode file was created in `./layouts/shortcodes/plainlink.html`.
 
-```html {linenos=false}
+```html {linenos=false}&nbsp;
 <a href={{ index .Params 0 | safeHTML }} target="_blank">{{ index .Params 0 | safeHTML }}</a>
 ```
 
 This provides a shortcode that can be called by name, render the contents using the specified template and the passed parameters.
 In this case, the `plainlink` shortcode would be called and passed a url from within a posts markdown file as shown below.
 
-```md {linenos=false}
+```md {linenos=false}&nbsp;
 {{</* plainlink "https://themes.gohugo.io/" */>}}
 ```
 
@@ -222,7 +222,7 @@ This means that if this markdown source is ported anywhere else, I'll have to do
 An alternative method to write HTML links in a way that was more portable was desired.
 Fortunately I found the following suggestion in this <a href="https://stackoverflow.com/a/53462722" target="_blank">Stack Overflow answer</a>: simply insert an empty div in the URL text so it is not interpreted as a URL.
 
-```html {linenos=false}
+```html {linenos=false}&nbsp;
 <a href="https://gohugo.io/" target="_blank">htt<span></span>ps://gohugo.io/</a>
 ```
 
@@ -303,10 +303,10 @@ This came up in one particular instance in attempting to change line numbering f
 
 <!--
   extra ticks needed to escape for hugo/goldmark
-  also {linenos=false}
+  also {linenos=false}&nbsp;
 -->
 ````md
-```bash {linenos=false}
+```bash {linenos=false}&nbsp;
 $ hugo server -D
 ```
 ````
