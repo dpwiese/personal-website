@@ -16,12 +16,47 @@ papersize: "letter"
 
 <!--
 $ pandoc documentation.md \
+  --lua-filter=filter.lua \
   --number-sections \
   --from=markdown-markdown_in_html_blocks-native_spans \
   --template eisvogel \
   --pdf-engine xelatex \
   --listings \
+  -o documentation-pandoc.pdf
+-->
+
+<!-- USING SED FIRST TO REMOVE BAD STUFF
+$ pandoc test-out.md \
+  --number-sections \
+  --from markdown \
+  --template eisvogel \
+  --pdf-engine xelatex \
+  --listings \
+  -o test-out-pandoc.pdf
+-->
+
+<!--
+--from markdown \
+--from=markdown-markdown_in_html_blocks-native_divs \
+--from=markdown-raw_html-native_divs-native_spans \
+--from=markdown-markdown_in_html_blocks-native_spans \
+-->
+
+<!--
+$ pandoc -r markdown-smart+pipe_tables+table_captions+yaml_metadata_block \
+  --pdf-engine=lualatex \
+  documentation.md -t latex-smart \
   -o documentation.pdf
+-->
+
+<!-- https://wkhtmltopdf.org/ -->
+
+<!--
+  This essentially seems equivalent to printing from a web browser
+  wkhtmltopdf http://google.com google.pdf
+  wkhtmltopdf ../../public/index.html index.pdf
+  wkhtmltopdf ../../public/posts/documentation/index.html documentation-2.pdf
+  wkhtmltopdf http://localhost:1313/posts/documentation/index.html documentation-3.pdf
 -->
 
 Prior to creating this site, I'd always been quite good about documenting the things I've worked on.
@@ -201,3 +236,26 @@ Maybe there is a way to generate a PDF from Hugo?
 The easiest way to do this is with the site open in a web browser, just print the page.
 Honestly the output looks pretty good.
 Really the only downsides I noticed (when printing from Chrome at least) was that there is some website navigation items present in the printed output, and that when including the headers and footers, they are not styled nicely at all - just some plain Times New Roman text.
+
+https://pandoc.org/filters.html
+
+https://lee-phillips.org/panflute-gnuplot/
+
+https://pandoc.org/lua-filters.html
+
+{{helloworld}}
+
+https://tewarid.github.io/2018/12/28/pandoc-lua-filter-to-convert-math-block-type.html
+
+```js {linenos=false}&nbsp;
+var test
+```
+
+sed -i '.bak' 's/ {linenos=false}//g' test.md
+
+https://www.mkyong.com/mac/sed-command-hits-undefined-label-error-on-mac-os-x/
+
+sed 's/ {linenos=false}//g' test.md | tee test-out-2.md
+
+sed 's/ {linenos=false}//g' test.md > test-out.md
+
