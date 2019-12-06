@@ -29,9 +29,6 @@ papersize: "letter"
   -o ~/Desktop/site-setup.pdf; rm site-setup-out.md
 -->
 
-<!-- edit this document for tense: past or present -->
-<!-- be able to copy code from the blocks without copying line numbers -->
-
 # Introduction
 
 Personal websites may have many uses, and at the time of writing, the uses for this site are not yet fully clear. However, **the two primary motivations for creating this site were:**
