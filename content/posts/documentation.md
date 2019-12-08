@@ -21,18 +21,6 @@ papersize: "letter"
   $ ~/.pandoc/md2pdf.sh documentation.md ~/Desktop/documentation.pdf
 -->
 
-<!-- To print this page with Pandoc:
-  $ sed 's/ {linenos=false}&nbsp;//g' documentation.md > documentation-out.md; \
-  pandoc documentation-out.md \
-  --variable fontsize=10pt \
-  --number-sections \
-  --from markdown \
-  --template eisvogel \
-  --pdf-engine xelatex \
-  --listings \
-  -o ~/Desktop/documentation.pdf; rm documentation-out.md
--->
-
 <!--
   https://wkhtmltopdf.org/
   This essentially seems equivalent to printing from a web browser
@@ -49,17 +37,10 @@ papersize: "letter"
 -->
 
 <!--
-  pandoc template location
-  ~/.pandoc/templates
--->
-
-<!--
   fc-list | grep "DejaVu Sans"
   fc-list | grep "SF-Pro-Text-Regular"
   -V mainfont="SFNS Display" \
   -V mainfont="San Francisco Display" \
-
-  ~/Library/Fonts/
 -->
 
 # Introduction
@@ -92,13 +73,13 @@ I was looking for a better solution, that provided the following:
   - Inclusion of references from .bib file?
   - Good syntax highlighting of the mixed (markdown with latex, html, etc.) in editor (e.g. sublime)
 
-# Solution: Pandoc
+# Solution: Markdown Pandoc
 
 For a simple, easy-to-read syntax, markdown was a good choice. Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs such as the <a href="https://atom.io/packages/markdown-pdf" target="_blank">markdown-pdf</a> and <a href="https://atom.io/packages/language-markdown" target="_blank">language-markdown</a> packages for Atom and <a href="https://pandoc.org/" target="_blank">Pandoc</a>; good support online at Github, Gitlab, <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>, and more.
 
 For the generation of PDFs, Pandoc is easy to use, and supports Latex. Latex is not supported in Github, but seems to be in Gitlab.
 Markdown is easy-to-read, reducing the need for real-time rendering, or a need to frequently and quickly compile.
-References can be included from a .bib file.
+References can be included from a `.bib` file.
 Using the Sublime Text markdown syntax highlighting works well for markdown, although it does not do anything for Latex.
 But as the primary goal was for a simple, easy syntax that *allowed* for the inclusing of equations rather than a focus on highly mathematical documents, this was not a big deal - equations should be relatively simple and infrequent.
 
@@ -113,46 +94,22 @@ Jupyter was considered as well, but seemed much more heavyweight than desired, r
 $ pandoc documentation.md -o documentation.pdf
 ```
 
-## Styling
-
-To apply style more closely resembling Github markdown, <a href="https://github.com/jgm/pandoc/wiki/User-contributed-templates" target="_blank">several options</a> were available. The <a href="https://github.com/Wandmalfarbe/pandoc-latex-template" target="_blank">Eisvogel</a> Pandoc Latex template was one of the simplest and easiest. Default pandoc template location: `~/.pandoc/templates/`. This template can be easily applied with Pandoc. The result is pretty good enough.
-
 ## Bibliography
 
 The bibliography can be easily be included. To format the references, the <a href="https://citationstyles.org/" target="_blank">Citation Style Language</a> can be specified. Thousands of CSL files can be found <a href="https://github.com/citation-style-language/styles" target="_blank">here</a>.
 
-## Command
-
-```bash
-$ pandoc test.md \
-    --variable fontsize=10pt \
-    --number-sections \
-    --filter pandoc-citeproc \
-    --bibliography=test.bib \
-    --csl ieee.csl \
-    --from markdown \
-    --template eisvogel \
-    --listings \
-    -o test.pdf
+```
+--filter pandoc-citeproc \
+--bibliography=test.bib \
+--csl ieee.csl \
 ```
 
-with YAML metadata:
+## Styling
 
-```yaml
----
-title: "Test Notes"
-date: "November 2019"
-author: "Daniel Wiese"
-subject: "Markdown"
-keywords: [Markdown, Example]
-lang: "en"
-geometry:
-- margin=1in
-urlcolor: "cyan"
-fontsize: "10pt"
-papersize: "letter"
----
-```
+To style the Pandoc generated output, <a href="https://github.com/jgm/pandoc/wiki/User-contributed-templates" target="_blank">several options</a> for templates were available that can be used with the `--template` option.
+The <a href="https://github.com/Wandmalfarbe/pandoc-latex-template" target="_blank">Eisvogel</a> Pandoc Latex template was one of the simplest and easiest.
+Just required it to be downloaded, put in the default pandoc template location `~/.pandoc/templates/`.and used with `--template eisvogel`.
+The result is pretty good enough, but will dive deeper into styling later.
 
 # Markdown Processing in Pandoc and Hugo
 
@@ -168,6 +125,7 @@ var your = "code here"
 
 Here is what it looks like:
 
+<!-- intentionall leave this {linenos=false} and do not remove with sed -->
 ```js {linenos=false}
 var your = "code here"
 ```
@@ -179,15 +137,12 @@ In the PDF, the code is formatted as in-line code rather than in a block, all of
 The reason for that is that Pandoc cannot intepret the `{lineos=false}`.
 So we need a way to be able to specify for Pandoc to ignore this argument.
 
-## Solution Option 1: Print the Website from Browser
+## Solution Option 1: Don't use Pandoc
 
-Not to mention that until now, the `eisvogel.latex` style that I use with Pandoc is very different than the way this site is styled.
-Reconciling these two via a new `.latex` style would be a huge pain, and require for any style changes be kept in sync between this file and the CSS used for this site.
-
-Maybe there is a way to generate a PDF from Hugo?
-The easiest way to do this is with the site open in a web browser, just print the page.
-Honestly the output looks pretty good.
-Really the only downsides I noticed (when printing from Chrome at least) was that there is some website navigation items present in the printed output, and that when including the headers and footers, they are not styled nicely at all - just some plain Times New Roman text.
+For markdown that is used to generate content on the web, don't necessarily need a separate way to generate a document.
+Can just print the website.
+But this doesn't really help for markdown notes that are not put online
+Need an offline solution to generate documentation from markdown.
 
 ## Solution Option 2: HTML/CSS Tricks and Pandoc Arguments
 
@@ -226,53 +181,30 @@ Of course, they will be different slightly in that the code block on the web wil
 This is at best horribly inelegant, requiring extra HTML elements and significant duplicated code just because the markdown processor of Pandoc is different than that of Hugo.
 I initially thought this would be a perfect use case for a Shortcode and then of course realized that Shortcodes could not be interpreted by Pandoc either.
 
-## Solution Option 3: Pandoc (Lua) Filters
+## Solution Option 3: Pandoc Filters
 
 Seemed a viable option.
 Lots of information on filters, python, php, lua, etc.
-Create filter called, for example, `filter.lua`.
+Create filter called, for example, `filter.lua` and use the Pandoc option `--lua-filter=filter.lua`.
 Run Pandoc with filter applied as shown below.
 
-
-```bash
-$ pandoc documentation.md \
-  --lua-filter=filter.lua \
-  --variable fontsize=10pt \
-  --number-sections \
-  --from markdown-markdown_in_html_blocks-native_spans \
-  --template eisvogel \
-  --pdf-engine xelatex \
-  --listings \
-  -o documentation-pandoc.pdf
-```
-
 Spent a few minutes looking at the filters, but realized it might be a bit involved, so set this option aside to come back to after seeing if there may be more easier options.
-
-https://pandoc.org/filters.html
-
-https://lee-phillips.org/panflute-gnuplot/
-
-https://pandoc.org/lua-filters.html
-
-https://tewarid.github.io/2018/12/28/pandoc-lua-filter-to-convert-math-block-type.html
+The <a href="https://pandoc.org/filters.html" target="_blank">Pandoc Filters</a> docs were a useful reference.
+As filters were an interesting option, I was particularly interested in 
+<a href="https://pandoc.org/lua-filters.html" target="_blank">Pandoc Lua Filters</a>, as they seemed to be frequently used with success.
+Can also write filters in Python using Panflute, as described in the blog post <a href="https://lee-phillips.org/panflute-gnuplot/" target="_blank">Technical Writing with Pandoc and Panflute</a>.
 
 ## Solution Option 4: Replace Offending Argument with sed
 
 sed could be easily used to just look through whole file, replace offending code, and plumb the output into Pandoc.
 This way was very fast to understand and implement, more elegant than the HTML/CSS hacking above, and seemed somewhat flexible.
-But in order to ensure I could specify which parts of code I actually wanted to remove (and not occurences in the text, like `{linenos=false}`) I talked on a `&nbsp` at the end.
+But in order to ensure I could specify which parts of code I actually wanted to remove (and not occurences in the text, like `{linenos=false}`) I tacked on a `&nbsp` at the end.
 Then can run sed and then Pandoc as follows.
 
 ```bash
-$ sed 's/ {linenos=false}&nbsp;//g' documentation.md > documentation-out.md; \
-  pandoc documentation-out.md \
-  --variable fontsize=10pt \
-  --number-sections \
-  --from markdown \
-  --template eisvogel \
-  --pdf-engine xelatex \
-  --listings \
-  -o documentation.pdf; rm documentation-out.md
+$ sed 's/ {linenos=false}&nbsp;//g' documentation.md > temp.md; \
+  pandoc temp.md \
+  -o documentation.pdf; rm temp.md
 ```
 
 The result is the following, no line numbers on the web, and correctly rendered PDF output from Pandoc.
@@ -283,11 +215,128 @@ var test
 ```
 ````
 
+It's not the most elegant solution as it requires remembering to include a superfluous `&nbsp;` after each `{linenos=false}` and as such will not scale well depending on how many other commands I rely on in the future that are not compatible with Pandoc, and adds a bit of an ugly extra step to the pandoc script.
+But for now it's a decent solution with low overhead.
+Should I revisit this later to come up with a better solution, I can simply `grep` my notes and remove this `&nbsp;` or just leave it in there, as it doesn't really hurt anything.
+
 ## Solution Options Recap
 
 Something like using a filter probably the best.
 Not sure how fast compared to sed.
 Especially with the way I have now with file writes.
+
+# Styling Pandoc Output
+
+Using a downloaded template such as with `--template eisvogel` got us a PDF output that looked pretty decent.
+But further customization was needed.
+
+## Styling Fonts
+
+Use Pandoc options to change fonts:
+
+```
+-V mainfont="SFNS Display" \
+-V monofont="Menlo Regular" \
+```
+
+Can use latex header, for example `headings.tex` and add custom font:
+
+```tex {linenos=false}&nbsp;
+\newfontfamily\sfnsdisplaybold{SFNS Display Bold}
+\sectionfont{\fontsize{16pt}{16pt}\selectfont\sfnsdisplaybold}
+```
+
+On Mac, font is in `~/Library/Fonts`.
+Include this header with `--include-in-header ~/.pandoc/headings.tex`
+
+## Styling Code
+
+### Listings
+
+First option is to use the `--listings` option with Pandoc.
+This made block code look quite nice, but in-line code I was not happy with.
+The use of the `--listings` option put inline code in `lstinline` and block code in a `lstlisting` environment.
+Easiest way to see this was by just outputting `.tex` document from Pandoc.
+This could even then be altered and output generated with whatever Latex engine, in this case I was using XeLatex.
+
+The solution when using `--listings` was to use a latex header to style these environment(s) as desired.
+For example, made `listings-code.tex` and included with `--include-in-header ~/.pandoc/listings-code.tex` as with our header for heading fonts.
+
+The contents of this header were overly complex.
+Not going to go into detail here, but some helpful references were:
+
+...
+
+The result was not good, the inline code just didn't look quite right.
+
+### Highlight Style
+
+When not using the `--listings` option, inline code is in `texttt{}` and highlight env? for block code.
+
+Can use a Pandoc style.
+Can export it and modify it.
+Can use modified version as:
+
+`--highlight-style ~/.pandoc/pygments-mod.theme`
+
+This provides a very basic styling only to highlight environment.
+Not really a viable option.
+
+
+### Custom Latex Header
+
+Can easily apply styling to `texttt`.
+
+Looks like `fvextra` package is used.
+(Is that particular to Eisvogel theme?)
+Can then easily use `fvset` to apply options to verbatim environment used for block code.
+Now things are looking pretty good.
+
+The Latex header below with Pandoc works great, coloring the background of both inline and block code, when `listings` is not used.
+The biggest downsite is that in block code (without `listings`) there doesn't seem to be a way to add line numbers.
+If there were, this would probably be the desired solution for me.
+
+```tex
+\definecolor{inline-background}{RGB}{244,244,245}
+\let\oldtexttt\texttt
+\renewcommand{\texttt}[1]{
+  \colorbox{inline-background}{\fontsize{8pt}{8pt}\oldtexttt{#1}}
+}
+```
+
+When not using `listings` the `.tex` output of Pandoc has, for inline code:
+
+```tex
+\texttt{**bold\ text**}
+```
+
+and for block code:
+
+```tex
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Basic command for generating documentation.pdf from documentation.md}
+\NormalTok{$ }\ExtensionTok{pandoc}\NormalTok{ documentation.md {-}o documentation.pdf}
+\end{Highlighting}
+\end{Shaded}
+```
+
+
+## Styling Hyperlinks
+
+Lua filter to handle HTML links from markdown document and keep the links in generated PDF.
+Then use another latex header to style the links. `--include-in-header ~/.pandoc/link-color.tex`
+
+
+
+
+## Styling Recap
+
+
+
+
+
+
 
 # Conclusions
 
@@ -298,6 +347,28 @@ Between this and the website setup, do a few things.
 * Use MathJax to render Latex.
 * When omitting line numbers in Hugo, follow the argument with a character such as a non-breaking space: `{linenos=false} &nbsp;`.
 * Use sed before Pandoc to remove the argument Pandoc doesn't understand.
+* Make sure to not use relative links for anything that will end up in PDF, or the relative link will be broken.
+```html
+<a href="../../mit-notes.pdf" target="_blank">grad school notes</a>
+Use this instead:
+<a href="https://danielwiese.com/mit-notes.pdf" target="_blank">grad school notes</a>
+```
+* Can use `gfm` instead of `markdown` as input?
+
+
+
+Not to mention that until now, the `eisvogel.latex` style that I use with Pandoc is very different than the way this site is styled.
+Reconciling these two via a new `.latex` style would be a huge pain, and require for any style changes be kept in sync between this file and the CSS used for this site.
+
+Maybe there is a way to generate a PDF from Hugo?
+The easiest way to do this is with the site open in a web browser, just print the page.
+Honestly the output looks pretty good.
+Really the only downsides I noticed (when printing from Chrome at least) was that there is some website navigation items present in the printed output, and that when including the headers and footers, they are not styled nicely at all - just some plain Times New Roman text.
+
+
+
+
+
 
 https://gist.github.com/nhtranngoc/88b72d9bfb656a3de227eea38ed80627
 
@@ -317,9 +388,46 @@ THIS FINALLY HAD A NICE LUA FILTER:
 
 https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf
 
-<a href="http://google.com" target="_blank">Google Link</a>
+https://tex.stackexchange.com/questions/357227/adding-background-color-to-verb-or-lstinline-command-without-colorbox
 
-Obviously can't use relative links when generating the PDF, they'll be broken:
-<a href="../../mit-notes.pdf" target="_blank">grad school notes</a>
-Use this instead:
-<a href="https://danielwiese.com/mit-notes.pdf" target="_blank">grad school notes</a>
+https://pandoc.org/MANUAL.html#syntax-highlighting
+
+https://tex.stackexchange.com/questions/28179/colored-background-in-inline-listings
+
+https://tex.stackexchange.com/questions/30845/how-to-redefine-lstinline-to-automatically-highlight-or-draw-frames-around-all/30851#30851
+
+https://tex.stackexchange.com/questions/453825/line-break-long-verbatim-text-with-highlighted-background
+
+https://tex.stackexchange.com/questions/64750/avoid-line-breaks-after-lstinline
+
+https://tex.stackexchange.com/questions/13515/how-to-add-paragraph-line-number-in-right-margin
+
+```tex
+\modulolinenumbers[1]
+
+\begin{mdframed}
+\internallinenumbers
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Basic command for generating documentation.pdf from documentation.md}
+\NormalTok{$ }\ExtensionTok{pandoc}\NormalTok{ documentation.md {-}o documentation.pdf}
+\end{Highlighting}
+\end{Shaded}
+\end{mdframed}
+
+\begin{mdframed}
+\internallinenumbers
+test \\
+test
+\end{mdframed}
+
+\begin{linenumbers}
+When you watch the news and see pictures of weather from around the United States 
+or the world, you are seeing data from NOAA's environmental satellites. NOAA's 
+environmental satellites provide data from space to monitor the Earth to analyze the 
+coastal waters, relay life-saving emergency beacons, and track tropical storms and 
+hurricanes. 
+\end{linenumbers}
+```
+
+https://tex.stackexchange.com/questions/163412/how-fancyvrb-background-color-fill-completely-with-fillcolor
