@@ -3,12 +3,16 @@ title: "Documentation"
 date: 2019-12-06
 draft: true
 toc: false
-images:
 tags:
   - pandoc
   - programming
   - latex
 keywords: [pandoc, programming, latex]
+---
+
+<!--
+---
+images:
 lang: "en"
 geometry:
 - margin=1in
@@ -16,17 +20,12 @@ urlcolor: "cyan"
 fontsize: "10pt"
 papersize: "letter"
 ---
-
-<!-- To print this page with Pandoc:
-  $ ~/.pandoc/md2pdf.sh documentation.md ~/Desktop/documentation.pdf
 -->
 
 <!--
   https://wkhtmltopdf.org/
   This essentially seems equivalent to printing from a web browser
   wkhtmltopdf http://google.com google.pdf
-  wkhtmltopdf ../../public/index.html index.pdf
-  wkhtmltopdf ../../public/posts/documentation/index.html documentation-2.pdf
   wkhtmltopdf http://localhost:1313/posts/documentation/index.html documentation-3.pdf
 -->
 
@@ -34,13 +33,6 @@ papersize: "letter"
   https://www.mkyong.com/mac/sed-command-hits-undefined-label-error-on-mac-os-x/
   $ sed -i '.bak' 's/ {linenos=false}&nbsp;//g' test.md
   $ sed 's/ {linenos=false}&nbsp;//g' test.md | tee test-out-2.md
--->
-
-<!--
-  fc-list | grep "DejaVu Sans"
-  fc-list | grep "SF-Pro-Text-Regular"
-  -V mainfont="SFNS Display" \
-  -V mainfont="San Francisco Display" \
 -->
 
 # Introduction
@@ -73,6 +65,16 @@ I was looking for a better solution, that provided the following:
   - Inclusion of references from .bib file?
   - Good syntax highlighting of the mixed (markdown with latex, html, etc.) in editor (e.g. sublime)
 
+Wanted to be able to have consistent styling from web (via CSS) and generated document.
+Is there a way to make this easy?
+i.e. same style file for web and generated content?
+Also want a way to easily define differences between web and generated document.
+
+Maybe there is a way to generate a PDF from Hugo?
+The easiest way to do this is with the site open in a web browser, just print the page.
+Honestly the output looks pretty good.
+Really the only downsides I noticed (when printing from Chrome at least) was that there is some website navigation items present in the printed output, and that when including the headers and footers, they are not styled nicely at all - just some plain Times New Roman text.
+
 # Solution: Markdown Pandoc
 
 For a simple, easy-to-read syntax, markdown was a good choice. Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs such as the <a href="https://atom.io/packages/markdown-pdf" target="_blank">markdown-pdf</a> and <a href="https://atom.io/packages/language-markdown" target="_blank">language-markdown</a> packages for Atom and <a href="https://pandoc.org/" target="_blank">Pandoc</a>; good support online at Github, Gitlab, <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>, and more.
@@ -89,7 +91,7 @@ Jupyter was considered as well, but seemed much more heavyweight than desired, r
 
 ## Using Pandoc
 
-```bash
+```bash {linenos=false}&nbsp;
 # Basic command for generating documentation.pdf from documentation.md
 $ pandoc documentation.md -o documentation.pdf
 ```
@@ -98,7 +100,7 @@ $ pandoc documentation.md -o documentation.pdf
 
 The bibliography can be easily be included. To format the references, the <a href="https://citationstyles.org/" target="_blank">Citation Style Language</a> can be specified. Thousands of CSL files can be found <a href="https://github.com/citation-style-language/styles" target="_blank">here</a>.
 
-```
+```bash {linenos=false}&nbsp;
 --filter pandoc-citeproc \
 --bibliography=test.bib \
 --csl ieee.csl \
@@ -110,6 +112,19 @@ To style the Pandoc generated output, <a href="https://github.com/jgm/pandoc/wik
 The <a href="https://github.com/Wandmalfarbe/pandoc-latex-template" target="_blank">Eisvogel</a> Pandoc Latex template was one of the simplest and easiest.
 Just required it to be downloaded, put in the default pandoc template location `~/.pandoc/templates/`.and used with `--template eisvogel`.
 The result is pretty good enough, but will dive deeper into styling later.
+
+Docs on Pandoc's different flavor of markdown described in the docs: <a href="https://pandoc.org/MANUAL.html#pandocs-markdown" target="_blank">Pandoc’s Markdown</a>
+It says in the post <a href="https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/" target="_blank">Customizing pandoc to generate beautiful pdfs from markdown</a>:
+
+> GitHub style markdown is recommended if you wish to use the same source (or with minor changes) in multiple places.
+
+But `yaml_metadata_block` not supported by `gfm`, so it does not work with Eisvogel template.
+
+## Bash Script
+
+```bash {linenos=false}&nbsp;
+$ ~/.pandoc/md2pdf.sh documentation.md ~/Desktop/documentation.pdf
+```
 
 # Markdown Processing in Pandoc and Hugo
 
@@ -234,7 +249,7 @@ But further customization was needed.
 
 Use Pandoc options to change fonts:
 
-```
+```bash {linenos=false}&nbsp;
 -V mainfont="SFNS Display" \
 -V monofont="Menlo Regular" \
 ```
@@ -248,6 +263,13 @@ Can use latex header, for example `headings.tex` and add custom font:
 
 On Mac, font is in `~/Library/Fonts`.
 Include this header with `--include-in-header ~/.pandoc/headings.tex`
+
+Can see what fonts are installed with:
+```bash {linenos=false}&nbsp;
+fc-list | grep "SF-Pro-Text-Regular"
+```
+
+San Francisco font, for example can be downloaded in `.ttf` <a href="https://github.com/supermarin/YosemiteSanFranciscoFont" target="_blank">here</a>.
 
 ## Styling Code
 
@@ -265,9 +287,20 @@ For example, made `listings-code.tex` and included with `--include-in-header ~/.
 The contents of this header were overly complex.
 Not going to go into detail here, but some helpful references were:
 
-...
+A gist with a bunch of options for `lstset`: <a href="https://gist.github.com/nhtranngoc/88b72d9bfb656a3de227eea38ed80627" target="_blank">LaTex settings for embedding Python with Monokai theme</a>.
+
+<a href="https://tex.stackexchange.com/questions/30845/how-to-redefine-lstinline-to-automatically-highlight-or-draw-frames-around-all/30851#30851" target="_blank">How to redefine &#92;lstinline to automatically highlight or draw frames around all inline code snippets?</a>
+
+<a href="https://tex.stackexchange.com/questions/357227/adding-background-color-to-verb-or-lstinline-command-without-colorbox" target="_blank">Adding background color to &#92;verb or &#92;lstinline command without &#92;Colorbox
+</a>
+
+<a href="https://tex.stackexchange.com/questions/64750/avoid-line-breaks-after-lstinline" target="_blank">Avoid line breaks after &#92;lstinline</a>
+
+<a href="https://tex.stackexchange.com/questions/28179/colored-background-in-inline-listings" target="_blank">Colored background in inline listings</a>
 
 The result was not good, the inline code just didn't look quite right.
+
+`lstset{keepspaces=true}`
 
 ### Highlight Style
 
@@ -280,8 +313,12 @@ Can use modified version as:
 `--highlight-style ~/.pandoc/pygments-mod.theme`
 
 This provides a very basic styling only to highlight environment.
+This is well described in the Docs: <a href="https://pandoc.org/MANUAL.html#syntax-highlighting" target="_blank">Syntax highlighting</a>.
+
 Not really a viable option.
 
+Using the `fancyvrb` package, there weren't any great options to color the background.
+Most of them like the ones in the Stack Overflow thread <a href="https://tex.stackexchange.com/questions/163412/how-fancyvrb-background-color-fill-completely-with-fillcolor" target="_blank">how fancyvrb background color fill completely with fillcolor?</a> suggested using `listings`.
 
 ### Custom Latex Header
 
@@ -306,7 +343,7 @@ If there were, this would probably be the desired solution for me.
 
 When not using `listings` the `.tex` output of Pandoc has, for inline code:
 
-```tex
+```tex {linenos=false}&nbsp;
 \texttt{**bold\ text**}
 ```
 
@@ -325,17 +362,13 @@ and for block code:
 ## Styling Hyperlinks
 
 Lua filter to handle HTML links from markdown document and keep the links in generated PDF.
+Found a suitable filter in the Stack Overflow answer <a href="https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf" target="_blank">HTML-formatted hyperlinks not preserved in bookdown PDF</a>.
 Then use another latex header to style the links. `--include-in-header ~/.pandoc/link-color.tex`
 
-
+There were also similar filters using Panflute as described here: <a href="https://gist.github.com/dixonsiu/28c473f93722e586e6d53b035923967c" target="_blank">How to convert markdown link to html using Pandoc</a>
 
 
 ## Styling Recap
-
-
-
-
-
 
 
 # Conclusions
@@ -353,52 +386,17 @@ Between this and the website setup, do a few things.
 Use this instead:
 <a href="https://danielwiese.com/mit-notes.pdf" target="_blank">grad school notes</a>
 ```
-* Can use `gfm` instead of `markdown` as input?
-
-
-
-Not to mention that until now, the `eisvogel.latex` style that I use with Pandoc is very different than the way this site is styled.
-Reconciling these two via a new `.latex` style would be a huge pain, and require for any style changes be kept in sync between this file and the CSS used for this site.
-
-Maybe there is a way to generate a PDF from Hugo?
-The easiest way to do this is with the site open in a web browser, just print the page.
-Honestly the output looks pretty good.
-Really the only downsides I noticed (when printing from Chrome at least) was that there is some website navigation items present in the printed output, and that when including the headers and footers, they are not styled nicely at all - just some plain Times New Roman text.
 
 
 
 
 
 
-https://gist.github.com/nhtranngoc/88b72d9bfb656a3de227eea38ed80627
 
-https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/
 
-> GitHub style markdown is recommended if you wish to use the same source (or with minor changes) in multiple places.
 
-https://github.com/supermarin/YosemiteSanFranciscoFont
 
-https://tex.stackexchange.com/questions/25249/how-do-i-use-a-particular-font-for-a-small-section-of-text-in-my-document
 
-https://stackoverflow.com/questions/39220389/embed-indented-html-in-markdown-with-pandoc
-
-https://gist.github.com/dixonsiu/28c473f93722e586e6d53b035923967c
-
-THIS FINALLY HAD A NICE LUA FILTER:
-
-https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf
-
-https://tex.stackexchange.com/questions/357227/adding-background-color-to-verb-or-lstinline-command-without-colorbox
-
-https://pandoc.org/MANUAL.html#syntax-highlighting
-
-https://tex.stackexchange.com/questions/28179/colored-background-in-inline-listings
-
-https://tex.stackexchange.com/questions/30845/how-to-redefine-lstinline-to-automatically-highlight-or-draw-frames-around-all/30851#30851
-
-https://tex.stackexchange.com/questions/453825/line-break-long-verbatim-text-with-highlighted-background
-
-https://tex.stackexchange.com/questions/64750/avoid-line-breaks-after-lstinline
 
 https://tex.stackexchange.com/questions/13515/how-to-add-paragraph-line-number-in-right-margin
 
@@ -429,5 +427,3 @@ coastal waters, relay life-saving emergency beacons, and track tropical storms a
 hurricanes. 
 \end{linenumbers}
 ```
-
-https://tex.stackexchange.com/questions/163412/how-fancyvrb-background-color-fill-completely-with-fillcolor
