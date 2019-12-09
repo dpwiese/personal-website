@@ -37,17 +37,20 @@ papersize: "letter"
 
 # Introduction
 
-Prior to creating this site, I'd always been quite good about documenting the things I've worked on.
+Prior to creating this site, I would often document the things I was working on.
 While in grad school this was primarily in Latex, documenting hundreds of pages of in my <a href="https://danielwiese.com/mit-notes.pdf" target="_blank">grad school notes</a>.
 For the past few years my work has been less academic, less mathematical, and involved more programming.
+It was also not often distributed or published.
 As such my documentation lately has been primarily in Markdown.
+I found myself using Atom with the <a href="https://atom.io/packages/markdown-pdf" target="_blank">markdown-pdf</a> plugin to periodically generate PDFs when necessary.
+This approach was fine, but it provided no real support for equations, and Atom was not my prefered editor.
 
-But no real support for equations, and Atom was not my prefered browser.
-I was looking for a better solution, that provided the following:
+I was looking for a better solution than this that provided the following:
 
-- **Short syntax** that is easily human readable (e.g. markdown headings as `#` instead of latex `\section{}` or html `<h1></h1>`).
-  This was to facilitate fast writing by maximizing the source code that is actually content, and also having syntax that doesn't get in the way of the content.
-  For example, bullets in markdown source look like bullets, versus those in latex or html.
+- **Short syntax** that is easily human readable (e.g. markdown headings as `#` instead of Latex `\section{}` or HTML `<h1></h1>`).
+  This was to make my writing quicker and more efficient, and document source easier to read.
+  From this perspective, markdown was an attractive option.
+  For example, bullets in markdown source look like bullets, versus those in Latex or HTML.
   - This was could be facilitated further by good syntax highlighting in an editor, e.g. Sublime bolding headings `#` and `**bold text**`.
 - **Latex equation** support.
   While it is expected that equations be infrequent and generally simple, they needed to be supported.
@@ -56,49 +59,54 @@ I was looking for a better solution, that provided the following:
   - Github wikis
   - Web via a static site generator like Hugo, used to <a href="https://danielwiese.com/posts/site-setup/" target="_blank">create this site</a>
   - PDF
+  I don't often intend for documents to be duplicated across these mediums, *rather I wanted to be able to adopt a standard way of writing without thinking what the destination format would be when writing*.
 - **Consistent styling** across the above platforms.
-  For example, generating a PDF can be easily styled to look like a Github wiki.
+  For example, I wanted to be able to style a generated PDF to look similar to the theme used on this site, or Github.
 - **Minimal tooling** required.
 - **No dedicated app** required.
-- Fast to compile or view
+- **Fast to compile or view**. However, the need for this was inversely proportional to the complexity of the document syntax. That is, if I could adopt a solution with a sufficiently simple syntax that allowed it to be easily read, then it would reduce the frequency of compiling to view the generated output.
 - Features/nice to have
   - Inclusion of references from .bib file?
-  - Good syntax highlighting of the mixed (markdown with latex, html, etc.) in editor (e.g. sublime)
-
-Wanted to be able to have consistent styling from web (via CSS) and generated document.
-Is there a way to make this easy?
-i.e. same style file for web and generated content?
-Also want a way to easily define differences between web and generated document.
-
-Maybe there is a way to generate a PDF from Hugo?
-The easiest way to do this is with the site open in a web browser, just print the page.
-Honestly the output looks pretty good.
-Really the only downsides I noticed (when printing from Chrome at least) was that there is some website navigation items present in the printed output, and that when including the headers and footers, they are not styled nicely at all - just some plain Times New Roman text.
+  - Good syntax highlighting of the source in editor
 
 # Solution: Markdown Pandoc
 
-For a simple, easy-to-read syntax, markdown was a good choice. Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs such as the <a href="https://atom.io/packages/markdown-pdf" target="_blank">markdown-pdf</a> and <a href="https://atom.io/packages/language-markdown" target="_blank">language-markdown</a> packages for Atom and <a href="https://pandoc.org/" target="_blank">Pandoc</a>; good support online at Github, Gitlab, <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>, and more.
+After considering the above requirements, for a simple, easy-to-read syntax, markdown was a good choice. Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs including <a href="https://pandoc.org/" target="_blank">Pandoc</a> and good support online at Github, Gitlab, <a href="https://gohugo.io/" target="_blank">Hugo</a>, Jekyll, and more.
+Markdown supports embedded HTML and Latex, with tools like KaTex and MathJax. 
 
-For the generation of PDFs, Pandoc is easy to use, and supports Latex. Latex is not supported in Github, but seems to be in Gitlab.
+For the generation of PDFs, Pandoc is easy to use, and supports Latex.
+Latex is not supported in Github, but seems to be in Gitlab.
 Markdown is easy-to-read, reducing the need for real-time rendering, or a need to frequently and quickly compile.
 References can be included from a `.bib` file.
 Using the Sublime Text markdown syntax highlighting works well for markdown, although it does not do anything for Latex.
 But as the primary goal was for a simple, easy syntax that *allowed* for the inclusing of equations rather than a focus on highly mathematical documents, this was not a big deal - equations should be relatively simple and infrequent.
 
-Latex was an alternate source format considered, with Pandoc providing tools for conversion to markdown or html for use on the web, and easy generation of PDFs.
-However, even with templates, Latex source is more verbose and and cumbersome to use for relatively simple note taking and documentation.
+Latex was an alternate source format considered, with Pandoc providing tools for conversion to markdown or HTML for use on the web, and easy generation of PDFs.
+However, even with templates, Latex source is more verbose and and cumbersome to use for relatively simple note taking and documentation, most of what I do now.
 Jupyter was considered as well, but seemed much more heavyweight than desired, required an app, and is not as widely or easily supported as markdown, although it is supported in Github, for example.
+
+Styling consistency on the web (e.g. via Hugo) and generated PDFs (e.g. via Pandoc and Latex) may not be easily maintained though.
+The CSS used for the web could not necessarily be applied to PDFs and vice versa.
+But of the above requirements styling is not the most important.
+Once the desired styling is set for each of these outputs, it will likely not often be changed.
+There may even be options to use CSS with Pandoc and Latex.
 
 ## Using Pandoc
 
+The Basic Pandoc command for generating `doc.pdf` from `doc.md` is:
+
 ```bash {linenos=false}&nbsp;
-# Basic command for generating documentation.pdf from documentation.md
-$ pandoc documentation.md -o documentation.pdf
+$ pandoc doc.md -o doc.pdf
 ```
+
+For more about Pandoc check out the <a href="https://pandoc.org/MANUAL.html" target="_blank">Pandoc User’s Guide</a>.
 
 ## Bibliography
 
-The bibliography can be easily be included. To format the references, the <a href="https://citationstyles.org/" target="_blank">Citation Style Language</a> can be specified. Thousands of CSL files can be found <a href="https://github.com/citation-style-language/styles" target="_blank">here</a>.
+A bibliography, in the form of a `.bib` can be easily be included with Pandoc.
+To format the references, the <a href="https://citationstyles.org/" target="_blank">Citation Style Language</a> can be specified.
+Thousands of CSL files can be found <a href="https://github.com/citation-style-language/styles" target="_blank">here</a>.
+The following Pandoc options can be used to include the bibliography.
 
 ```bash {linenos=false}&nbsp;
 --filter pandoc-citeproc \
@@ -106,31 +114,40 @@ The bibliography can be easily be included. To format the references, the <a hre
 --csl ieee.csl \
 ```
 
+Citations are accomplished by `[@my-citation]`.
+
 ## Styling
 
 To style the Pandoc generated output, <a href="https://github.com/jgm/pandoc/wiki/User-contributed-templates" target="_blank">several options</a> for templates were available that can be used with the `--template` option.
 The <a href="https://github.com/Wandmalfarbe/pandoc-latex-template" target="_blank">Eisvogel</a> Pandoc Latex template was one of the simplest and easiest.
 Just required it to be downloaded, put in the default pandoc template location `~/.pandoc/templates/`.and used with `--template eisvogel`.
-The result is pretty good enough, but will dive deeper into styling later.
+The result out-of-the-box is quite good, additional styling options will be described below.
 
 Docs on Pandoc's different flavor of markdown described in the docs: <a href="https://pandoc.org/MANUAL.html#pandocs-markdown" target="_blank">Pandoc’s Markdown</a>
 It says in the post <a href="https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/" target="_blank">Customizing pandoc to generate beautiful pdfs from markdown</a>:
 
 > GitHub style markdown is recommended if you wish to use the same source (or with minor changes) in multiple places.
 
-But `yaml_metadata_block` not supported by `gfm`, so it does not work with Eisvogel template.
+I chose to use `markdown` instead, as `yaml_metadata_block` not supported by `gfm`, nor does not work with Eisvogel template.
 
 ## Bash Script
 
+With the Pandoc options above, the command to run Pandoc was becoming quite long.
+As was well described in the blog post <a href="https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/" target="_blank">Customizing pandoc to generate beautiful pdfs from markdown</a> using a simple script to call Pandoc was an obvious soultion.
+Calling Pandoc to convert a markdown to PDF required the following command:
+
 ```bash {linenos=false}&nbsp;
-$ ~/.pandoc/md2pdf.sh documentation.md ~/Desktop/documentation.pdf
+$ ~/.pandoc/md2pdf.sh doc.md ~/Desktop/doc.pdf
 ```
+
+The contents of the script `md2pdf.sh` with all of the final options will be listed below.
 
 # Markdown Processing in Pandoc and Hugo
 
-The first problem I encountered was in differences between the markdown processor of Hugo versus that of Pandoc.
+With the above, the first problem I encountered when attempting to generate a PDF from the source from this site was in the differences between the markdown processor of Hugo versus that of Pandoc.
 With the markdown processor in Hugo I can pass extra arguments to a code block, for example specifying that I want line numbers turned off, as shown below.
 However, when code such as this is used in the markdown file and Pandoc is called, it does not know how to interpret these extra arguments and ends up rendering the code weirdly.
+*Again, it was not necessarily a primary use case that I generate PDFs from the posts on this site, but I wanted to have the flexibility to do so.*
 
 ````md
 ```js {linenos=false}
@@ -154,10 +171,10 @@ So we need a way to be able to specify for Pandoc to ignore this argument.
 
 ## Solution Option 1: Don't use Pandoc
 
-For markdown that is used to generate content on the web, don't necessarily need a separate way to generate a document.
-Can just print the website.
-But this doesn't really help for markdown notes that are not put online
-Need an offline solution to generate documentation from markdown.
+This is the obvious solution.
+For markdown that is used to generate content on the web, I don't necessarily need a separate way to generate a document.
+I can always just print the website to PDF.
+This was again important to acknowledge, but not a viable solution to the underlying problem - how to handle flavors or features of markdown that may not be supported by Pandoc.
 
 ## Solution Option 2: HTML/CSS Tricks and Pandoc Arguments
 
@@ -198,10 +215,10 @@ I initially thought this would be a perfect use case for a Shortcode and then of
 
 ## Solution Option 3: Pandoc Filters
 
-Seemed a viable option.
-Lots of information on filters, python, php, lua, etc.
-Create filter called, for example, `filter.lua` and use the Pandoc option `--lua-filter=filter.lua`.
-Run Pandoc with filter applied as shown below.
+This seemed to be a very viable option.
+There is lots of information on Pandoc filters written in Python, php, Lua, etc. online.
+This solution also seemed to the most elegant and flexible.
+This case would require creating a filter called, for example, `filter.lua` and use the Pandoc option `--lua-filter=filter.lua`.
 
 Spent a few minutes looking at the filters, but realized it might be a bit involved, so set this option aside to come back to after seeing if there may be more easier options.
 The <a href="https://pandoc.org/filters.html" target="_blank">Pandoc Filters</a> docs were a useful reference.
@@ -211,10 +228,10 @@ Can also write filters in Python using Panflute, as described in the blog post <
 
 ## Solution Option 4: Replace Offending Argument with sed
 
-sed could be easily used to just look through whole file, replace offending code, and plumb the output into Pandoc.
+As the current problem was limited to one particular problem, the occurance of `{linenos=false}`, the stream editor sed could be easily used to look through whole markdown file, replace offending code, and plumb the output into Pandoc.
 This way was very fast to understand and implement, more elegant than the HTML/CSS hacking above, and seemed somewhat flexible.
 But in order to ensure I could specify which parts of code I actually wanted to remove (and not occurences in the text, like `{linenos=false}`) I tacked on a `&nbsp` at the end.
-Then can run sed and then Pandoc as follows.
+Then can run sed and Pandoc as follows.
 
 ```bash
 $ sed 's/ {linenos=false}&nbsp;//g' documentation.md > temp.md; \
@@ -222,7 +239,7 @@ $ sed 's/ {linenos=false}&nbsp;//g' documentation.md > temp.md; \
   -o documentation.pdf; rm temp.md
 ```
 
-The result is the following, no line numbers on the web, and correctly rendered PDF output from Pandoc.
+The result is the following, no line numbers for the desired code blocks on the web, and correctly rendered PDF output from Pandoc.
 
 ````md
 ```js {linenos=false} &nbsp;
@@ -230,9 +247,12 @@ var test
 ```
 ````
 
+Of course the doesn't enable the code block line numbers to be selectively turned off in the Pandoc output.
+
 It's not the most elegant solution as it requires remembering to include a superfluous `&nbsp;` after each `{linenos=false}` and as such will not scale well depending on how many other commands I rely on in the future that are not compatible with Pandoc, and adds a bit of an ugly extra step to the pandoc script.
 But for now it's a decent solution with low overhead.
 Should I revisit this later to come up with a better solution, I can simply `grep` my notes and remove this `&nbsp;` or just leave it in there, as it doesn't really hurt anything.
+And yet again, it is unlikely that markdown from this site will be given to Pandoc anyway.
 
 ## Solution Options Recap
 
