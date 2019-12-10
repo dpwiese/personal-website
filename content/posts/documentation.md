@@ -39,15 +39,18 @@ I was looking for a better solution than this that provided the following:
   For example, I wanted to be able to style a generated PDF to look similar to the theme used on this site, or Github.
 - **Minimal tooling** required.
 - **No dedicated app** required.
-- **Fast to compile or view**. However, the need for this was inversely proportional to the complexity of the document syntax. That is, if I could adopt a solution with a sufficiently simple syntax that allowed it to be easily read, then it would reduce the frequency of compiling to view the generated output.
+- **Fast to compile or view**.
+However, the need for this was inversely proportional to the complexity of the document syntax.
+That is, if I could adopt a solution with a sufficiently simple syntax that allowed it to be easily read, then it would reduce the frequency of compiling to view the generated output.
 - Features/nice to have
   - Inclusion of references from .bib file?
   - Good syntax highlighting of the source in editor
 
 # Solution: Markdown Pandoc
 
-After considering the above requirements, for a simple, easy-to-read syntax, markdown was a good choice. Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs including <a href="https://pandoc.org/" target="_blank">Pandoc</a> and good support online at Github, Gitlab, <a href="https://gohugo.io/" target="_blank">Hugo</a>, Jekyll, and more.
-Markdown supports embedded HTML and Latex, with tools like KaTex and MathJax. 
+After considering the above requirements, for a simple, easy-to-read syntax, markdown was a good choice.
+Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs including <a href="https://pandoc.org/" target="_blank">Pandoc</a> and good support online at Github, Gitlab, <a href="https://gohugo.io/" target="_blank">Hugo</a>, Jekyll, and more.
+Markdown supports embedded HTML and Latex, with tools like KaTex and MathJax.
 
 For the generation of PDFs, Pandoc is easy to use, and supports Latex.
 Latex is not supported in Github, but seems to be in Gitlab.
@@ -358,7 +361,8 @@ and for block code:
 
 Lua filter to handle HTML links from markdown document and keep the links in generated PDF.
 Found a suitable filter in the Stack Overflow answer <a href="https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf" target="_blank">HTML-formatted hyperlinks not preserved in bookdown PDF</a>.
-Then use another latex header to style the links. `--include-in-header ~/.pandoc/link-color.tex`
+Then use another latex header to style the links.
+`--include-in-header ~/.pandoc/link-color.tex`
 
 There were also similar filters using Panflute as described here: <a href="https://gist.github.com/dixonsiu/28c473f93722e586e6d53b035923967c" target="_blank">How to convert markdown link to html using Pandoc</a>
 
@@ -424,9 +428,10 @@ test
 
 \begin{linenumbers}
 When you watch the news and see pictures of weather from around the United States 
-or the world, you are seeing data from NOAA's environmental satellites. NOAA's 
+or the world, you are seeing data from NOAA's environmental satellites.
+NOAA's 
 environmental satellites provide data from space to monitor the Earth to analyze the 
 coastal waters, relay life-saving emergency beacons, and track tropical storms and 
-hurricanes. 
+hurricanes.
 \end{linenumbers}
 ```
