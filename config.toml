@@ -5,6 +5,7 @@ title = "Daniel Wiese"
 theme = "hermit"
 pygmentsCodefences  = true
 pygmentsUseClasses  = true
+googleAnalytics = "UA-28861984-4"
 
 [author]
   name = "Daniel Wiese"
