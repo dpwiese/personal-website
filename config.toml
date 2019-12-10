@@ -3,6 +3,9 @@ languageCode = "en-us"
 defaultContentLanguage = "en"
 title = "Daniel Wiese"
 theme = "hermit"
+pygmentsCodefences  = true
+pygmentsUseClasses  = true
+googleAnalytics = "UA-28861984-4"
 
 [author]
   name = "Daniel Wiese"
@@ -25,6 +28,8 @@ theme = "hermit"
   relatedPosts = false  # Add a related content section to all single posts page
 
   code_copy_button = true # Turn on/off the code-copy-button for code-fields
+
+  customCSS = ["css/code.css", "css/style.css"]
 
   # Social Icons
   [[params.social]]
@@ -55,5 +60,17 @@ theme = "hermit"
     url = "resources/"
     weight = 20
 
-[markup.goldmark.renderer]
-  unsafe = true
+  [[menu.main]]
+    name = "Posts"
+    url = "posts/"
+    weight = 20
+
+[markup]
+
+  [markup.highlight]
+    lineNos = true
+    lineNumbersInTable = true # otherwise copying code blocks copies the numbers
+
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
