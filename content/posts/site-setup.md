@@ -3,39 +3,17 @@ title: "Setting up this Site"
 date: 2019-12-06
 draft: false
 toc: false
-images:
 tags:
   - hugo
   - programming
   - latex
 keywords: [hugo, programming, latex]
-lang: "en"
-geometry:
-- margin=1in
-urlcolor: "cyan"
-fontsize: "10pt"
-papersize: "letter"
 ---
-
-<!-- To print this page with Pandoc:
-  $ ~/.pandoc/md2pdf.sh site-setup.md ~/Desktop/site-setup.pdf
--->
-
-<!-- To print this page with Pandoc:
-  $ sed 's/ {linenos=false}&nbsp;//g' site-setup.md > site-setup-out.md; \
-  pandoc site-setup-out.md \
-  --variable fontsize=10pt \
-  --number-sections \
-  --from markdown \
-  --template eisvogel \
-  --pdf-engine xelatex \
-  --listings \
-  -o ~/Desktop/site-setup.pdf; rm site-setup-out.md
--->
 
 # Introduction
 
-Personal websites may have many uses, and at the time of writing, the uses for this site are not yet fully clear. However, **the two primary motivations for creating this site were:**
+Personal websites may have many uses, and at the time of writing, the uses for this site are not yet fully clear.
+However, **the two primary motivations for creating this site were:**
 
 1. Create a place to document and share my learnings
 2. Learn some new tooling to support motivation 1.
@@ -237,7 +215,8 @@ Fortunately I found the following suggestion in this <a href="https://stackoverf
 <a href="https://gohugo.io/" target="_blank">htt<span></span>ps://gohugo.io/</a>
 ```
 
-This solution, while not elegant, does get the job done for the few cases where it's needed. It's also worth noting that Github does not include the target attribute, so in the event this markdown source is ported to Github, the link will not open in a new window.
+This solution, while not elegant, does get the job done for the few cases where it's needed.
+It's also worth noting that Github does not include the target attribute, so in the event this markdown source is ported to Github, the link will not open in a new window.
 
 # Latex
 
@@ -316,7 +295,6 @@ $$
 Overall the KaTeX integration worked great, but I realized I did not want to be forced to use Mmark.
 This came up in one particular instance in attempting to change line numbering from the global default as shown below:
 
-<!-- extra ticks needed to escape for hugo/goldmark -->
 ````md
 ```js {linenos=false}
 $ var your = "code here"
@@ -392,7 +370,8 @@ This is a bit annoying, but overall a minor inconvenience.
 ## Results
 
 Ultimately I decided to stick with Hugo's default markdown processor and use MathJax.
-The results of the MathJax integration are shown below. First is an underbraced integral expression of mass conservation:
+The results of the MathJax integration are shown below.
+First is an underbraced integral expression of mass conservation:
 
 $$
 \underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
@@ -406,7 +385,6 @@ $$
 
 And next are the Incompressible <a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations" target="_blank">Navier-Stokes equations</a> in an `aligned` environment:
 
-<!-- when using pandoc, the double slashes make a large gap, and newline doesn't work -->
 $$
 \begin{aligned}
 \rho\left(\frac{\partial\underline{v}}{\partial t}+\underline{v}\cdot\underline{\nabla}\underline{v}\right)
