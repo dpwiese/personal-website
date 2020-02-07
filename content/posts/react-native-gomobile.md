@@ -1,7 +1,7 @@
 ---
 title: "Using Go in React Native"
 date: 2020-02-06
-draft: true
+draft: false
 toc: false
 tags:
   - reactnative
@@ -34,7 +34,7 @@ Writing your native code in Go *in particular* may be a good choice for the foll
   * Reduce platform specific bugs when implementing on multiple platforms
 * **And more**
   * Use existing Go libraries
-  * Javascript is tied to UI – cannot run background tasks
+  * JavaScript is tied to UI – cannot run background tasks
   * Share code with Go based backend
   * Work with a modern language
   * Leverage existing skill working with Go
@@ -270,7 +270,7 @@ FOUNDATION_EXPORT double SampleSolveBVP();
 
 The Framework directory structure is shown in Xcode below.
 
-<img src="https://danielwiese.com/img/framework-header.png" width="400" style="border-style:solid;border-width:1px"/>
+<img src="https://danielwiese.com/img/framework-header.png" width="340" style="border-style:solid;border-width:1px"/>
 
 The pattern should be clear, as: `<package_name>`&nbsp;`<function_name>`.
 For the bridge, we'll create the following two files: a header and implementation.
@@ -339,12 +339,12 @@ Note also that the argument passed to the callback is an array.
 
 Now we can import and call our native function:
 
-```javascript
+```javascript {linenos=false}&nbsp;
 import { solveBVP } from './computation';
 Computation.solveBVP(solution => console.log(solution));
 ```
 
-With a single package written in Go and some very basic Objective-C, we've been able to implement the same function that we previously had in Javascript.
+With a single package written in Go and some very basic Objective-C, we've been able to implement the same function that we previously had in JavaScript.
 ***The Go implementation provides an order of magnitude performance benefit (computation time) over JavaScript, all while running on a separate thread.*** While the Android implementation was not shown, bridging with Java is very easy as well.
 
 *However, the above example seems a bit contrived.
@@ -471,7 +471,7 @@ func base64StringFromFloat64Slice(arr []float64) string {
 ```
 
 The above sample functions allow us to convert between base64 strings and float64 in Go.
-Modifying these functions to accommodate other data types should be straighforward.
+Modifying these functions to accommodate other data types should be straightforward.
 Handing of data in this way might remind you of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays" target="_blank">Typed Arrays</a> in JavaScript, where buffers and views are used.
 
 ### JavaScript
@@ -498,7 +498,7 @@ export function numberArrayToBase64String(arr: Array<number>): string {
 ## Adding Flexibility to Types
 
 For example, say we have an array of x-y points in our React Native app, where each element is an object and the y value may represent a string, number, etc.
-```js
+```js {linenos=false}&nbsp;
 { x: number, y: any }
 ```
 
@@ -579,7 +579,7 @@ func ConcatenateStrings(string1 string, string2 string) string {
 > Package testing provides support for automated testing of Go packages.
 It is intended to be used in concert with the “go test” command, which automates execution of any function of the form
 
-```go
+```go {linenos=false}&nbsp;
 func TestXxx(*testing.T)
 ```
 
@@ -691,7 +691,7 @@ I haven't looked at this but I expect it is similarly easy to get the manifest U
 
 This is something I have found in practice is made easy by the above approach.
 Engineers responsible for designing, implementing, and testing complex algorithms need not have much of an understanding of mobile development, nor do they need an environment set up for mobile development.
-They can learn and focus on writing only Go, designing a clean interface, testing, and ultimately providing a robust and efficient "black box" to the mobile team with well-defined inputs and ouputs.
+They can learn and focus on writing only Go, designing a clean interface, testing, and ultimately providing a robust and efficient "black box" to the mobile team with well-defined inputs and outputs.
 Likewise, the mobile team need not concern themselves with the inner workings of such a "black box", and with a clearly defined interface, can quickly and easily write or modify the bridge and JavaScript code to leverage the Go Framework when provided.
 
 # Summary
