@@ -108,3 +108,13 @@ blockquote {
 .hide-me {
   display: none;
 }
+
+table td {
+  border: none;
+  border-collapse: collapse;
+  outline: none;
+  vertical-align: top;
+  padding: 0px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
