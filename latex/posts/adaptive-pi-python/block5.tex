@@ -1,32 +1,32 @@
-\documentclass[convert={density=800,size=1800x1800,outext=.png}]{standalone}
+\documentclass[convert={density=800,size=1800x1800,outext=.png}]{standalone} % chktex 29
 
 \input{preamble}
 
 \begin{document}
-    \begin{tikzpicture}[auto, scale=0.9, every node/.style={transform shape}, node distance=1.5cm, >=latex']
-      \node[input](input1){};
-      \node[input, above of=input1](input2){};
-      \node[whitesum, right of=input1,node distance=3.5cm](sum1){} ;
-      \node[roundblock, right of=input2,label=above:{},node distance=2.0cm] (block1){$JG_{c}^{-1}$};
-      \node[whitesum, right of=sum1,label=above:{},node distance=2.5cm] (sum2){};
-      \node[squareblock, right of=sum2,label=above:{},node distance=2.5cm] (block2){$G_{c}(s)$};
-      \node[whitesum, right of=block2,node distance=2.5cm](sum3){} ;
-      \node[squareblock, right of=sum3, node distance=2.5cm] (block3) {$\frac{1}{Js+B}$};
-      \node[roundblock, below of=block3, label=above:{},node distance=1.4cm] (block4) {$B$};
-      \node[input, below of=block2,node distance=2.3cm](input3){};
-      \node[output, right of=block3,node distance=3.0cm] (output1) {};
-      %Draw lines
-      \draw[->](input1) -- node[near start]{$x_{d}$} node[pos=0.9]{$+$} (sum1);
-      \draw[->](input2) -- node[near start]{$\dot{x}_{d}$} (block1);
-      \draw[->](block1) -| node[pos=0.9]{$+$} (sum1);
-      \draw[->](sum1) -- node{$r$} node[pos=0.9]{$+$} (sum2);
-      \draw[->](sum2) -- node{$e_{r}$} (block2);
-      \draw[->](block2) -- node{$+$} (sum3);
-      \draw[->](sum3) -- node{$u$} (block3);
-      \draw[->](block3) -- node[name=y]{$x$} (output1);
-      \draw[-](y) |- (block4);
-      \draw[->](block4) -| node[pos=0.9]{$+$} (sum3);
-      \draw[-](y) |- (input3);
-      \draw[->](input3) -| node[pos=0.95]{$-$} (sum2);
-    \end{tikzpicture}
+  \begin{tikzpicture}[auto, scale=0.9, every node/.style={transform shape}, node distance=1.5cm, >=latex']
+    \node[input](input1){};
+    \node[input, above of=input1](input2){};
+    \node[whitesum, right of=input1,node distance=3.5cm](sum1){} ;
+    \node[roundblock, right of=input2,label=above:{},node distance=2.0cm] (block1){$JG_{c}^{-1}$};
+    \node[whitesum, right of=sum1,label=above:{},node distance=2.5cm] (sum2){};
+    \node[squareblock, right of=sum2,label=above:{},node distance=2.5cm] (block2){$G_{c}(s)$};
+    \node[whitesum, right of=block2,node distance=2.5cm](sum3){} ;
+    \node[squareblock, right of=sum3, node distance=2.5cm] (block3) {$\frac{1}{Js+B}$};
+    \node[roundblock, below of=block3, label=above:{},node distance=1.4cm] (block4) {$B$};
+    \node[input, below of=block2,node distance=2.3cm](input3){};
+    \node[output, right of=block3,node distance=3.0cm] (output1) {};
+    %Draw lines
+    \draw[->](input1) -- node[near start]{$x_{d}$} node[pos=0.9]{$+$} (sum1);
+    \draw[->](input2) -- node[near start]{$\dot{x}_{d}$} (block1);
+    \draw[->](block1) -| node[pos=0.9]{$+$} (sum1);
+    \draw[->](sum1) -- node{$r$} node[pos=0.9]{$+$} (sum2);
+    \draw[->](sum2) -- node{$e_{r}$} (block2);
+    \draw[->](block2) -- node{$+$} (sum3);
+    \draw[->](sum3) -- node{$u$} (block3);
+    \draw[->](block3) -- node[name=y]{$x$} (output1);
+    \draw[-](y) |- (block4);
+    \draw[->](block4) -| node[pos=0.9]{$+$} (sum3);
+    \draw[-](y) |- (input3);
+    \draw[->](input3) -| node[pos=0.95]{$-$} (sum2);
+  \end{tikzpicture}
 \end{document}

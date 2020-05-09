@@ -1,33 +1,33 @@
-\documentclass[convert={density=800,size=1800x1800,outext=.png}]{standalone}
+\documentclass[convert={density=800,size=1800x1800,outext=.png}]{standalone} % chktex 29
 
 \input{preamble}
 
 \begin{document}
-    \begin{tikzpicture}[auto, scale=0.9, every node/.style={transform shape}, node distance=1.0cm, >=latex']
-      \node[squareblock, minimum width=2.2cm, minimum height=1.2cm] (block1){\shortstack{Adaptive \\ Controller}};
-      \matrix[ampersand replacement=\&, row sep=0.6cm, left of=block1,node distance=1.1cm] (block1in) {
-        \node [coordinate] (b1inA) {};\\
-        \node [coordinate] (b1inB) {};\\
-      };
-      \node[input, left of=b1inA,node distance=0.5cm](input1b){};
-      \node[input, left of=input1b,node distance=1.0cm](input1a){};
-      \node[input, left of=b1inB,node distance=0.5cm](input2){};
-      \node[squareblock, right of=block1, node distance=3.5cm] (block2) {$\frac{1}{Js+B}$};
-      \node[input, below of=block1,node distance=1.5cm](input3){};
-      \node[output, right of=block2,node distance=3.0cm] (output1) {};
-      %Draw lines
-      \draw[->](input1a) -- node[near start]{$x_{d}$} (b1inA);
-      \draw[->](block1) -- node[name=u]{$u$} (block2);
-      \draw[->](block2) -- node[name=y]{$x$} (output1);
-      \draw[-](y) |- (input3);
-      \draw[-](input3) -| (input2);
-      \draw[->](input2) -- (b1inB);
-      %Adaptive Arrow
-      \coordinate (arrow1) at ([xshift=-1.0cm,yshift=-1.0cm] block1);
-      \coordinate (arrow2) at (block1.225);
-      \coordinate (arrow3) at (block1.45);
-      \coordinate (arrow4) at ([xshift=1.0cm,yshift=1.0cm] block1);
-      \draw[-](arrow1) -- (arrow2);
-      \draw[->](arrow3) -- (arrow4);
-    \end{tikzpicture}
+  \begin{tikzpicture}[auto, scale=0.9, every node/.style={transform shape}, node distance=1.0cm, >=latex']
+    \node[squareblock, minimum width=2.2cm, minimum height=1.2cm] (block1){\shortstack{Adaptive \\ Controller}};
+    \matrix[ampersand replacement=\&, row sep=0.6cm, left of=block1,node distance=1.1cm] (block1in) {
+      \node [coordinate] (b1inA) {};\\
+      \node [coordinate] (b1inB) {};\\
+    };
+    \node[input, left of=b1inA,node distance=0.5cm](input1b){};
+    \node[input, left of=input1b,node distance=1.0cm](input1a){};
+    \node[input, left of=b1inB,node distance=0.5cm](input2){};
+    \node[squareblock, right of=block1, node distance=3.5cm] (block2) {$\frac{1}{Js+B}$};
+    \node[input, below of=block1,node distance=1.5cm](input3){};
+    \node[output, right of=block2,node distance=3.0cm] (output1) {};
+    %Draw lines
+    \draw[->](input1a) -- node[near start]{$x_{d}$} (b1inA);
+    \draw[->](block1) -- node[name=u]{$u$} (block2);
+    \draw[->](block2) -- node[name=y]{$x$} (output1);
+    \draw[-](y) |- (input3);
+    \draw[-](input3) -| (input2);
+    \draw[->](input2) -- (b1inB);
+    %Adaptive Arrow
+    \coordinate (arrow1) at ([xshift=-1.0cm,yshift=-1.0cm] block1);
+    \coordinate (arrow2) at (block1.225);
+    \coordinate (arrow3) at (block1.45);
+    \coordinate (arrow4) at ([xshift=1.0cm,yshift=1.0cm] block1);
+    \draw[-](arrow1) -- (arrow2);
+    \draw[->](arrow3) -- (arrow4);
+  \end{tikzpicture}
 \end{document}
