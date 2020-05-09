@@ -1,0 +1,28 @@
+\documentclass[convert={density=800,size=1800x1800,outext=.png}]{standalone}
+
+\input{preamble}
+
+\begin{document}
+    \begin{tikzpicture}[auto, scale=0.9, every node/.style={transform shape}, node distance=1.0cm, >=latex']
+      \node[input](input1){};
+      \node[squareblock, right of=input1,node distance=2.5cm] (block3){$W_{cl}^{-1}(s)$};
+      \node[whitesum, right of=block3,node distance=2.5cm](sum1){} ;
+      \node[squareblock, right of=sum1, node distance=2.5cm] (block1){$\frac{k_{p}s+k_{i}}{s}$};
+      \node[squareblock, right of=block1, node distance=3.5cm] (block2) {$\frac{1}{Js}$};
+      \node[input, below of=block1,node distance=1.0cm](input2){};
+      \node[output, right of=block2,node distance=3.0cm] (output1) {};
+      \draw[->](block1) -- node[name=u] {$u$} (block2);
+      %Draw lines
+      \draw[->](input1) -- node[near start]{$x_{d}$} (block3);
+      \draw[->](block3) -- node[pos=0.2]{$r$} node[pos=0.9]{$+$} (sum1);
+      \draw[->](sum1) -- node[near start]{$e_{r}$} (block1);
+      \draw[->](block2) -- node [name=y]{} node[pos=0.9]{$x$} (output1);
+      \draw[-](y) |- (input2);
+      \draw[->](input2) -| node[pos=0.9]{$-$} (sum1);
+      %Model box
+      \path (sum1 |- sum1)+(-1.0,0.9) node (c) {};
+      \path (y -| y)+(0.5,-1.5) node (d) {};
+      \path[draw, dashed] (c) rectangle (d);
+      \node[above of=u, node distance = 1.0cm] {$W_{cl}(s)$};
+    \end{tikzpicture}
+\end{document}

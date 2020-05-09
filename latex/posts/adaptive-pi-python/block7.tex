@@ -1,0 +1,38 @@
+\documentclass[convert={density=800,size=1800x1800,outext=.png}]{standalone}
+
+\input{preamble}
+
+\begin{document}
+    \begin{tikzpicture}[auto, scale=0.9, every node/.style={transform shape}, node distance=0.1cm, >=latex']
+      \node[squareblock, minimum height=2.7cm, minimum width=1cm] (block1){};
+      \matrix[ampersand replacement=\&, row sep=1.2cm, left of=block1,node distance=0.5cm] (block1in) {
+        \node [coordinate] (b1inA) {};\\
+        \node [coordinate] (b1inB) {};\\
+      };
+      \matrix[ampersand replacement=\&, row sep=1.2cm, right of=block1,node distance=0.5cm] (block1out) {
+        \node [coordinate] (b1outA) {};\\
+        \node [coordinate] (b1outB) {};\\
+      };
+      \node[input, left of=b1inA,node distance=1.5cm](input1){};
+      \node[input, left of=b1inB,node distance=1.5cm](input2){};
+      \node[roundblock,right of=b1outA, node distance=1.2cm, minimum height=0.8cm] (block2) {$J$};
+      \node[roundblock,right of=b1outB, node distance=1.2cm, minimum height=0.8cm] (block3) {$K$};
+      \node[roundblock,below of=block3, node distance=1.2cm, minimum height=0.8cm] (block4) {$B$};
+      \node[whitesum,right of=block3, node distance=1.5cm] (sum1) {};
+      \node[squareblock, minimum height=1cm, minimum width=2cm, right of=sum1,node distance=2.5cm] (block5) {$\frac{1}{Js+B}$};
+      \node[output, right of=block5,node distance=2.0cm] (output1) {};
+      \node[output, below of=block4,node distance=1.0cm](output2){};
+      \draw[->](input1) -- node[pos=0.2]{$\dot{x}_{d}$} (b1inA);
+      \draw[->](input2) -- node[pos=0.2]{$x_{d}$} (b1inB);
+      \draw[->](b1outA) -- node[pos=0.5]{$e_{1}$} (block2);
+      \draw[->](b1outB) -- node[pos=0.5]{$e_{2}$} (block3);
+      \draw[->](block2) -| node[pos=0.9]{$+$}(sum1);
+      \draw[->](block3) -- node[pos=0.7]{$+$} (sum1);
+      \draw[->](block4) -| node[pos=0.9]{$+$} (sum1);
+      \draw[->](sum1) -- node[pos=0.5]{$u$} (block5);
+      \draw[->](block5) -- node[pos=0.5,name=x]{$x$} (output1);
+      \draw[-](x) |- (output2);
+      \draw[->](output2) -| node[pos=0.7,name=x2, above]{} (block1);
+      \draw[->](x2) |- (block4);
+    \end{tikzpicture}
+\end{document}

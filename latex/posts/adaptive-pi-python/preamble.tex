@@ -1,0 +1,98 @@
+\usepackage{%
+  tikz,
+  multirow,
+  float,
+  amssymb,
+  graphicx,
+  fullpage,
+  indentfirst,
+  gensymb,
+  mathrsfs,
+  array,
+  hyperref,
+  color,
+  arydshln,
+  booktabs,
+  empheq,
+  mathtools,
+  marginnote,
+  fancyvrb,
+  listings,
+  mdframed,
+  listliketab,
+  multicol,
+  enumerate,
+  lipsum,
+  multirow,
+  amsthm,
+  thmtools,
+  framed,
+  verbatim,
+  titlesec,
+  caption,
+  sectsty,
+  titlesec,
+  pstricks,
+  setspace,
+  pgf,
+  pgffor,
+  ulem,
+  amsmath,
+  bm,
+  times,
+  pgfplots,
+  3dplot,
+  xcolor,
+  anyfontsize
+}
+\usepackage[titles]{tocloft}
+\usepackage[crop=pdfcrop,process=all,cleanup={.tex,.dvi,.ps,.pdf,.log,.bbl,.out}]{pstool}
+
+\def\psfragfigcopy{\begingroup\catcode92 12 \execB}
+\def\execB#1#2%
+{
+\immediate\write18{cp #1#2.eps #2.eps}%
+% A dirty hack to fix: Package pstool Warning: No file "*.tex" or "*-psfrag.tex" can be found that may contain macros for "*.eps"
+\immediate\write18{touch #2.tex}%
+\endgroup
+}
+
+\def\psfragfigcleanup{\begingroup\catcode92 12 \execA}
+\def\execA#1%
+{
+\immediate\write18{rm #1.eps}
+\immediate\write18{rm #1.pdf}
+\immediate\write18{rm #1-pstool.aux}
+\immediate\write18{rm #1.tex}
+\endgroup
+}
+
+\pgfplotsset{compat=1.12}
+
+\usepgfmodule{shapes}
+\usepgfmodule{plot}
+
+% http://mirror.las.iastate.edu/tex-archive/graphics/pgf/base/doc/pgfmanual.pdf
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows.meta}
+
+\tikzstyle{squareblock} = [draw, fill=white!50, rectangle, minimum height=1cm, minimum width=2cm, inner sep= 2mm]
+\tikzstyle{roundblock} = [draw, circle, fill=white!50, minimum height=1cm, inner sep= 1mm]
+\tikzstyle{whitesum} = [draw, fill=white!40, circle, minimum width=0.6cm, inner sep= 1mm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{tee} = [coordinate]
+\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=2cm]
+\tikzstyle{sum} = [draw, circle, node distance=1cm]
+\tikzstyle{modelinput} = [coordinate]
+\tikzstyle{modeloutput} = [coordinate]
+\tikzstyle{regionoutput} = [coordinate]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
