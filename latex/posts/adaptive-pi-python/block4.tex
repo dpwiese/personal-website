@@ -15,14 +15,19 @@
     \node[output, right of=block3,node distance=3.0cm] (output1) {};
     %Draw lines
     \draw[->](input1) -- node[near start]{$x_{d}$} (block1);
-    \draw[->](block1) -- node{$r$} node[pos=0.9]{$+$} (sum1);
+    \draw[->](block1) -- node[pos=0.3]{$r$} node[pos=0.9]{$+$} (sum1);
     \draw[->](sum1) -- node{$e_{r}$} (block2);
     \draw[->](block2) -- node[near end]{$+$} (sum2);
     \draw[->](sum2) -- node{$u$} (block3);
-    \draw[->](block3) -- node[name=y]{$x$} (output1);
+    \draw[->](block3) -- node[name=y]{} node[pos=0.9]{$x$} (output1);
     \draw[-](y) |- (block4);
     \draw[->](block4) -| node[pos=0.9]{$+$} (sum2);
     \draw[-](y) |- (input2);
     \draw[->](input2) -| node[pos=0.95]{$-$} (sum1);
+    %Model box
+    \path (sum1 |- sum1)+(-0.8,0.9) node (c) {};
+    \path (y -| y)+(0.5,-2.8) node (d) {};
+    \path[draw, dashed] (c) rectangle (d);
+    \node[above of=sum2, node distance = 1.2cm] {$W_{cl}(s)$};
   \end{tikzpicture}
 \end{document}

@@ -21,7 +21,7 @@
     \draw[->](sum1) -- node{$e$} (block2);
     \draw[->](block2) -- node{$+$} (sum2);
     \draw[->](sum2) -- node{$u$} (block3);
-    \draw[->](block3) -- node[name=y]{$x$} (output1);
+    \draw[->](block3) -- node[name=y]{} node[pos=0.9]{$x$} (output1);
     \draw[-](y) |- (block4);
     \draw[->](block4) -| node[pos=0.9]{$+$} (sum2);
     \draw[-](y) |- (input3);
