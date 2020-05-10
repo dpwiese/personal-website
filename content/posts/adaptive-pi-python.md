@@ -1,7 +1,7 @@
 ---
 title: "Adaptive PI Control with Python"
-date: 2020-05-08T23:08:36-04:00
-draft: true
+date: 2020-05-10T19:22:09-04:00
+draft: false
 toc: false
 images:
 tags: 
@@ -12,7 +12,7 @@ tags:
 
 # Introduction
 
-During graduate school I spent years studying, learning and researching dynamic systems and adaptive learning and control theory.
+During graduate school I spent years studying, learning, and researching dynamic systems and adaptive learning and control theory.
 The majority of my work was theoretical - deriving new algorithms to learn about and control unique systems in new ways and prove that these algorithms would work.
 Theory was applied to determine how well such algorithms would work and understand the situations when they would fail.
 However, it was always interesting and useful to simulate the systems to actually see how they responded over time and gain additional insight into their performance.
@@ -51,9 +51,9 @@ In the next section the control architecture is proposed.
 # Adaptive PI Control
 
 The first step in the design of the adaptive PI controller is to first design the nominal PI controller: the PI controller that would designed if $J$ and $B$ were known.
-This step is called the algebraic part.
+This is the algebraic solution.
 An adaptive version of this nominal controller is then created by replacing the parameter values within the controller with parameter <em>estimates</em>.
-This step is called the analytic part.
+This is the analytic solution.
 The procedure is an application of the <em>certainty equivalence principle</em>: develop a solution when the parameters are known, then replace the parameter values by their estimates.
 As these parameter estimates are learned adaptively in real time, stable update laws that govern their evolution must be determined.
 
@@ -72,14 +72,15 @@ A standard PI controller is written in transfer function form as
 
 where the control gains $k_{p}>0$ and $k_{i}>0$.
 This PI controller has a pole at the origin and a zero in the LHP at $-k_{i}/k_{p}$.
-The reference error is given by
+The reference error $e_{r}$ is given by
 
 \begin{equation*}
 e_{r}=r-x
 \end{equation*}
 
+where $r$ is the reference input.
 A precompensator is proposed to generate $r$ from $x_{d}$.
-This is done by determining the closed-loop transfer function from $r$ to $x$ and defining the precompensator as the inverse.
+This is done by determining the closed-loop transfer function $W_{cl}(s)$ from $r$ to $x$ and defining the precompensator as the inverse.
 Thus, with the precompensator, the transfer function between $x_{d}$ and $x$ will be unity.
 
 <img src="http://localhost:1313/img/posts/adaptive-pi-python/block3.png" width="600" />
@@ -91,7 +92,7 @@ Evaluating $W_{cl}(s)$ gives
   W_{cl}(s)=\frac{k_{p}s+k_{i}}{Js^{2}+k_{p}s+k_{i}}
 \end{equation}
 
-From this the inverse can be found, and the reference input $r$ found in terms of the desired output $x_{d}$ such that the transfer function between $x_{d}$ and $x$ will be unity.
+From this the inverse can be found, and the reference input $r$ found in terms of the desired output $x_{d}$.
 
 <img src="http://localhost:1313/img/posts/adaptive-pi-python/block4.png" width="800" />
 
@@ -124,7 +125,7 @@ This can be seen by comparing the closed loop transfer function in \eqref{eqn.ad
   W_{cl}(s)=\frac{(K+J\lambda)s+K\lambda}{Js^{2}+(K+J\lambda)s+K\lambda}
 \end{equation*}
 
-Stabilirt can be verified using the Routh-Hurwitz criterion: it will be stable if all of the coefficients of the characteristic polynomial have the same sign, which is of course the case given the non-negativity of the motor parameters and PI control gains.
+Stability can be verified using the Routh-Hurwitz criterion: it will be stable if all of the coefficients of the characteristic polynomial have the same sign, which is of course the case given the non-negativity of the motor parameters and PI control gains.
 
 \begin{equation*}
   J>0
@@ -162,7 +163,7 @@ With the reparameterization and error definitions, the system can be expressed b
 <img src="http://localhost:1313/img/posts/adaptive-pi-python/block7.png" width="500" />
 
 This completes the algebraic solution.
-Given $J$ and $B$ known, the above controller perfectly inverts the plant dynamics ensuring tracking of $x_{d}$ by $x$, as desired.
+Given $J$ and $B$ known, the above controller perfectly inverts the internal dynamics consisting of the plant and PI controller, ensuring tracking of $x_{d}$ by $x$, as desired.
 
 ## Analytic Solution
 
@@ -189,13 +190,13 @@ where damping coefficient parameter error is
   \tilde{B~}=\hat{B~}-B
 \end{equation*}
 
-Time differentiating the error $e$ gives
+Differentiating the error $e$ gives
 
 \begin{equation*}
   \dot{e}=\dot{x}_{d}-\frac{1}{J}\left(\tilde{B~}x+\hat{J~}e_{1}+Ke_{2}\right)
 \end{equation*}
 
-Time differentiating $e_{2}$ gives
+Differentiating $e_{2}$ gives
 
 \begin{equation}
 \label{eqn.adaptive.adaptivepi.e2dot}
@@ -211,7 +212,7 @@ The following update laws are proposed
   \dot{\tilde{B~}}&=\gamma_{2}e_{2}x
 \end{align}
 
-With the error dynamics and update laws defined, stability must then be proved.
+With the error dynamics and update laws defined, stability must be proved.
 
 ## Stability
 
@@ -221,7 +222,7 @@ Consider the following candidate Lyapunov function
   V=\frac{1}{2}\left(Je_{2}^{2}+\frac{1}{\gamma_{1}}\tilde{J~}^{2}+\frac{1}{\gamma_{2}}\tilde{B~}^{2}\right)
 \end{equation*}
 
-Time differentiating and substituting the error dynamics in \eqref{eqn.adaptive.adaptivepi.e2dot} gives
+Differentiating and substituting the error dynamics in \eqref{eqn.adaptive.adaptivepi.e2dot} gives
 
 \begin{equation*}
   \dot{V}=-Ke_{2}^{2}-\tilde{B~}xe_{2}-\tilde{J~}e_{1}e_{2}+\frac{1}{\gamma_{1}}\tilde{J~}\dot{\tilde{J~}}+\frac{1}{\gamma_{2}}\tilde{B~}\dot{\tilde{B~}}
@@ -229,14 +230,15 @@ Time differentiating and substituting the error dynamics in \eqref{eqn.adaptive.
 
 Using the update laws in \eqref{eqn.adaptive.adaptivepi.update1} and \eqref{eqn.adaptive.adaptivepi.update2} gives
 
-\begin{equation*}
+\begin{equation}
+  \label{eqn.adaptive.adaptivepi.vdot}
   \dot{V}=-Ke_{2}^{2}
-\end{equation*}
+\end{equation}
 
 Thus $\dot{V}\leq0$.
-With $e_{2}$, $\tilde{J~}$, $\tilde{B~}\in\mathcal{L}_{\infty} \Rightarrow \dot{e}_{2} \in\mathcal{L}_{\infty}$.
-And $e_{2}\in\mathcal{L}_{\infty} \Rightarrow e\in\mathcal{L}_{\infty}$ and $e\in\mathcal{L}_{\infty} \Rightarrow e_{1}\in\mathcal{L}_{\infty}$.
-Therefore $\dot e_{2} \in\mathcal{L}_{\infty}$ and $e_{2}\in\mathcal{L}_{2} \Rightarrow \lim_{t\rightarrow\infty} e_{2}(t)=0 \Rightarrow \lim_{t\rightarrow\infty} e(t)=0$.
+With $e_{2}$, $\tilde{J~}$, $\tilde{B~}\in\mathcal{L}_{\infty} \Rightarrow \dot{e}_{2} \in\mathcal{L}_{\infty}$ by \eqref{eqn.adaptive.adaptivepi.e2dot}.
+And $e_{2}\in\mathcal{L}_{\infty} \Rightarrow e\in\mathcal{L}_{\infty}$ and $e\in\mathcal{L}_{\infty} \Rightarrow e_{1}\in\mathcal{L}_{\infty}$ by \eqref{eqn.adaptive.adaptivepi.e1} and \eqref{eqn.adaptive.adaptivepi.e2}.
+From \eqref{eqn.adaptive.adaptivepi.vdot} $e_{2}\in\mathcal{L}_{2}$ and using Barbalat's lemma this implies $\lim_{t\rightarrow\infty} e_{2}(t)=0 \Rightarrow \lim_{t\rightarrow\infty} e(t)=0$.
 Note that this result does not imply convergence of the parameter estimates to their true values.
 
 ## System Summary
@@ -257,10 +259,12 @@ The closed-loop system can be described by the following equations.
 
 # Simulation with the Python Control Systems Library
 
-With the simple DC motor example above, the adaptive PI controller proposed along with the update laws, and stability proved, the system can now be implemented in a simulation to show how it actually responds.
+With the simple DC motor example above, the adaptive PI controller was proposed along with parameter estimate update laws, and stability proved.
+The system can now be implemented in a simulation to show how it actually responds.
 For this, the <a href="http://python-control.org/" target="_blank">Python Control Systems Library</a> is used.
 The implementation of the above system will be presented without great detail.
 The full code is available on Github: <a href="https://github.com/dpwiese/control-examples/tree/master/adaptive-pi" target="_blank">dpwiese/control-examples/adaptive-pi</a>.
+Furthermore the documentation for the Python Control Systems Library is quite good.
 
 The first step is defining the plant as a `LinearIOSystem` class, which, as the name suggests, represents a linear system.
 The parameters of the state-space representation of the plant described by \eqref{eqn.adaptive.adaptivepi.gp} are used.
@@ -280,9 +284,9 @@ IO_DC_MOTOR = control.LinearIOSystem(
 ```
 
 Next, the controller is defined.
-As the controller is nonlinear, the `NonlinearIOSystem` is used to describe it.
+As the controller is nonlinear, the `NonlinearIOSystem` class is used to describe it.
 The usage is very similar to that of linear systems, but requires defining an `updfcn` describing the state dynamics and an `outfcn` to return the output.
-These are `adaptive_pi_state` and `adaptive_pi_output` below.
+These are `adaptive_pi_state` and `adaptive_pi_output` and are defined below.
 
 ```python
 IO_ADAPTIVE_PI = control.NonlinearIOSystem(
@@ -325,8 +329,7 @@ def adaptive_pi_state(_t, x_state, u_input, _params):
 ```
 
 Next, the output function is defined, giving the output from the nonlinear adaptive controller.
-In this case, the controller output is scalar - just the control $u$ as given in \eqref{eqn.adaptive.adaptivepi.bettercontrollaw}.
-
+In this case, the controller output is just the control $u$ as given in \eqref{eqn.adaptive.adaptivepi.bettercontrollaw}, but the parameter estimates are returned as well for plotting.
 
 ```python
 def adaptive_pi_output(_t, x_state, u_input, _params):
