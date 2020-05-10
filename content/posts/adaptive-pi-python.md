@@ -44,7 +44,7 @@ This is a very simple system to consider for this control problem: first order, 
 <b>The control goal is: have $x\rightarrow x_{d}$ when the parameters $J$ and $B$ are unknown</b>, where $x_{d}$ is the <em>desired</em> angular velocity.
 The controller will be connected with the plant as shown by the following block diagram
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block1.png" width="500" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block1.png" width="500" />
 
 In the next section the control architecture is proposed.
 
@@ -62,7 +62,7 @@ As these parameter estimates are learned adaptively in real time, stable update 
 The following control architecture proposed, where in addition to the PI controller $G_{c}(s)$, and additional damping term is added.
 The need for this damping term may not be obvious, but completing the exercise below without this term will make its importance clear.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block2.png" width="600" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block2.png" width="600" />
 
 A standard PI controller is written in transfer function form as
 
@@ -83,7 +83,7 @@ A precompensator is proposed to generate $r$ from $x_{d}$.
 This is done by determining the closed-loop transfer function $W_{cl}(s)$ from $r$ to $x$ and defining the precompensator as the inverse.
 Thus, with the precompensator, the transfer function between $x_{d}$ and $x$ will be unity.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block3.png" width="600" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block3.png" width="600" />
 
 Evaluating $W_{cl}(s)$ gives
 
@@ -94,7 +94,7 @@ Evaluating $W_{cl}(s)$ gives
 
 From this the inverse can be found, and the reference input $r$ found in terms of the desired output $x_{d}$.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block4.png" width="800" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block4.png" width="800" />
 
 From $W_{cl}^{-1}(s)$, the reference input $r$ is given in terms of $x_{d}$ and $\dot{x}_{d}$ as
 
@@ -104,11 +104,11 @@ r=x_{d}+[JG_{c}^{-1}(s)]\dot{x}_{d}
 
 The block diagram can then be expressed as follows
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block5.png" width="700" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block5.png" width="700" />
 
 Equivalently, the input from $\dot{x}_{d}$ can be moved to better show how the control input $u$ is generated from the known signals.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block6.png" width="700" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block6.png" width="700" />
 
 The following parameterization is proposed
 
@@ -160,7 +160,7 @@ allows the control law \eqref{eqn.adaptive.adaptivepi.alglaw1} to be written
 
 With the reparameterization and error definitions, the system can be expressed by the following block diagram.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block7.png" width="500" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block7.png" width="500" />
 
 This completes the algebraic solution.
 Given $J$ and $B$ known, the above controller perfectly inverts the internal dynamics consisting of the plant and PI controller, ensuring tracking of $x_{d}$ by $x$, as desired.
@@ -176,7 +176,7 @@ Now in the nominal control law in \eqref{eqn.adaptive.adaptivepi.alglaw2} that w
 
 The block diagram is nearly identical as that in the algebraic solution, but using these parameter estimates instead.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/block8.png" width="500" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/block8.png" width="500" />
 
 Rearranging the plant dynamics from \eqref{eqn.adaptive.adaptivepi.gp} and substituting in the adaptive control law \eqref{eqn.adaptive.adaptivepi.bettercontrollaw} gives
 
@@ -392,4 +392,4 @@ The initial motor velocity and parameter estimates are well of from their desire
 Tracking is poor and control effort somewhat erratic, although reasonable in magnitude, until about $t=30$ when the parameter estimates stability and tracking error approaches zero.
 To see how the system performs <em>without</em> adaptation, download the <a href="https://github.com/dpwiese/control-examples/tree/master/adaptive-pi" target="_blank">source code</a> and try it out.
 
-<img src="http://localhost:1313/img/posts/adaptive-pi-python/plot.png" width="700" />
+<img src="https://danielwiese.com/img/posts/adaptive-pi-python/plot.png" width="700" />
