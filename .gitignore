@@ -7,3 +7,11 @@ $RECYCLE.BIN/
 
 # OSX
 .DS_Store
+
+## Latex
+latex/**/**.pdf
+latex/**/**.out
+latex/**/**.log
+latex/**/**.aux
+latex/**/**.synctex.gz
+latex/**/**.png
