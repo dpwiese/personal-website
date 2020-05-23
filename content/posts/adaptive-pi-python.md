@@ -353,7 +353,7 @@ def adaptive_pi_output(_t, x_state, u_input, _params):
     # Control law
     u = j_hat * e_1 + b_hat * x + K * e_2
 
-    return [u, x_state[0], x_state[1]]
+    return [u, j_hat, b_hat]
 ```
 
 With the plant and controller defined, they only need to be connected and then the closed-loop system can be simulated.
