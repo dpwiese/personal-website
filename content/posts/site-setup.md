@@ -3,6 +3,7 @@ title: "Setting up this Site"
 date: 2019-12-06
 draft: false
 toc: false
+images: ["img/posts/site-setup/og-image.png"]
 tags:
   - hugo
   - programming

@@ -3,6 +3,7 @@ title: "Weight and Glide Distance of an Aicraft"
 date: 2020-05-23
 draft: false
 toc: false
+images: ["img/posts/glide-distance/og-image.jpeg"]
 tags:
   - aviation
   - flying

@@ -3,6 +3,7 @@ title: "Using Go in React Native"
 date: 2020-02-06
 draft: false
 toc: false
+images: ["img/posts/react-native-gomobile/og-image.png"]
 tags:
   - reactnative
   - programming
@@ -177,8 +178,8 @@ For the record, the differential equation we wish to solve is: $uu_{x} = eu_{xx}
 Consider, for example, using this approach for performing computational analysis of fitness assessment data as shown below.
 
 <div style="display:flex;flex-direction:row;justify-content:center;height:551px;">
-  <img src="/img/threshold-1.jpeg" width="300" style="margin-right:-20px;margin-bottom:0px;"/>
-  <img src="/img/threshold-2.jpeg" width="300" style="margin-left:-20px;margin-bottom:0px;"/>
+  <img src="/img/posts/react-native-gomobile/threshold-1.jpeg" width="300" style="margin-right:-20px;margin-bottom:0px;"/>
+  <img src="/img/posts/react-native-gomobile/threshold-2.jpeg" width="300" style="margin-left:-20px;margin-bottom:0px;"/>
 </div>
 
 In any case, this simple example of the computationally demanding task of numerically solving a differential equation should serve the purpose of demonstration well.
@@ -249,7 +250,7 @@ Make sure to set your `GOPATH` as necessary.
 To generate `sample.aar` to use in an Android app, just set `-target=android`.
 *The generated Framework is now ready to drag-and-drop into our Xcode project!*
 
-<img src="/img/import-framework.png" width="800" style="border-style:solid;border-width:1px"/>
+<img src="/img/posts/react-native-gomobile/import-framework.png" width="800" style="border-style:solid;border-width:1px"/>
 
 ## Using the Generated Framework
 
@@ -270,7 +271,7 @@ FOUNDATION_EXPORT double SampleSolveBVP();
 
 The Framework directory structure is shown in Xcode below.
 
-<img src="/img/framework-header.png" width="340" style="border-style:solid;border-width:1px"/>
+<img src="/img/posts/react-native-gomobile/framework-header.png" width="340" style="border-style:solid;border-width:1px"/>
 
 The pattern should be clear, as: `<package_name>`&nbsp;`<function_name>`.
 For the bridge, we'll create the following two files: a header and implementation.

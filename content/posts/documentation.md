@@ -3,6 +3,7 @@ title: "Documentation"
 date: 2020-01-21
 draft: false
 toc: false
+images: ["img/posts/documentation/og-image.png"]
 tags:
   - pandoc
   - programming

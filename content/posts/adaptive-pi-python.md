@@ -3,7 +3,7 @@ title: "Adaptive PI Control with Python"
 date: 2020-05-10T19:22:09-04:00
 draft: false
 toc: false
-images:
+images: ["img/posts/adaptive-pi-python/og-image.png"]
 tags: 
   - adaptive learning
   - control theory
