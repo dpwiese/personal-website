@@ -31,7 +31,7 @@ The remainder of this post uses some simple equations from physics to give insig
 Consider following chart from the emergency procedures section of the aircraft information manual
 for the Cessna 172.
 
-<img src="https://danielwiese.com/img/posts/glide-distance/c172-glide-distance.jpeg" width="600"/>
+<img src="/img/posts/glide-distance/c172-glide-distance.jpeg" width="600"/>
 
 This chart gives the maximum glide distance based on the height of the aircraft in feet above ground level, or AGL.
 It is linear, and from this the pilot can see the slope: **this Cessna 172 can glide a maximum of 1.5 nm per 1000 feet AGL.**
@@ -47,7 +47,7 @@ It may be tempting to assume this is just an approximation for such a small airc
 Consider now the information manual from the slightly larger Cessna 182.
 This is very similar to that of the 172, except that the glide ratio is closer to 1.4 nm per thousand feet AGL.
 
-<img src="https://danielwiese.com/img/posts/glide-distance/c182-glide-distance.jpeg" width="600"/>
+<img src="/img/posts/glide-distance/c182-glide-distance.jpeg" width="600"/>
 
 More importantly though is that the best glide speed *does depend on the aircraft weight* even though the maximum glide distance *does not*.
 And this dependence is quite large---the best glide speed increases 31% between 2100 lb and 3100 lb.
@@ -62,7 +62,7 @@ But it is an interesting question, and the following simple derivation can give 
 
 Consider following free-body diagram of a glider (an aircraft with failed engine) from <a href="https://www.google.com/books/edition/Airplane_Aerodynamics_and_Performance/bSq-cEf0EWsC" target="_blank">Airplane Aerodynamics and Performance</a> by Jan Roskam.
 
-<img src="https://danielwiese.com/img/posts/glide-distance/roskam-free-body.jpeg" width="600"/>
+<img src="/img/posts/glide-distance/roskam-free-body.jpeg" width="600"/>
 
 _Note: $RC$ is rate of climb, $RD$ is rate of descent, and $RC=-RD$.
 The angle of attack is given by $\alpha$, the pitch angle by $\theta$, and the flight path angle by $\gamma$.
@@ -114,7 +114,7 @@ So now it can be easily see from \eqref{eqn.glidedistance.dmax} that the glide d
 Rather it depends only on the aerodynamic properties of the aircraft---lift and drag specifically.
 For a small sub-sonic general aviation aircraft like a Cessna, operating only at low altitudes in Earth's atmosphere, $C_{L}$ and $C_{D}$ depend only on angle of attack $\alpha$.
 The relationship between them and thus the maximization of the lift versus the drag coefficient can be read directly from the aircraft's <a href="https://en.wikipedia.org/wiki/Drag_polar" target="_blank">Drag Polar</a>.
-The drag polar is not provided in the Aircraft Information Manual, but it is something very well characterised by the aircraft manufactuer, and used to presribe $d_{\max}$ in the maximum glide charts shown above.
+The drag polar is not provided in the Aircraft Information Manual, but it is something very well characterized by the aircraft manufactuer, and used to presribe $d_{\max}$ in the maximum glide charts shown above.
 
 ## Best Glide Speed
 

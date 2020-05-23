@@ -13,7 +13,7 @@ keywords: [pandoc, programming, latex]
 # Introduction
 
 Over the past decade of my academic and professional career I spent a fair bit of time documenting the things I was working on.
-While in graduate school this was primarily in Latex, documenting thousands of pages, some of which are available in my <a href="https://danielwiese.com/mit-notes.pdf" target="_blank">grad school notes</a>.
+While in graduate school this was primarily in Latex, documenting thousands of pages, some of which are available in my <a href="/mit-notes.pdf" target="_blank">grad school notes</a>.
 For the past few years my work has been less academic, less mathematical, and involved more programming.
 It was also not often distributed or published.
 As such my documentation lately has been primarily in Markdown.
@@ -32,7 +32,7 @@ I was looking for a better solution than this that provided the following:
 - **Cross platform** should allow the source document to be easily deployed across many platforms.
   For example:
   - Github wikis
-  - Web via a static site generator like Hugo, used to <a href="https://danielwiese.com/posts/site-setup/" target="_blank">create this site</a>
+  - Web via a static site generator like Hugo, used to <a href="/posts/site-setup/" target="_blank">create this site</a>
   - PDFs.
   It is important to note that I don't anticipate the need for documents to be duplicated across these mediums, *rather I wanted to be able to adopt an efficient and standard way of writing without thinking what the destination format would be when writing*.
 - **Flexible styling** across the above platforms. A solution which facilitated uniform styling across mediums would be ideal, whereby a single `.css` or `.sty` file could be used to consistently format both a generated PDF and content for the web.
@@ -311,7 +311,7 @@ To specify the hyperlink color in the generated PDF, another Latex header can be
 ```
 
 Another issue when generating a PDF was with HTML links in the markdown source.
-Remember from <a href="https://danielwiese.com/posts/site-setup/" target="_blank">setting up this site</a> that HTML links were used to enable opening the link in a new tab.
+Remember from <a href="/posts/site-setup/" target="_blank">setting up this site</a> that HTML links were used to enable opening the link in a new tab.
 A Lua filter was used to handle HTML links from markdown document and keep the links in the generated PDF.
 Fortunately, a suitable filter was found in the Stack Overflow answer <a href="https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf" target="_blank">HTML-formatted hyperlinks not preserved in bookdown PDF</a>, so it did not need to be written from scratch.
 There were also similar filters using Panflute as described here: <a href="https://gist.github.com/dixonsiu/28c473f93722e586e6d53b035923967c" target="_blank">How to convert markdown link to html using Pandoc</a>.
@@ -319,7 +319,7 @@ There were also similar filters using Panflute as described here: <a href="https
 # Conclusions
 
 Hopefully the above provided a useful discussion of some of the problems encountered when using markdown on the web and for generating PDFs with Pandoc, describing the options and styles used to achieve the desired results in both of these mediums.
-Below a short list is provided of the items from <a href="https://danielwiese.com/posts/site-setup/" target="_blank">setting up this site</a> and this document that make up the current solution and workflow:
+Below a short list is provided of the items from <a href="/posts/site-setup/" target="_blank">setting up this site</a> and this document that make up the current solution and workflow:
 
 * Specify all links with HTML using the attribute `target="_blank"`.
 * When the link text is a valid hyperlink itself, break it up inside with an empty `<span></span>`.
@@ -359,5 +359,5 @@ $ var your = "code here"
 # Resources
 
 * The PDF generated exactly from the markdown source used to create this page is available:
-<a href="https://danielwiese.com/documentation.pdf" target="_blank">documentation.pdf</a>
+<a href="/documentation.pdf" target="_blank">documentation.pdf</a>
 * My `.pandoc` directory, including all Pandoc options, Latex headers, and Lua filters is available: <a href="https://github.com/dpwiese/.pandoc" target="_blank">htt<span></span>ps://github.com/dpwiese/.pandoc</a>
