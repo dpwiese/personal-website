@@ -8,6 +8,7 @@ tags:
   - aviation
   - flying
 keywords: [aviation, flying]
+description: "This post uses simple equations to help give some understanding to the perhaps counterintuitive fact that the glide distance of an aircraft is independent of its weight."
 ---
 
 # Introduction
