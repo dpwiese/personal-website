@@ -177,9 +177,15 @@ For the record, the differential equation we wish to solve is: $uu_{x} = eu_{xx}
 
 Consider, for example, using this approach for performing computational analysis of fitness assessment data as shown below.
 
-<div style="display:flex;flex-direction:row;justify-content:center;height:551px;">
-  <img src="/img/posts/react-native-gomobile/threshold-1.jpeg" width="300" style="margin-right:-20px;margin-bottom:0px;"/>
-  <img src="/img/posts/react-native-gomobile/threshold-2.jpeg" width="300" style="margin-left:-20px;margin-bottom:0px;"/>
+<div style="display:flex;flex-direction:row;justify-content:center;">
+  <div style="display:flex;flex-direction:row;justify-content:center;max-width:500px;">
+    <div style="margin-right:-20px;flex-grow:1;">
+      <img src="/img/posts/react-native-gomobile/threshold-1.jpeg"/>
+    </div>
+    <div style="margin-left:-20px;flex-grow:1;">
+      <img src="/img/posts/react-native-gomobile/threshold-2.jpeg" style="margin-bottom:0px;"/>
+    </div>
+  </div>
 </div>
 
 In any case, this simple example of the computationally demanding task of numerically solving a differential equation should serve the purpose of demonstration well.
