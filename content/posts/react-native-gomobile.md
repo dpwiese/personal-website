@@ -182,8 +182,8 @@ Consider, for example, using this approach for performing computational analysis
     <div style="margin-right:-20px;flex-grow:1;">
       <img src="/img/posts/react-native-gomobile/threshold-1.jpeg"/>
     </div>
-    <div style="margin-left:-20px;flex-grow:1;">
-      <img src="/img/posts/react-native-gomobile/threshold-2.jpeg" style="margin-bottom:0px;"/>
+    <div style="margin-left:-20px;flex-grow:1;display:flex;">
+      <img src="/img/posts/react-native-gomobile/threshold-2.jpeg" style="align-self:flex-end;margin-bottom:0px;"/>
     </div>
   </div>
 </div>
