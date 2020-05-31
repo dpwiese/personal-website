@@ -13,6 +13,9 @@ pygmentsUseClasses  = true
   tag = "tags"
 
 [params]
+  description = "My writings and resources on engineering, technology, programming, aviation and more."
+  images = ["img/og-image.jpeg"]
+
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
   dateformNum     = "2006-01-02"
