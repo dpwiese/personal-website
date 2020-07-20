@@ -8,6 +8,10 @@ draft: false
 * <a href="../dynamics-note-sheet.pdf" target="_blank">Dynamics Note Sheet</a>
 * <a href="../optimal-control-note-sheet.pdf" target="_blank">Optimal Control Note Sheet</a>
 
+## Tools
+
+* <a href="../crc-calculator">CRC-32 Calculator</a>
+
 ## Research Publications
 
 <table>
