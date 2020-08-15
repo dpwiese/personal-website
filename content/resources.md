@@ -96,3 +96,7 @@ draft: false
     </td>
   </tr>
 </table>
+
+## Patents
+
+* <a href="https://patents.google.com/patent/US10092228B2" target="_blank">US10092228B2 - Tissue oxygen saturation detection and related apparatus and methods</a>
