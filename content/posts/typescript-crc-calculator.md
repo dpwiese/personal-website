@@ -1,10 +1,9 @@
 ---
 title: "Single Page CRC Calculator with TypeScript"
 date: 2020-07-18T17:49:17-05:00
-draft: true
+draft: false
 toc: false
-# ADD OG IMAGE WITH THIS POST:
-images: ["img/posts/data-conversions/og-image.png"]
+images: ["img/posts/crc-calculator/og-image.png"]
 tags: 
   - programming
   - typescript
@@ -16,48 +15,65 @@ keywords: [programming, typescript]
 This post describes the process of creating a very simple single page for performing a CRC-32 calculation.
 At a technical level it is trivial - the result is a single HTML page, styled with straightforward CSS, and using a few lines of JavaScript to perform a CRC-32 calculation.
 No effort will be spent to describe how the CRC calculation is done.
+**However I thought this approach was a nice lightweight alternative to using a script locally to perform, verify, and share the results of such calculations with others.**
+
 The motivation for creating this page was to facilitate remote collaboration, documenting, and troubleshooting CRC calculation checks.
-As the data and the corresponding CRC values are generated on and transmitted and validated across many parts of a tech stack, it's helpful to have a persistent and centralized way to validate a check value on some input data.
+As the data and the corresponding CRC values are generated on and transmitted and validated across many parts of a tech stack, it's helpful to have a centralized way to validate a check value on some input data.
 Specifically, a webpage which allows a payload to be entered as a query parameter and persisted after the CRC check is performed.
 Moreover, the source code which performs the check is available for all to see and even edit in a browser as desired.
 
-The result can be found here: [CRC Calculator]( {{< ref "/crc-calculator.md" >}} ) and the source code here: <a href="https://github.com/dpwiese/crc-calculator" target="_blank">htt<span></span>ps://github.com/dpwiese/crc-calculator</a>.
+**The result can be found here: [CRC Calculator]( {{< ref "/crc-calculator.md" >}} ) and the source code here: <a href="https://github.com/dpwiese/crc-calculator" target="_blank">htt<span></span>ps://github.com/dpwiese/crc-calculator</a>.**
+
+<div style="display:flex;flex-direction:row;justify-content:center;">
+  <div style="display:flex;flex-direction:row;justify-content:center;max-width:500px;">
+    <div style="flex-grow:1;">
+      <a href="/crc-calculator/">
+        <img src="/crc-calculator/crc-calculator.png"/>
+      </a>
+    </div>
+  </div>
+</div>
+
 This post was inspired by the <a href="http://www.ghsi.de/pages/subpages/Online%20CRC%20Calculation/" target="_blank">GHS Infotronic Online CRC Calculation</a>.
 While there are many other websites that can perform such simple calculations, I particularly liked that this one kept the polynomial and message in the query parameters, allowing specific inputs, and thus the corresponding outputs, to be easily shared with a single hyperlink.
-However, I was unable to find a similar site to calculate CRC-32 checksum using query parameters, leading to this post.
+For some weeks this page lived in a tab in my browser, and I found myself constantly inserting links into notes or sharing it with others.
+However, I was unable to find a similar site to calculate CRC-32 checksum which left the payload in the query parameters, leading to this post.
 
-## Implementation
-
-To recap, the goal for this project was to make:
+The goal for this project was to make:
 
 * A **single page** with a form to allow inputting of a payload and submission to calculate the resulting CRC-32
-* Require **minimal tooling** to build
+* Require **minimal tooling** to build and test
 * **Persist the input in the query parameters** to easily save and share
 
-To satisfy these goals, I initially wrote a single HTML page with embedded JavaScript and CSS.
+# Implementation
+
+To satisfy these goals, I initially wrote a single HTML page with embedded JavaScript and CSS amounting to under a hundred lines.
 The CRC calculation algorithm is very well documented and simple implementations can be found in nearly every language, making the implementation of the algorithm quite straightfoward.
-For example, the [tahapaksu.com Online CRC Calculation](https://www.tahapaksu.com/crc/) page used the few lines of JavaScript needed to calculate a CRC-32 (as well as several other) checksum.
+For example, the <a href="https://www.tahapaksu.com/crc/" target="_blank">tahapaksu.com Online CRC Calculation</a> page used the few lines of JavaScript needed to calculate a CRC-32 (as well as several other) checksum.
 
 After this first pass I quickly became uncomfortable working with the CRC-32 algorithm without types, as the functions were using hex strings, typed arrays, numbers, and more, which quickly became difficult to keep track of.
 I also wanted to an easy way to test the few functions required to ingest the data enter by the user and calculate the CRC-32.
 As I'd never worked with TypeScript before, I decided to give it a try.
 The result was a very simple TypeScript file, some tests with Jest, and and the extraction of the JavaScript code to an external file which was generated by the TypeScript compiler.
 
-I'm pleased with this approach for a simple way to perform manipulations on data, and may implement other simple utilities similarly.
-I don't have to concern myself with any tooling and can just write the functions I want, for example converting between different numeric types like base-64 strings, 64 bit floats, etc., and some associated tests.
-Then just complile them into JavaScript and upload as a static file for others to test and use.
+Compilation and testing is accomplished with the following.
 
-I think it sufficiently lowers the bar versus the alternatives, which may be hosting a Python script or something which someone then needs to download, install dependencies, interact via the command line without persisting inputs, and can only share with others by sharing the script itself.
+```sh
+# Compile
+% tsc --project tsconfig.json
 
-## Notes
+# Test
+% npm run test
+```
 
-* Rewire used to test the JavaScript code as opposed to the TypeScript code.
+To test the unexported functions <a href="https://github.com/jhnns/rewire" target="_blank">rewire</a> was used, noting that the arguement in the `rewire()` call is the path of the built JavaScript output as opposed to the TypeScript.
 
 ```ts
 const Utils = rewire("../built/crc-utils.js");
 ```
 
-* Simple unit tests to make sure utilities are working as expected
+Simple unit tests were written to make sure utilities are working as expected.
+While the few underlying functions implemented in this example are minimal, and their narrow functionality reflected in the following tests, it does illustrate the kinds of test cases that might be helpful to think about.
 
 ```ts
 test('conditionHexString', () => {
@@ -70,31 +86,34 @@ test('conditionHexString', () => {
 });
 ````
 
-* The utility functions
+I'm pleased with this approach as a simple way to perform manipulations on data and may implement some of the many other simple utilities which I often use.
+With such a simple approach I don't have to concern myself with any tooling and can just write the functions I want, for example converting between different numeric types like base-64 strings, 64 bit floats, etc., and some associated tests.
+Compliling them into JavaScript and uploading as a static file for others to test and use is trivial.
 
-```ts
-function hexStringToByteArray(hexString: string): Uint8Array {
-  const byteArrayLength = hexString.length / 2;
-  var arrayBuffer: ArrayBuffer = new ArrayBuffer(byteArrayLength);
-  var byteArray: Uint8Array = new Uint8Array(arrayBuffer);
-  for (var i: number = 0; i < byteArrayLength; i += 1) {
-    byteArray[i] = parseInt(hexString.substr(i * 2, 2), 16);
-  }
-  return byteArray;
-}
+I think it sufficiently lowers the bar versus the alternatives, which may be hosting or sending a Python script or something which someone then needs to download, install dependencies, interact via the command line without persisting inputs, and can only share with others by sharing the script itself.
+
+## Displaying Source File in Hugo Code Block
+
+Finally, when sharing the URL to the single page with it's included JavaScript, one can easily view the underlying source code in their browser to understand and verify the implementation.
+However viewing the source in browser is not ideal, and it seemed helpful to simply import and display in a code block the JavaScript source for easy inspection.
+As this site is built with Hugo this is accomplished very easily with a shortcode and Hugos <a href="https://gohugo.io/functions/readfile/" target="_blank">`readFile`</a> command.
+This is well described <a href="https://stackoverflow.com/questions/39539812/how-can-another-file-be-included-in-a-hugo-markdown-page" target="_blank">here</a> and shown below:
+
+```go
+{{ $file := .Get "file" | readFile }}
+{{ $lang := .Get "language" }}
+{{ (print "```" $lang "\n" $file "\n```") | markdownify }}
 ```
 
-&nbsp;
+This results in the entire JavaScript file imported from it's source and nicely displayed in a code block:
 
-```ts
-function changeEndianness(string: string): string {
-  const result: Array<string> = [];
-  let len: number = string.length - 2;
-  while (len >= 0) {
-    result.push(string.substr(len, 2));
-    len -= 2;
-  }
-  return result.join('');
-}
-```
+{{% code file="/static/crc-calculator/crc-utils.js" language="js" %}}
 
+There are many similar simple methods to accomplish this depending on how and where the code is hosted.
+
+# Summary
+
+In summary, this approach is trivial from technical level, but useful enough in certain circumstances.
+Perhaps it is an obvious solution to a simple problem that might seem more easily accomplished by sharing or sending a script to others, but it's been helpful for me.
+That it's in TypeScript/JavaScript is also convenient, as it's a language I've often worked in.
+Some the source code of some utilities which are well suited to this approach could be reused in production, whether in React Native, React, or Node Lambdas on AWS.

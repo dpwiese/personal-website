@@ -1,6 +1,7 @@
 /* reduce theme's large space between line numbers and code */
 .highlight pre {
   padding-right: 0px;
+  overflow: hidden;
 }
 
 /* background color for monokai chroma theme */
