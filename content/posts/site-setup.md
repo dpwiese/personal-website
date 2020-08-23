@@ -19,7 +19,7 @@ However, **the two primary motivations for creating this site were:**
 1. Create a place to document and share my learnings
 2. Learn some new tooling to support motivation 1.
 
-A tertiary motivation was to provide a place for people to learn more about me than might be possible via the infomration available on social media.
+A tertiary motivation was to provide a place for people to learn more about me than might be possible via the information available on social media.
 
 With this in mind, I began to think about the form that the items of motivation 1. would take, whether it be blog posts, standalone documents, etc. and thus which tooling would best support this.
 The outcome of this was that the majority of the items I expected to create for motivation 1. would be single page posts, and that the best tooling would be in the form of a static site generator.
@@ -27,16 +27,16 @@ The outcome of this was that the majority of the items I expected to create for 
 The reasons for using a static site generator based on current and anticipated needs are as follows:
 
 1. I want something fast and simple to setup, edit, host, and maintain.
-2. I don't need a content management system such as Wordpress to facilitate making changes to the site, nor does anyone else - I will be the sole content creator and manager of the site.
+2. I don't need a content management system such as WordPress to facilitate making changes to the site, nor does anyone else - I will be the sole content creator and manager of the site.
 3. I don't need any server-side functionality.
-4. I don't need access to the extent of plugins offered by a CMS like Worpdress, such as those to facilitate SEO, marketing automation, or otherwise.
+4. I don't need access to the extent of plugins offered by a CMS like WordPress, such as those to facilitate SEO, marketing automation, or otherwise.
 
 No tooling was precluded due to a lack of programming ability as may be the case for a non-technical blogger.
 
 Speed and simplicity meant I did not want a solution with an involved build process, or that required me to manage a database, or install and update plugins.
 The changes introduced when updating plugins are not always fully known, and are often necessary to provide security to the site.
 I wanted a solution in which content creation was done in markdown as much of my existing documentation is already written in markdown and it is well suited to the type of writing I do.
-This all meant that solutions with content management systems, such as Wordpress, or building a web application like React from scratch would not be best suited to my needs.
+This all meant that solutions with content management systems, such as WordPress, or building a web application like React from scratch would not be best suited to my needs.
 
 The benefits of static site generators and comparisons to CMS are well documented online and align well with my needs.
 All the particular SSGs I considered were very fast to setup, edit, and host.
@@ -207,7 +207,7 @@ The result, when the site was generated, was a correctly generated `a` tag that 
 ## Superfluous Span Tag
 
 A downside to the above method is that the shortcode now contained in the markdown can only be interpreted by Hugo via one of its supported markdown engines.
-This means that if any portion of this markdown source containing shortcode is ported anywhere else (e.g. Github wiki) I'll have to live with akward shortcode in the displayed output, or manually fix the source to not require shortcode.
+This means that if any portion of this markdown source containing shortcode is ported anywhere else (e.g. Github wiki) I'll have to live with awkward shortcode in the displayed output, or manually fix the source to not require shortcode.
 
 An alternative method to write HTML links in a way that was more portable was desired.
 Fortunately I found the following suggestion in this <a href="https://stackoverflow.com/a/53462722" target="_blank">Stack Overflow answer</a>: simply insert an empty div in the URL text so it is not interpreted as a URL:
@@ -218,6 +218,21 @@ Fortunately I found the following suggestion in this <a href="https://stackoverf
 
 This solution, while not elegant, does get the job done for the few cases where it's needed.
 It's also worth noting that Github does not include the target attribute, so in the event this markdown source is ported to Github, the link will not open in a new window.
+
+## Update v0.62
+
+When this post was first written, I had the most recent version of Hugo at the time: v0.60.
+The latest version at the time of this update is v0.74.3.
+In v0.62.0 a new feature was added which offers a much more elegant solution to the hyperlink problem desribed above: [Markdown Render Hooks](https://gohugo.io/getting-started/configuration-markup/#markdown-render-hooks).
+This is well described in the docs, but in short:
+
+> Render Hooks allow custom templates to override markdown rendering functionality.
+
+Thus, with a simple template `./layouts/_default/_markup/render-link.html` with the following contents, standard [external markdown links](https://gohugo.io/) are made to open in a new tab while the behavior of [internal links](/posts) is unaffected.
+
+```go
+<a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if strings.HasPrefix .Destination "http" }} target="_blank"{{ end }}>{{ .Text }}</a>
+```
 
 # Latex
 
@@ -233,14 +248,14 @@ In fact, it seemed to have been just deprecated when this post was written per t
 I looked at other alternatives, such as <a href="https://kramdown.gettalong.org/index.html" target="_blank">kramdown</a>, described in the blog post <a href="https://takuti.me/note/hugo-kramdown-and-katex/" target="_blank">Hugo meets kramdown + KaTeX</a>.
 But the best options seemed to be either use Mmark until it is removed or Goldmark supports KaTex, or use MathJax, as described in the blog post <a href="https://divadnojnarg.github.io/blog/mathjax/" target="_blank">Setting MathJax with Hugo</a>.
 
-While KaTeX does seem to be the prefered Latex interpreter today, MathJax also seems to have been long used and well liked.
+While KaTeX does seem to be the preferred Latex interpreter today, MathJax also seems to have been long used and well liked.
 Since neither option seemed to be obviously better than the other I decided to do a quick look for any practical differences between these two Latex interpreters, primarily in their ability to render some of the complex equations I've written before and may write again.
 
 Overall both seemed more-or-less equivalent in their ability to render the equations I provided.
-I did notice, however, that upon finally trying to use the `uuline` function from the `ulem` package to double underline a character, that MathJax would properly display the equation with the unknwon function displayed in red plain text while KaTeX would display the entire Latex expression in plain text.
+I did notice, however, that upon finally trying to use the `uuline` function from the `ulem` package to double underline a character, that MathJax would properly display the equation with the unknown function displayed in red plain text while KaTeX would display the entire Latex expression in plain text.
 For reference, here is a list of <a href="https://github.com/KaTeX/KaTeX/wiki/Package-Emulation" target="_blank">additional functions from other LaTeX packages that are emulated by KaTeX</a>.
 
-I decided that while the way MathJax handled the unknown function was prefered, it ultimately made no difference in my using MathJax over KaTeX - I'd still have to find alternative Latex functions/characters that would properly render the entirety of whatever equation I was writing.
+I decided that while the way MathJax handled the unknown function was preferred, it ultimately made no difference in my using MathJax over KaTeX - I'd still have to find alternative Latex functions/characters that would properly render the entirety of whatever equation I was writing.
 In the case of `\uuline{*}` this was as simple as `\underline{\underline{*}}`.
 
 ## KaTeX
