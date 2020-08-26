@@ -273,8 +273,9 @@ Using the upper bound $\nu$ on the observability index, we design $\nu-1$ contro
 \end{align*}
 Each filter has a scalar denominator $r_{q}(s)$, and there are $m$ components to each filter, and a total of $2\nu-1$ filter, so the total number of integrations (i.e. the number of controller states) to generate the $\omega$ signals is $m(2\nu-1)$.
 There is a parameter matrix corresponding to each $\omega$ signal, giving $m^{2}(2\nu-1)$ parameters.
+See the following image from [^narendra.stable.2005].
 
-<img src="/img/posts/adaptive-mimo-python/block.png" width="700" />
+<img src="/img/posts/adaptive-mimo-python/block.jpeg" width="800" />
 
 # Simulation Result
 
