@@ -8,6 +8,7 @@ tags:
   - adaptive learning
   - control theory
   - python
+keywords: [adaptive learning, control theory, python]
 ---
 
 # Introduction
