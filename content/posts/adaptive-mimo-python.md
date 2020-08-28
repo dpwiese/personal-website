@@ -13,6 +13,16 @@ keywords: [adaptive learning, control theory, python]
 
 # Introduction
 
+In a previous post, [Adaptive PI Control with Python](/posts/adaptive-pi-python/), an example of an adaptive PI controller was presented and the [Python Control Systems Library](https://python-control.org/) used to simulate the closed-loop response.
+This was a simple academic problem well suited to demonstrating the abilities of the library.
+Since then I've been re-implementing various other simulation examples as well.
+The current post presents a more complex example of a classical multi-input multi-output adaptive system.
+No attempt is made to explain the steps in the open-loop analysis or control synthesis, or prove stability - they are simply presented as-is.
+For more details on the design of such a controller see Reference [^narendra.stable.2005].
+This post is meant only as a quick walkthrough to share another example of the Python Control Systems Library.
+
+# Open-Loop System
+
 Consider the following LTI plant
 \begin{equation*}
   \begin{split}
@@ -39,17 +49,19 @@ where $x\in\mathbb{R}^{n}$, $y\in\mathbb{R}^{p}$, and $u\in\mathbb{R}^{m}$ and t
     0 & 0 \\\\
     0 & 1 
   \end{bmatrix}
+  \qquad
   C= 
   \begin{bmatrix}
     1 & 1 & 0 & 1 & 0 \\\\
     0 & 1 & 0 & 0 & 1
   \end{bmatrix}
 \end{equation}
-Evaluating the system transfer matrix $W_{p}(s)$ defined as follows
+The system is fifth order with two inputs and two outputs.
+The system transfer matrix $W_{p}(s)$ is defined as follows
 \begin{equation*}
   W_{p}(s)\triangleq C(sI-A)^{-1}B\in\mathbb{R}_{p}^{p\times m}(s)
 \end{equation*} 
-for the system with matrices in \eqref{eqn.adaptive.plant_matrices} we get
+and for the system with matrices in \eqref{eqn.adaptive.plant_matrices} gives
 \begin{equation*}
   W_{p}(s)=
   \begin{bmatrix}
@@ -57,13 +69,29 @@ for the system with matrices in \eqref{eqn.adaptive.plant_matrices} we get
     \frac{1}{(s+1)^{2}} & \frac{1}{s-3}
   \end{bmatrix}
 \end{equation*}
-Note that this system is similar, but not identical to that in Reference [^narendra.stable.2005].
-In the subsections that follow we will design a classical adaptive output feedback controller for this system.
-We will check the transmission zeros and verify the requirement that all transmission zeros are stable, check that the plant has a diagonal Hermite form, then select the reference model, and build the adaptive controller.
+In the subsections that follow we will design a classical adaptive controller for this system.
+
+## Requirements
+
+First, several requirements must be checked to determine whether the intended classical adaptive controller is applicable to the system in \eqref{eqn.adaptive.plant_matrices}.
+These requirements are:
+
+1. Plant must be square, that is $m=p$.
+2. The plant has no unstable transmission zeros.
+    * This is to ensure pole-zero cancellations do not occur in the right half plane.
+3. The Hermite form $H_{p}(s)$ of $W_{p}(s)$ is diagonal.
+    * The only information needed to determine whether the Hermite form $H_{p}(s)$ of $W_{p}(s)$ is diagonal is the relative degree of each entry of $W_{p}(s)$.
+4. The sign of the high frequency gain satisfies a sign definite condition.
+5. An upper bound on the observability index is known.
+
+In what follows we will verify that these requirements are satisfied, select a suitable reference model, define the control filters and finally assembled these various pieces resulting in the completed controller.
 
 ## Evaluate System Transmission Zeros
 
-First calculate the minimum polynomial $d(s)$ of our rational matrix $W_{p}(s)$ as:
+This is accomplished by determining the system's Smith-McMillan form, which useful in obtaining the poles and zeros (with their multiplicities) from a given transfer matrix.
+The Smith-McMillan form is found by dividing the system's [Smith Form](https://en.wikipedia.org/wiki/Smith_normal_form) by the minimum polynomial $d(s)$.
+
+First calculate the minimum polynomial $d(s)$ of $W_{p}(s)$ as:
 \begin{equation*}
   d(s)=(s+1)^{2}(s+2)^2(s-3)
 \end{equation*}
@@ -71,7 +99,7 @@ and express $W_{p}(s)$ as
 \begin{equation*}
   W_{p}(s)=\frac{1}{d(s)}P(s)
 \end{equation*}
-where
+giving
 \begin{equation*}
   P(s)=
   \begin{bmatrix}
@@ -80,7 +108,7 @@ where
   \end{bmatrix}
 \end{equation*}
 
-We now put this polynomial matrix $P(s)$ into Smith form by finding the determinantal devisors of $P(s)$ as follows, with $D_{0}\triangleq1$.
+Find the Smith form of $P(s)$ by finding the determinantal devisors as follows, with $D_{0}\triangleq1$.
 The $1\times1$ minors of $P(s)$ are:
 \begin{equation*}
   (s+1)(s+2)^{2}(s-3)
@@ -116,7 +144,6 @@ giving
   \end{split}
 \end{equation*}
 So the Smith form of $P(s)$ is
-<div class="eqnboxed">
 \begin{equation*}
   S_{P}(s)=
   \begin{bmatrix}
@@ -124,9 +151,7 @@ So the Smith form of $P(s)$ is
   0 & (s+1)^{2}(s+2)^{2}(s-3)[(s+1)(s+2)^{2}-2(s-3)]
   \end{bmatrix}
 \end{equation*}
-</div>
 To get the Smith-McMillan form of $W_{p}(s)$ we divide the Smith form $S_{P}(s)$ by the minimum polynomial $d(s)$.
-<div class="eqnboxed">
 \begin{equation*}
   \begin{split}
     SM_{W_{p}}(s)&=
@@ -142,8 +167,7 @@ To get the Smith-McMillan form of $W_{p}(s)$ we divide the Smith form $S_{P}(s)$
     \end{bmatrix}
   \end{split}
 \end{equation*}
-</div>
-The diagonal entries are in the form
+Each of the diagonal entries of the Smith-McMillan form can be written as
 \begin{equation*}
   \frac{\epsilon_{i}(s)}{\psi_{i}(s)}
 \end{equation*}
@@ -173,11 +197,12 @@ The zero polynomial is given by
   \begin{split}
     z(s)&=\epsilon_{1}(s)\epsilon_{2}(s) \\\\
     &=(s+1)(s+2)^{2}-2(s-3) \\\\
-    &=
+    &=s^{3}+5s^{2}+6s+10
   \end{split}
 \end{equation*}
 We can see that this system is fifth order $n=5$, with a pole with multiplicity two at $s=-1$, a pole with multiplicity two at $s=-2$, and a pole at $s=3$.
-It also has three stable transmission zeros.
+It also has three <b>stable transmission zeros</b>, as verified using the [Routh–Hurwitz Stability Criterion](https://en.wikipedia.org/wiki/Routh–Hurwitz_stability_criterion).
+The exact location of the transmission zeros is not important.
 
 ## Check Structure of Plant's Hermite Form
 
@@ -191,11 +216,12 @@ For our plant, this is
     n_{2}&=1
   \end{split}
 \end{equation*}
-Evaluate $E$ as in Reference[^narendra.stable.2005], p.396.
+Evaluate $E$ as in Reference[^narendra.stable.2005], p.396
 \begin{equation*}
   E_{i}=\lim_{s\rightarrow\infty}s^{r_{i}}G_{i}(s)
 \end{equation*}
 where $G_{i}(s)$ corresponds to the $i^{\text{th}}$ row of $G(s)$.
+This gives
 \begin{equation*}
   E_{1}=\lim_{s\rightarrow\infty}s
   \begin{bmatrix}
@@ -244,6 +270,18 @@ where $\pi(s)$ is any monic polynomial of degree 1 and $n_{i}$ is the minimum re
   Since $\pi(s)$ is any monic polynomial of degree 1, and since the class of reference models that we can use consists essentially of those asymptotically stable transfer matrices that are generated by the Hermite normal form of the plant, we will pick $\pi(s)=s+a$ where $a>0$.
 </div>
 
+With $n_{1}=1$ and $n_{2}=2$ this gives
+
+\begin{equation}\label{eqn.adaptive.hermite_form}
+  H_{p}(s)=
+  \begin{bmatrix}
+    \frac{1}{(s+a)} & 0 \\\\
+    0 & \frac{1}{(s+a)}
+  \end{bmatrix}
+\end{equation}
+
+# Controller Synthesis
+
 ## Find the High Frequency Gain
 
 To find $K_{p}$, use $K_{p}=\lim_{s\rightarrow\infty}H_{p}^{-1}(s)W_{p}(s)$, which for diagonal Hermite forms is the same as $K_{p}=E[W_{p}(s)]$.
@@ -256,30 +294,65 @@ Pick the reference model transfer matrix $W_{m}(s)$ as
 \end{equation*}
 where $Q_{m}(s)$ is an asymptotically stable unimodular matrix.
 For purposes of simplicity we can assume that $Q_{m}=\gamma I$, where $\gamma$ is picked so that the DC gain of the components of the diagonal Hermite form, and thus reference model, have unity DC gain.
+With $H_{p}(s)$ in \eqref{eqn.adaptive.hermite_form} and setting $\gamma=a$ this gives
+\begin{equation*}
+  W_{m}(s)=
+  \begin{bmatrix}
+    \frac{a}{(s+a)} & 0 \\\\
+    0 & \frac{a}{(s+a)}
+  \end{bmatrix}
+\end{equation*}
 
 ## Calculate an Upper Bound on the Observability Index
 
-Calculate an upper bound $\nu$ on the observability index using the following formula [^narendra.stable.2005], p.406.
+Calculate an upper bound $\nu$ on the observability index using the following from Reference [^narendra.stable.2005], p.406.
+It says an upper bound $\nu$ on the observability index can be obtained by knowing an upper bound $n_{ij}$ on the order of the $ij^{\text{th}}$ scalar entry in $W_{p}(s)$.
 \begin{equation*}
   \nu=\left[\frac{1}{m}\sum_{i,j}n_{ij}\right]
+\end{equation*}
+For this example, with $m=2$ and $n_{ij}$ determined by inspection $\nu$ is calculated as
+\begin{equation*}
+  \nu=\frac{1}{2}(1+2+2+1)=3
 \end{equation*}
 
 ## Design Controller Filters
 
-Using the upper bound $\nu$ on the observability index, we design $\nu-1$ control input filters, and $\nu$ output filters as follows, where $r_{q}(s)$ is a Hurwitz, monic polynomial of degree $\nu-1$.
+Using the upper bound on the observability index $\nu$, we design $\nu-1$ control input filters, and $\nu$ output filters as follows, where $r_{q}(s)$ is a Hurwitz, monic polynomial of degree $\nu-1$.
 \begin{align*}
-  \mbox{Control signal filter} \qquad & \omega_{i}=\frac{s^{i-1}}{r_{q}(s)} \qquad i=1,\dots\nu-1 \\
-  \mbox{Output filter} \qquad & \omega_{j}=\frac{s^{j-1}}{r_{q}(s)} \qquad j=\nu,\dots2\nu-1 \\
+  \mbox{Control signal filter} \qquad & \omega_{i}=\frac{s^{i-1}}{r_{q}(s)} \qquad i=1,\dots\nu-1 \\\\
+  \mbox{Output filter} \qquad & \omega_{j}=\frac{s^{j-1}}{r_{q}(s)} \qquad j=\nu,\dots2\nu-1 \\\\
 \end{align*}
 Each filter has a scalar denominator $r_{q}(s)$, and there are $m$ components to each filter, and a total of $2\nu-1$ filter, so the total number of integrations (i.e. the number of controller states) to generate the $\omega$ signals is $m(2\nu-1)$.
 There is a parameter matrix corresponding to each $\omega$ signal, giving $m^{2}(2\nu-1)$ parameters.
 See the following image from [^narendra.stable.2005].
+This block diagram provides a great way to see the structure of the control which otherwise might be a bit difficult given the construction and number of filters, and their corresponding adaptive elements.
 
 <img src="/img/posts/adaptive-mimo-python/block.jpeg" width="800" />
 
+With $\nu=$ this means there will be $2$ control input filters, and $3$ output filters.
+The denominator $r_{q}(s)$ can be selected as
+
+\begin{equation*}
+r_{q}(s)=s^{2}+s+1
+\end{equation*}
+
+
+
+# Controller Summary
+
+Reference Model
+
+\begin{equation*}
+  W_{m}(s)=
+  \begin{bmatrix}
+    \frac{a}{(s+a)} & 0 \\\\
+    0 & \frac{a}{(s+a)}
+  \end{bmatrix}
+\end{equation*}
+
 # Simulation Result
 
-Repository here: https://github.com/dpwiese/control-examples/tree/master/classical-mimo
+Repository here: [https://github.com/dpwiese/control-examples/tree/master/classical-mimo](https://github.com/dpwiese/control-examples/tree/master/classical-mimo)
 
 <img src="/img/posts/adaptive-mimo-python/plot.png" width="700" />
 
