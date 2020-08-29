@@ -1,6 +1,6 @@
 ---
 title: "MIMO Adaptive Control with Python"
-date: 2020-08-26T19:12:00-04:00
+date: 2020-08-29T14:16:00-04:00
 draft: true
 toc: false
 images: ["img/posts/adaptive-mimo-python/og-image.png"]
@@ -450,9 +450,147 @@ where $e_{1}=y_{p}-y_{m}$.
 
 The controller is complete with reference model in \eqref{eqn.adaptive.refmodel}, filter with denominator in \eqref{eqn.adaptive.rqfilter}, control law in \eqref{eqn.adaptive.control}, and update laws in \eqref{eqn.adaptive.updatelaws}.
 
+# Implementation in Python Control Systems Library
+
+The simulation source is available at: [https://github.com/dpwiese/control-examples/tree/master/classical-mimo](https://github.com/dpwiese/control-examples/tree/master/classical-mimo).
+Defining the four linear components (plant, reference model, input and output filters) is straightforward with `LinearIOSystem`, using a state space representation in the case of the plant and transfer function in the case of the others.
+
+```python
+# Define plant
+IO_PLANT = control.LinearIOSystem(
+    control.StateSpace(A_P, B_P, C_P, D_P),
+    inputs=2,
+    outputs=2,
+    states=5,
+    name='plant'
+)
+
+# Define reference model
+IO_REF_MODEL = control.LinearIOSystem(
+    control.tf2ss(NUM_WM, DEN_WM),
+    inputs=2,
+    outputs=2,
+    states=2,
+    name='ref_model'
+)
+
+# Define input filters
+# input: u
+# outputs: omega_1, omega_2
+IO_INPUT_FILTER = control.LinearIOSystem(
+    control.tf2ss(NUM_IN, DEN_IN),
+    inputs=2,
+    outputs=4,
+    states=4,
+    name='input_filter'
+)
+
+# Define output filters
+# input: y_p
+# outputs: omega_3, omega_4, omega_5
+IO_OUTPUT_FILTER = control.LinearIOSystem(
+    control.tf2ss(NUM_OUT, DEN_OUT),
+    inputs=2,
+    outputs=6,
+    states=4,
+    name='output_filter'
+)
+```
+
+The adaptive controller, being nonlinear, is defined using `NonlinearIOSystem`.
+The input to the adaptive controller is $\omega$, the state is the adaptive parameter $\Theta$, and the output is $u$.
+This allows the adaptive controller to be implemented as below.
+
+```python
+def adaptive_state(_t, x_state, u_input, _params):
+    """Internal state of adpative controller"""
+
+    # Algebraic Relationships: error: e_1 = y_p - y_m
+    e_1_1 = u_input[12] - u_input[14]
+    e_1_2 = u_input[13] - u_input[15]
+
+    # Dynamics: update laws
+    return [
+        -e_1_1 * u_input[0],
+        -e_1_2 * u_input[1],
+        -e_1_1 * u_input[2],
+        -e_1_2 * u_input[3],
+        -e_1_1 * u_input[4],
+        -e_1_2 * u_input[5],
+        -e_1_1 * u_input[6],
+        -e_1_2 * u_input[7],
+        -e_1_1 * u_input[8],
+        -e_1_2 * u_input[9],
+        -e_1_1 * u_input[10],
+        -e_1_2 * u_input[11]
+        ]
+
+def adaptive_output(_t, x_state, u_input, _params):
+    """Algebraic output from adaptive controller"""
+
+    # Define Theta and omega
+    theta_1 = [x_state[0], x_state[2], x_state[4], x_state[6], x_state[8], x_state[10]]
+    theta_2 = [x_state[1], x_state[3], x_state[5], x_state[7], x_state[9], x_state[11]]
+    omega_1 = [u_input[0], u_input[2], u_input[4], u_input[6], u_input[8], u_input[10]]
+    omega_2 = [u_input[1], u_input[3], u_input[5], u_input[7], u_input[9], u_input[11]]
+
+    # Control law
+    # u = Theta * omega
+    return [
+        sum([a*b for a, b in zip(theta_1, omega_1)]),
+        sum([a*b for a, b in zip(theta_2, omega_2)])
+        ]
+
+IO_ADAPTIVE = control.NonlinearIOSystem(
+    adaptive_state,
+    adaptive_output,
+    inputs=16,
+    outputs=2,
+    states=12,
+    name='control',
+    dt=0
+)
+```
+
+Finally, the plant, reference model, input and output filters, and adaptive controller can be combined resulting in the following closed-loop system.
+Each pair of connections is of the form `(<input>, <output>)`.
+
+```python
+# Define the closed-loop system
+# x_cl = [plant[5], reference[2], input-filter[4], output_filter[4], controller[12]]
+IO_CLOSED = control.InterconnectedSystem(
+    (IO_PLANT, IO_REF_MODEL, IO_INPUT_FILTER, IO_OUTPUT_FILTER, IO_ADAPTIVE),
+    connections=(
+        ('plant.u[0]', 'control.y[0]'),
+        ('plant.u[1]', 'control.y[1]'),
+        ('input_filter.u[0]', 'control.y[0]'),
+        ('input_filter.u[1]', 'control.y[1]'),
+        ('output_filter.u[0]', 'plant.y[0]'),
+        ('output_filter.u[1]', 'plant.y[1]'),
+        ('control.u[2]', 'input_filter.y[0]'),
+        ('control.u[3]', 'input_filter.y[1]'),
+        ('control.u[4]', 'input_filter.y[2]'),
+        ('control.u[5]', 'input_filter.y[3]'),
+        ('control.u[6]', 'output_filter.y[0]'),
+        ('control.u[7]', 'output_filter.y[1]'),
+        ('control.u[8]', 'output_filter.y[2]'),
+        ('control.u[9]', 'output_filter.y[3]'),
+        ('control.u[10]', 'output_filter.y[4]'),
+        ('control.u[11]', 'output_filter.y[5]'),
+        ('control.u[12]', 'plant.y[0]'),
+        ('control.u[13]', 'plant.y[1]'),
+        ('control.u[14]', 'ref_model.y[0]'),
+        ('control.u[15]', 'ref_model.y[1]')
+    ),
+    inplist=('ref_model.u[0]', 'ref_model.u[1]', 'control.u[0]', 'control.u[1]'),
+    outlist=('plant.y[0]', 'plant.y[1]', 'ref_model.y[0]', 'ref_model.y[1]'),
+    dt=0
+)
+```
+
 # Simulation Result
 
-Repository here: [https://github.com/dpwiese/control-examples/tree/master/classical-mimo](https://github.com/dpwiese/control-examples/tree/master/classical-mimo)
+The above closed loop system is simulated with `input_output_response` resulting in the following response.
 
 <img src="/img/posts/adaptive-mimo-python/plot.png" width="700" />
 
