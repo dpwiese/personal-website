@@ -153,3 +153,9 @@ table td {
 a.footnote-backref {
   visibility: hidden;
 }
+
+a[href^="#fn:"] {
+  text-decoration: none;
+}
+a[href^="#fn:"]:before{ content: '[' }
+a[href^="#fn:"]:after{ content: ']' }

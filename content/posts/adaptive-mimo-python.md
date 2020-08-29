@@ -357,3 +357,11 @@ Repository here: [https://github.com/dpwiese/control-examples/tree/master/classi
 <img src="/img/posts/adaptive-mimo-python/plot.png" width="700" />
 
 [^narendra.stable.2005]: Narendra, K. S. and Annaswamy, A. M., Stable Adaptive Systems, Dover Books on Electrical Engineering Series, Dover, 2005, [http://books.google.com/books?id=CRJhmsAHCUcC](http://books.google.com/books?id=CRJhmsAHCUcC).
+
+<script>
+  const refs = document.getElementsByClassName("footnote-ref");
+  const sups = document.querySelectorAll('*[id^="fnref:"]');
+
+  Array.from(refs).forEach(function(ref) { ref.parentElement.parentElement.insertBefore(ref, ref.parentElement) });
+  Array.from(sups).forEach(function(sup) { sup.remove() });
+</script>
