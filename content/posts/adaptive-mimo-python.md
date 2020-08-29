@@ -1,7 +1,7 @@
 ---
 title: "MIMO Adaptive Control with Python"
 date: 2020-08-29T14:16:00-04:00
-draft: true
+draft: false
 toc: false
 images: ["img/posts/adaptive-mimo-python/og-image.png"]
 tags: 
@@ -76,6 +76,10 @@ and for the system with matrices in \eqref{eqn-adaptive-plantmatrices} gives
     \frac{1}{(s+1)^{2}} & \frac{1}{s-3}
   \end{bmatrix}
 \end{equation*}
+
+Note that while the system above has been defined with values to better illustrate the process of the control design, it is considered unknown.
+The extent to which the values need not be known is described in the steps below.
+Alternatively, had the plant been defined parametrically, the same analysis and control design could have been performed for some large set of these parameters and the values substituted in when running the simulation.
 
 ## Requirements
 
