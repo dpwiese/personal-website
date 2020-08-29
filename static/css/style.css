@@ -122,3 +122,34 @@ table td {
 .bg-img {
   display: none;
 }
+
+.footnotes hr {
+  border-width: 0 0 2px;
+}
+
+.rem-dan {
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+  border-radius: 0;
+  margin: 0px;
+  padding: 10px;
+  background-color: #f6f6f6;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.rem-dan:before {
+  content: "Remark:";
+  font-weight: 700;
+}
+
+a.footnote-backref {
+  visibility: hidden;
+}
+
+a[href^="#fn:"] {
+  text-decoration: none;
+}
+a[href^="#fn:"]:before{ content: '[' }
+a[href^="#fn:"]:after{ content: ']' }

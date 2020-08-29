@@ -1,6 +1,6 @@
 ---
 title: "Representing and Manipulating Numeric Data"
-date: 2020-08-23T13:00:00-04:00
+date: 2020-08-29T14:17:00-04:00
 draft: true
 toc: false
 # ADD OG IMAGE WITH THIS POST:
