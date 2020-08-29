@@ -129,11 +129,14 @@ table td {
 
 .rem-dan {
   border-style: solid;
-  border-color: #000000;
+  border-color: #ffffff;
   border-width: 1px;
   border-radius: 0;
-  margin: 10px;
+  margin: 0px;
   padding: 10px;
+  background-color: #f6f6f6;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .rem-dan:before {

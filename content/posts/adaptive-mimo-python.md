@@ -19,7 +19,7 @@ Since then I've been re-implementing various other simulation examples as well.
 The current post presents a more complex example of a classical multi-input multi-output adaptive system.
 No attempt is made to explain the steps in the open-loop analysis or control synthesis, or prove stability - they are simply presented as-is.
 For more details on the design of such a controller see Reference [^narendra.stable.2005].
-This post is meant only as a quick walkthrough to share another example of the Python Control Systems Library.
+This post is meant only as a quick walkthrough to share another example of the Python Control Systems Library in action.
 
 # Open-Loop System
 
@@ -28,13 +28,13 @@ Consider the following LTI plant
 \begin{equation*}
   \begin{split}
     \dot{x}&=Ax+Bu \\\\
-    y&=Cx
+    y_{p}&=Cx
   \end{split}
 \end{equation*}
 
-where $x\in\mathbb{R}^{n}$, $y\in\mathbb{R}^{p}$, and $u\in\mathbb{R}^{m}$ and the system matrices are given by
+where $x\in\mathbb{R}^{n}$, $y_{p}\in\mathbb{R}^{p}$, and $u\in\mathbb{R}^{m}$ and the system matrices are given by
 
-\begin{equation}\label{eqn.adaptive.plant_matrices}
+\begin{equation}\label{eqn.adaptive.plantmatrices}
   A=
   \begin{bmatrix}
     -2 & -1 & 0 & 0 & 0 \\\\
@@ -60,14 +60,14 @@ where $x\in\mathbb{R}^{n}$, $y\in\mathbb{R}^{p}$, and $u\in\mathbb{R}^{m}$ and t
   \end{bmatrix}
 \end{equation}
 
-The system is fifth order with two inputs and two outputs.
+The system is fifth order with two inputs and two outputs; that is $n=5$, $m=2$, and $p=2$.
 The system transfer matrix $W_{p}(s)$ is defined as follows
 
 \begin{equation*}
   W_{p}(s)\triangleq C(sI-A)^{-1}B\in\mathbb{R}_{p}^{p\times m}(s)
 \end{equation*} 
 
-and for the system with matrices in \eqref{eqn.adaptive.plant_matrices} gives
+and for the system with matrices in \eqref{eqn.adaptive.plantmatrices} gives
 
 \begin{equation*}
   W_{p}(s)=
@@ -77,11 +77,9 @@ and for the system with matrices in \eqref{eqn.adaptive.plant_matrices} gives
   \end{bmatrix}
 \end{equation*}
 
-In the subsections that follow we will design a classical adaptive controller for this system.
-
 ## Requirements
 
-First, several requirements must be checked to determine whether the intended classical adaptive controller is applicable to the system in \eqref{eqn.adaptive.plant_matrices}.
+First, several requirements must be checked to determine whether the intended classical adaptive controller is applicable to the system in \eqref{eqn.adaptive.plantmatrices}.
 These requirements are:
 
 1. Plant must be square, that is $m=p$.
@@ -93,6 +91,8 @@ These requirements are:
 5. An upper bound on the observability index is known.
 
 In what follows we will verify that these requirements are satisfied, select a suitable reference model, define the control filters and finally assembled these various pieces resulting in the completed controller.
+These requirements are not particularly stringent, and do not require much information about the plant to verify.
+**The resulting controller is not dependent on the particulars of the plant, so long as it satisfied the above requirements.**
 
 ## Evaluate System Transmission Zeros
 
@@ -152,7 +152,7 @@ The greatest common devisor of this is itself, so we set
   D_{2}(s)=(s+1)^{2}(s+2)^{2}(s-3)[(s+1)(s+2)^{2}-2(s-3)]
 \end{equation*}
 
-We then calculate $\epsilon_{i}^{\prime}$ as
+Calculate $\epsilon_{i}^{\prime}$ as
 
 \begin{equation*}
   \epsilon_{i}'(s)=\frac{D_{i}(s)}{D_{i-1}(s)}
@@ -177,7 +177,7 @@ So the Smith form of $P(s)$ is
   \end{bmatrix}
 \end{equation*}
 
-To get the Smith-McMillan form of $W_{p}(s)$ we divide the Smith form $S_{P}(s)$ by the minimum polynomial $d(s)$.
+To get the Smith-McMillan form of $W_{p}(s)$ divide the Smith form $S_{P}(s)$ by the minimum polynomial $d(s)$.
 
 \begin{equation*}
   \begin{split}
@@ -245,9 +245,15 @@ The exact location of the transmission zeros is not important.
 ## Check Structure of Plant's Hermite Form
 
 Check the matrix $E$ to see if it is nonsingular.
-If so, the Hermite form $H_{p}(s)$ of $W_{p}(s)$ is diagonal, which will make control design easier.
+If so, the Hermite form $H_{p}(s)$ of $W_{p}(s)$ is diagonal, which will make control design easier, as described in Reference [^narendra.stable.2005], p. 396:
+
+> Dynamic decoupling of a MIMO plant, in which one output is affected by one and only one input, is obviously a desirable feature in multivariable control.
+> If, by a suitable choice of a controller, a MIMO plant can be decoupled, then SISO control methods can be used for each loop to obtain the desired closed-loop response.
+> It is clear that, given a transfer matrix $T(s)$, whether or not it can be decoupled is closely related to the Hermite normal form of $T(s)$.
+> A diagonal Hermite form implies that the MIMO plant can be dynamically decoupled with a causal feedforward controller, or more realistically (to avoid unstable pole-zero cancellations), using an equivalent feedback controller.
+> As seen in the following sections, in the adaptive control problem, only plants with diagonal Hermite normal forms can be realistically adaptively controlled in a stable fashion.
+
 To do this, we first find the minimum relative degree $n_{i}$ of the elements in each row of $W_{p}(s)$.
-For our plant, this is
 
 \begin{equation*}
   \begin{split}
@@ -256,7 +262,7 @@ For our plant, this is
   \end{split}
 \end{equation*}
 
-Evaluate $E$ as in Reference [^narendra.stable.2005], p.396
+Evaluate $E$
 
 \begin{equation*}
   E_{i}=\lim_{s\rightarrow\infty}s^{r_{i}}G_{i}(s)
@@ -301,8 +307,7 @@ and since $E$ is nonsingular, the plant's Hermite form $H_{p}(s)$ is diagonal.
 
 ## Expressing the Plant's Hermite Form
 
-We know the plant has a diagonal Hermite form.
-It is given by
+The plant's Hermite form is given by
 
 \begin{equation*}
   H_{p}(s)=
@@ -320,9 +325,9 @@ where $\pi(s)$ is any monic polynomial of degree 1 and $n_{i}$ is the minimum re
   Since $\pi(s)$ is any monic polynomial of degree 1, and since the class of reference models that we can use consists essentially of those asymptotically stable transfer matrices that are generated by the Hermite normal form of the plant, we will pick $\pi(s)=s+a$ where $a>0$.
 </div>
 
-With $n_{1}=1$ and $n_{2}=2$ this gives
+With $n_{1}=1$ and $n_{2}=1$ this gives
 
-\begin{equation}\label{eqn.adaptive.hermite_form}
+\begin{equation}\label{eqn.adaptive.hermiteform}
   H_{p}(s)=
   \begin{bmatrix}
     \frac{1}{(s+a)} & 0 \\\\
@@ -335,6 +340,18 @@ With $n_{1}=1$ and $n_{2}=2$ this gives
 ## Find the High Frequency Gain
 
 To find $K_{p}$, use $K_{p}=\lim_{s\rightarrow\infty}H_{p}^{-1}(s)W_{p}(s)$, which for diagonal Hermite forms is the same as $K_{p}=E[W_{p}(s)]$.
+So
+
+\begin{equation*}
+  K_{p}=
+  \begin{bmatrix}
+    1 & 0 \\\\
+    0 & 1
+  \end{bmatrix}
+\end{equation*}
+
+From this it is clear that the high frequeny gain satisfies the sign-definiteness condition.
+Note again that the particular values that arose from $E$ were not so important to satisfy this condition, and that it was the diagonality of $H_{p}(s)$ that gave $K_{p}$ this simple structure.
 
 ## Select the Reference Model
 
@@ -346,15 +363,15 @@ Pick the reference model transfer matrix $W_{m}(s)$ as
 
 where $Q_{m}(s)$ is an asymptotically stable unimodular matrix.
 For purposes of simplicity we can assume that $Q_{m}=\gamma I$, where $\gamma$ is picked so that the DC gain of the components of the diagonal Hermite form, and thus reference model, have unity DC gain.
-With $H_{p}(s)$ in \eqref{eqn.adaptive.hermite_form} and setting $\gamma=a$ this gives
+With $H_{p}(s)$ in \eqref{eqn.adaptive.hermiteform} and setting $\gamma=a$ this gives
 
-\begin{equation*}
+\begin{equation}\label{eqn.adaptive.refmodel}
   W_{m}(s)=
   \begin{bmatrix}
     \frac{a}{(s+a)} & 0 \\\\
     0 & \frac{a}{(s+a)}
   \end{bmatrix}
-\end{equation*}
+\end{equation}
 
 ## Calculate an Upper Bound on the Observability Index
 
@@ -376,13 +393,13 @@ For this example, with $m=2$ and $n_{ij}$ determined by inspection $\nu$ is calc
 Using the upper bound on the observability index $\nu$, we design $\nu-1$ control input filters, and $\nu$ output filters as follows, where $r_{q}(s)$ is a Hurwitz, monic polynomial of degree $\nu-1$.
 
 \begin{align*}
-  \mbox{Control signal filter} \qquad & \omega_{i}=\frac{s^{i-1}}{r_{q}(s)} \qquad i=1,\dots\nu-1 \\\\
-  \mbox{Output filter} \qquad & \omega_{j}=\frac{s^{j-1}}{r_{q}(s)} \qquad j=\nu,\dots2\nu-1 \\\\
+  \mbox{Filtered control} \qquad & \omega_{i}(t)=\frac{s^{i-1}}{r_{q}(s)}u(t) \qquad i=1,\dots\nu-1 \\\\
+  \mbox{Filtered output} \qquad & \omega_{j}(t)=\frac{s^{j-1}}{r_{q}(s)}y_{p}(t) \qquad j=\nu,\dots2\nu-1 \\\\
 \end{align*}
 
 Each filter has a scalar denominator $r_{q}(s)$, and there are $m$ components to each filter, and a total of $2\nu-1$ filter, so the total number of integrations (i.e. the number of controller states) to generate the $\omega$ signals is $m(2\nu-1)$.
 There is a parameter matrix corresponding to each $\omega$ signal, giving $m^{2}(2\nu-1)$ parameters.
-See the following image from Reference [^narendra.stable.2005].
+See the following image from Reference [^narendra.stable.2005] p. 416.
 This block diagram provides a great way to see the structure of the control which otherwise might be a bit difficult given the construction and number of filters, and their corresponding adaptive elements.
 
 <img src="/img/posts/adaptive-mimo-python/block.jpeg" width="800" />
@@ -390,21 +407,48 @@ This block diagram provides a great way to see the structure of the control whic
 With $\nu=$ this means there will be $2$ control input filters, and $3$ output filters.
 The denominator $r_{q}(s)$ can be selected as
 
-\begin{equation*}
-r_{q}(s)=s^{2}+s+1
-\end{equation*}
+\begin{equation}\label{eqn.adaptive.rqfilter}
+  r_{q}(s)=s^{2}+s+1
+\end{equation}
 
-# Controller Summary
+## Control Input
 
-Reference Model
+Using the filtered control and outputs, the control input is given by
 
-\begin{equation*}
-  W_{m}(s)=
+\begin{equation}\label{eqn.adaptive.control}
+u(t)=\Theta(t)\omega(t)
+\end{equation}
+
+where
+
+\begin{align*}
+  \omega&=
   \begin{bmatrix}
-    \frac{a}{(s+a)} & 0 \\\\
-    0 & \frac{a}{(s+a)}
+    r & \omega_{1}^{\top} & \omega{2}^{\top} & \omega_{3}^{\top} & \omega{4}^{\top} & \omega{5}^{\top}
+  \end{bmatrix}^{\top} \\\\
+  \Theta&=
+  \begin{bmatrix}
+    K_{0} & C_{1} & C_{2} & D_{0} & D_{1} & D_{2}
   \end{bmatrix}
-\end{equation*}
+\end{align*}
+
+## Update Laws
+
+With $H_{p}(s)$ strictly positive real, the update laws are given by
+
+\begin{equation}
+  \begin{aligned}
+    \dot{K}_0&=-e_1r^{\top} & \qquad \dot{D}_0&=-e_1\omega_3^{\top} \\\\
+    \dot{C}_1&=-e_1\omega_1^{\top} & \qquad \dot{D}_1&=-e_1\omega_4^{\top} \\\\
+    \dot{C}_2&=-e_1\omega_2^{\top} & \qquad \dot{D}_2&=-e_1\omega_5^{\top}
+  \end{aligned}\label{eqn.adaptive.updatelaws}
+\end{equation}
+
+where $e_{1}=y_{p}-y_{m}$.
+
+## Controller Summary
+
+The controller is complete with reference model in \eqref{eqn.adaptive.refmodel}, filter with denominator in \eqref{eqn.adaptive.rqfilter}, control law in \eqref{eqn.adaptive.control}, and update laws in \eqref{eqn.adaptive.updatelaws}.
 
 # Simulation Result
 
