@@ -34,7 +34,7 @@ Consider the following LTI plant
 
 where $x\in\mathbb{R}^{n}$, $y_{p}\in\mathbb{R}^{p}$, and $u\in\mathbb{R}^{m}$ and the system matrices are given by
 
-\begin{equation}\label{eqn.adaptive.plantmatrices}
+\begin{equation}\label{eqn-adaptive-plantmatrices}
   A=
   \begin{bmatrix}
     -2 & -1 & 0 & 0 & 0 \\\\
@@ -67,7 +67,7 @@ The system transfer matrix $W_{p}(s)$ is defined as follows
   W_{p}(s)\triangleq C(sI-A)^{-1}B\in\mathbb{R}_{p}^{p\times m}(s)
 \end{equation*} 
 
-and for the system with matrices in \eqref{eqn.adaptive.plantmatrices} gives
+and for the system with matrices in \eqref{eqn-adaptive-plantmatrices} gives
 
 \begin{equation*}
   W_{p}(s)=
@@ -79,7 +79,7 @@ and for the system with matrices in \eqref{eqn.adaptive.plantmatrices} gives
 
 ## Requirements
 
-First, several requirements must be checked to determine whether the intended classical adaptive controller is applicable to the system in \eqref{eqn.adaptive.plantmatrices}.
+First, several requirements must be checked to determine whether the intended classical adaptive controller is applicable to the system in \eqref{eqn-adaptive-plantmatrices}.
 These requirements are:
 
 1. Plant must be square, that is $m=p$.
@@ -327,7 +327,7 @@ where $\pi(s)$ is any monic polynomial of degree 1 and $n_{i}$ is the minimum re
 
 With $n_{1}=1$ and $n_{2}=1$ this gives
 
-\begin{equation}\label{eqn.adaptive.hermiteform}
+\begin{equation}\label{eqn-adaptive-hermiteform}
   H_{p}(s)=
   \begin{bmatrix}
     \frac{1}{(s+a)} & 0 \\\\
@@ -350,7 +350,7 @@ So
   \end{bmatrix}
 \end{equation*}
 
-From this it is clear that the high frequeny gain satisfies the sign-definiteness condition.
+From this it is clear that the high frequency gain satisfies the sign-definiteness condition.
 Note again that the particular values that arose from $E$ were not so important to satisfy this condition, and that it was the diagonality of $H_{p}(s)$ that gave $K_{p}$ this simple structure.
 
 ## Select the Reference Model
@@ -363,9 +363,9 @@ Pick the reference model transfer matrix $W_{m}(s)$ as
 
 where $Q_{m}(s)$ is an asymptotically stable unimodular matrix.
 For purposes of simplicity we can assume that $Q_{m}=\gamma I$, where $\gamma$ is picked so that the DC gain of the components of the diagonal Hermite form, and thus reference model, have unity DC gain.
-With $H_{p}(s)$ in \eqref{eqn.adaptive.hermiteform} and setting $\gamma=a$ this gives
+With $H_{p}(s)$ in \eqref{eqn-adaptive-hermiteform} and setting $\gamma=a$ this gives
 
-\begin{equation}\label{eqn.adaptive.refmodel}
+\begin{equation}\label{eqn-adaptive-refmodel}
   W_{m}(s)=
   \begin{bmatrix}
     \frac{a}{(s+a)} & 0 \\\\
@@ -407,7 +407,7 @@ This block diagram provides a great way to see the structure of the control whic
 With $\nu=$ this means there will be $2$ control input filters, and $3$ output filters.
 The denominator $r_{q}(s)$ can be selected as
 
-\begin{equation}\label{eqn.adaptive.rqfilter}
+\begin{equation}\label{eqn-adaptive-rqfilter}
   r_{q}(s)=s^{2}+s+1
 \end{equation}
 
@@ -415,7 +415,7 @@ The denominator $r_{q}(s)$ can be selected as
 
 Using the filtered control and outputs, the control input is given by
 
-\begin{equation}\label{eqn.adaptive.control}
+\begin{equation}\label{eqn-adaptive-control}
 u(t)=\Theta(t)\omega(t)
 \end{equation}
 
@@ -441,14 +441,14 @@ With $H_{p}(s)$ strictly positive real, the update laws are given by
     \dot{K}_0&=-e_1r^{\top} & \qquad \dot{D}_0&=-e_1\omega_3^{\top} \\\\
     \dot{C}_1&=-e_1\omega_1^{\top} & \qquad \dot{D}_1&=-e_1\omega_4^{\top} \\\\
     \dot{C}_2&=-e_1\omega_2^{\top} & \qquad \dot{D}_2&=-e_1\omega_5^{\top}
-  \end{aligned}\label{eqn.adaptive.updatelaws}
+  \end{aligned}\label{eqn-adaptive-updatelaws}
 \end{equation}
 
 where $e_{1}=y_{p}-y_{m}$.
 
 ## Controller Summary
 
-The controller is complete with reference model in \eqref{eqn.adaptive.refmodel}, filter with denominator in \eqref{eqn.adaptive.rqfilter}, control law in \eqref{eqn.adaptive.control}, and update laws in \eqref{eqn.adaptive.updatelaws}.
+The controller is complete with reference model in \eqref{eqn-adaptive-refmodel}, filter with denominator in \eqref{eqn-adaptive-rqfilter}, control law in \eqref{eqn-adaptive-control}, and update laws in \eqref{eqn-adaptive-updatelaws}.
 
 # Implementation in Python Control Systems Library
 
