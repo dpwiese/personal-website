@@ -9,6 +9,7 @@ tags:
   - control theory
   - python
 keywords: [adaptive learning, control theory, python]
+description: "This post provides a walthrough of an adaptive PI controller design for a simple first order system, and shows how to simulate the system using the Python Control Systems Library."
 ---
 
 # Introduction

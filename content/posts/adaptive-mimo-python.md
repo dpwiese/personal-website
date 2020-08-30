@@ -9,6 +9,7 @@ tags:
   - control theory
   - python
 keywords: [adaptive learning, control theory, python]
+description: "This post provides an overview of an multi-input multi-output adaptive control design for a fifth order system, and shows how to simulate the system using the Python Control Systems Library."
 ---
 
 # Introduction

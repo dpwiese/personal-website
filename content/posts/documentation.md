@@ -9,6 +9,7 @@ tags:
   - programming
   - latex
 keywords: [pandoc, programming, latex]
+description: "This post provides a short overview of using Pandoc to generate documentation from Markdown, and some tricks to facilitate portability of the Markdown to Hugo."
 ---
 
 # Introduction

@@ -9,6 +9,7 @@ tags:
   - programming
   - go
 keywords: [reactnative, programming, go]
+description: "This post provides a high-level overview of how to build native packages using Go and using them in your React Native app."
 ---
 
 # Introduction

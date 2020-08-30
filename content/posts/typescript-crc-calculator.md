@@ -8,6 +8,7 @@ tags:
   - programming
   - typescript
 keywords: [programming, typescript]
+description: "This post describes the process of creating a very simple single page for performing a CRC-32 calculation."
 ---
 
 # Introduction

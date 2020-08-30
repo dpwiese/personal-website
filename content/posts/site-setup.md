@@ -9,6 +9,7 @@ tags:
   - programming
   - latex
 keywords: [hugo, programming, latex]
+description: "This post describes configuring a Hugo site on Github pages with LaTeX rendered with MathJax."
 ---
 
 # Introduction

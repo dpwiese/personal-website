@@ -11,6 +11,7 @@ tags:
 keywords: [hugo, programming, javascript]
 js: [/js/highlight.min.js, https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js]
 css: [/css/pygments.css]
+description: "This post describes how to apply client-side syntax highlighting using highlight.js for content that is fetched on page load."
 ---
 
 # Introduction
