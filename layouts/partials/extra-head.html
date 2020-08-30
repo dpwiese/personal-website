@@ -2,6 +2,9 @@
 {{ if .Site.Author.name -}}
 <meta name="author" content="{{ .Site.Author.name }}">
 {{- end }}
+{{ with (or .Params.description .Site.Params.description) -}}
+<meta name="description" content="{{ . }}">
+{{ end -}}
 {{ range .Params.css -}}
 <link rel="stylesheet" href="{{ . | absURL }}" type="text/css">
 {{ end -}}
