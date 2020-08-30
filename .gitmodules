@@ -1,7 +1,6 @@
 [submodule "themes/hermit"]
 	path = themes/hermit
 	url = https://github.com/Track3/hermit.git
-	ignore = dirty
 [submodule "public"]
 	path = public
 	url = git@github.com:dpwiese/dpwiese.github.io.git
