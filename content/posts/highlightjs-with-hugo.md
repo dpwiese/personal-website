@@ -3,21 +3,15 @@ title: "Client-Side Syntax Highlighting with Highlight.js and Hugo"
 date: 2020-08-23T10:00:00-04:00
 draft: false
 toc: false
-# ADD OG IMAGE WITH THIS POST:
 images: ["img/posts/highlightjs-with-hugo/og-image.png"]
 tags: 
   - hugo
   - programming
   - javascript
 keywords: [hugo, programming, javascript]
+js: [/js/highlight.min.js, https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js]
+css: [/css/pygments.css]
 ---
-
-<!-- TODO: Import CSS and JS in YAML header? -->
-
-<link rel="stylesheet" href="/css/pygments.css" type="text/css">
-
-<script src="/js/highlight.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script>
 
 # Introduction
 
