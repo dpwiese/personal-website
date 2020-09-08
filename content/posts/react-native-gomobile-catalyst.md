@@ -3,7 +3,7 @@ title: "React Native with Go Mobile on Mac Catalyst"
 date: 2020-09-07T23:10:00-04:00
 draft: false
 toc: false
-images: ["img/posts/react-native-gomobile/og-image.png"]
+images: ["img/posts/react-native-gomobile-catalyst/og-image.png"]
 tags:
   - react native
   - programming
