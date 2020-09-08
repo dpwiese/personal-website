@@ -1,7 +1,7 @@
 /* reduce theme's large space between line numbers and code */
+/*overflow: hidden; hides the scrollbar when linenos=false*/
 .highlight pre {
   padding-right: 0px;
-  overflow: hidden;
 }
 
 /* background color for monokai chroma theme */
@@ -51,4 +51,13 @@ pre.chroma code{
 /* fix wrapping problem in safari with this and lineNumbersInTable = false */
 code {
   word-wrap: normal;
+}
+
+/* force word wrap instead of scolling for long lines of code */
+.wrap .highlight pre.chroma code {
+  word-wrap: break-word;
+}
+
+.wrap .highlight pre.chroma {
+  padding-right: 10px;
 }

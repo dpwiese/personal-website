@@ -15,9 +15,8 @@ description: "This post describes how to update your Xcode frameworks built with
 ---
 
 <!--
-TODO: ALLOW SCROLLING WHEN LINE NUMBERS ARE DISABLED
-TODO: FIX SYNTAX HIGHLIGHTING FOR SWIFT
-TODO: FIX SYNTAX HIGHLIGHTING FOR SH
+TODO: Fix some long code lines do not wrap
+TODO: Improve syntax highlighting style for shell and swift
 -->
 
 # Introduction
@@ -42,10 +41,13 @@ Starting with `npx react-native init` to create a new app, at the time in React 
 
 After performing only the two above steps an attempt to build for Catalyst gave the following error:
 
+<div class="wrap">
+
 ```txt {linenos=false}&nbsp;
-/ios/Pods/Headers/Private/Flipper-Folly/folly/portability/Time.h:51:17:
-    Typedef redefinition with different types ('uint8_t' (aka 'unsigned char') vs 'enum clockid_t')
+/ios/Pods/Headers/Private/Flipper-Folly/folly/portability/Time.h:51:17: Typedef redefinition with different types ('uint8_t' (aka 'unsigned char') vs 'enum clockid_t')
 ```
+
+</div>
 
 This issue is described in [flipper/issues/834](https://github.com/facebook/flipper/issues/834) and [react-native/issues/27845](https://github.com/facebook/react-native/issues/27845), with the obvious solution to simply remove Flipper from the project, or patching [folly/portability/Time.h](https://github.com/facebook/folly/blob/e3ed6d7c878e02157af67b3e037a7248398492aa/folly/portability/Time.h) as described [here](https://github.com/facebook/flipper/issues/834#issuecomment-605448785).
 Nevertheless, the inclusion of Flipper when targeting catalyst was not important to me, so I accepted these solutions and moved forward.
@@ -57,6 +59,8 @@ Using Bluetooth in React Native has been made very easy with the [react-native-b
 I've used it for years and have had very positive and pleasant interactions with the team at [Polidea](https://www.polidea.com) who have built it.
 I expected Bluetooth support to transition well to Catalyst, as the [Core Bluetooth](https://developer.apple.com/documentation/corebluetooth) framework around which `react-native-ble-plx` is built is available for both iOS and Catalyst.
 After installing, an attempt to target Catalyst produced the following error:
+
+<div class="wrap">
 
 ```txt {linenos=false}&nbsp;
 Undefined symbol: Swift._stdlib_isVariantOSVersionAtLeast(Builtin.Word, Builtin.Word, Builtin.Word) -> Builtin.Int1
@@ -70,6 +74,8 @@ ld: symbol(s) not found for architecture x86_64
 
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
+
+</div>
 
 This error came from a few calls to the `#available(iOS <ios_version>, *)` during compilation that would, for example, set the maximum MTU size compatible with the particular iOS version.
 This _availability condition_ is used to to determine the availability of APIs at runtime, and is very well described in the post [Swift API Availability](https://nshipster.com/available/#available-1) from [NSHipster](https://nshipster.com).
@@ -129,11 +135,13 @@ This generates a new `gomobile` executable which can be placed in `~/go/bin`.
 
 Having previously generated a framework using the above command, a first attempt at building my previous sample application with React Native and Go Mobile [react-native-gomobile-demo](https://github.com/dpwiese/react-native-gomobile-demo) without modification gave the following error.
 
+<div class="wrap">
+
 ```txt {linenos=false}&nbsp;
-error: Building for Mac Catalyst, but the linked framework 'Sample.framework' was built for iOS + iOS Simulator.
-You may need to restrict the platforms for which this framework should be linked in the target editor,
-or replace it with an XCFramework that supports both platforms.
+error: Building for Mac Catalyst, but the linked framework 'Sample.framework' was built for iOS + iOS Simulator. You may need to restrict the platforms for which this framework should be linked in the target editor, or replace it with an XCFramework that supports both platforms.
 ```
+
+</div>
 
 This was not unexpected.
 I quickly found the issue [golang/go/issues/36856](https://github.com/golang/go/issues/36856) which proposed setting the compiler flag with `-target x86_64-apple-ios13.0-macabi` to generate a Catalyst compatible framework.
@@ -187,21 +195,26 @@ It is simple enough to create an additional and separate `amd64` static archive 
 Given that `catalyst` is not a seperate architecture, this presents some obvious difficulties that I did not have experience with and was not yet sure how to solve.
 Attempting to combine two static archives of the same architecture with `lipo` gives:
 
+<div class="wrap">
+
 ```txt {linenos=false}&nbsp;
-fatal error: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo:
-/var/folders/5f/26gs6d3n11jfxldns9vqhxn40000gp/T/gomobile-work-105957311/sample-amd64.a and
-/var/folders/5f/26gs6d3n11jfxldns9vqhxn40000gp/T/gomobile-work-105957311/sample-catalyst.a
-have the same architectures (x86_64) and can't be in the same fat output file
+fatal error: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo: /var/folders/5f/26gs6d3n11jfxldns9vqhxn40000gp/T/gomobile-work-105957311/sample-amd64.a and /var/folders/5f/26gs6d3n11jfxldns9vqhxn40000gp/T/gomobile-work-105957311/sample-catalyst.a have the same architectures (x86_64) and can't be in the same fat output file
 ```
+
+</div>
 
 I started looking into how to combine two static archives of the same architecture, each with different flags needed for the iOS simulator and catalyst.
 Two tools that seemed like they may be helpful to solve this problem were [libtool](https://www.gnu.org/software/libtool/) and [ar](https://linux.die.net/man/1/ar).
 I hadn't used them before, nor do I have strong knowledge of compilers, or building and modifying archives and libraries.
 My first attempts resulted in terrors such as the one below when attempting to use the generated `.framework`:
 
+<div class="wrap">
+
 ```txt {linenos=false}&nbsp;
 In ios/Sample.framework/Sample(000006.o), building for Mac Catalyst, but linking in object file built for iOS Simulator, file 'ios/Sample.framework/Sample' for architecture x86_64
 ```
+
+</div>
 
 In my short time working with these tools I think this approach should work - I don't expect there is a fundamental limitation to including multiple static archives of the same architecture but built with different flags in a `.framework`.
 To solve this problem I probably just need to spend some time learning `libtool`/`ar` better, as it's probably a case of user error to correctly combine the static archives.
