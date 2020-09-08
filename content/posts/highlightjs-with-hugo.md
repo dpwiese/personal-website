@@ -14,6 +14,9 @@ css: [/css/pygments.css]
 description: "This post describes how to apply client-side syntax highlighting using highlight.js for content that is fetched on page load."
 ---
 
+<!-- Need to include stylesheet here to load after that for highlightjs-line-numbers -->
+<link rel="stylesheet" href="/css/pygments.css">
+
 # Introduction
 
 Most of the posts on this site contain at least a fair bit of code, in the form of blocks with syntax highlighting provided by Hugo's syntax highlighter [Chroma](https://github.com/alecthomas/chroma).
