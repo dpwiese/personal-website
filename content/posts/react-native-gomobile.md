@@ -5,9 +5,10 @@ draft: false
 toc: false
 images: ["img/posts/react-native-gomobile/og-image.png"]
 tags:
-  - reactnative
+  - react native
   - programming
-  - go
+  - golang
+  - go mobile
 keywords: [reactnative, programming, go]
 description: "This post provides a high-level overview of how to build native packages using Go and using them in your React Native app."
 ---
