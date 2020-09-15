@@ -19,6 +19,8 @@ This document provides a high-level overview of how to build native packages usi
 The content on this page was prevented as slides at the Boston React Native Meetup in February 2019, and can be found <a href="/using-go-in-react-native.pdf" target="_blank">here</a>.
 The companion repositories containing all of the code can be found <a href="https://github.com/dpwiese/go-gomobile-demo" target="_blank">here</a> and <a href="https://github.com/dpwiese/react-native-gomobile-demo" target="_blank">here</a>.
 
+*Update: see how to build your React Native apps with Go powered packages for Mac Catalyst here: [React Native with Go Mobile on Mac Catalyst](/posts/react-native-gomobile-catalyst/).*
+
 ## Motivation
 
 The following list provides some examples and use cases when using native code in your React Native app may be a good idea.
