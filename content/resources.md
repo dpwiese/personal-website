@@ -30,9 +30,10 @@ draft: false
       [2017]
     </td>
     <td>
-      <a href="../research/sequential-journal-2017.pdf" target="_blank">
+      <a href="https://doi.org/10.1109/ACCESS.2017.2750664" target="_blank">
         Sequential Loop Closure Based Adaptive Output Feedback
       </a>
+      <a href="../research/sequential-journal-2017.pdf" target="_blank">[preprint]</a>
     </td>
   </tr>
   <tr>
@@ -40,9 +41,10 @@ draft: false
       [2016]
     </td>
     <td>
-      <a href="../research/sequential-conf-2016.pdf" target="_blank">
+      <a href="https://doi.org/10.2514/6.2016-1379" target="_blank">
         Sequential Loop Closure Based Adaptive Autopilot Design for a Hypersonic Vehicle
       </a>
+      <a href="../research/sequential-conf-2016.pdf" target="_blank">[preprint]</a>
     </td>
   </tr>
   <tr>
@@ -50,9 +52,10 @@ draft: false
       [2015]
     </td>
     <td>
-      <a href="../research/output-journal-2015.pdf" target="_blank">
+      <a href="https://doi.org/10.2514/1.G001098" target="_blank">
         Adaptive Output Feedback Based on Closed-Loop Reference Models for Hypersonic Vehicles
       </a>
+      <a href="../research/output-journal-2015.pdf" target="_blank">[preprint]</a>
     </td>
   </tr>
   <tr>
@@ -60,9 +63,10 @@ draft: false
       [2015]
     </td>
     <td>
-      <a href="../research/output-conf-2015.pdf" target="_blank">
+      <a href="https://doi.org/10.2514/6.2015-1755" target="_blank">
         Adaptive Output Feedback Based on Closed-Loop Reference Models for Hypersonic Vehicles
       </a>
+      <a href="../research/output-conf-2015.pdf" target="_blank">[preprint]</a>
     </td>
   </tr>
   <tr>
@@ -73,6 +77,7 @@ draft: false
       <a href="https://doi.org/10.3182/20140824-6-ZA-1003.02658" target="_blank">
         Squaring-Up Method in the Presence of Transmission Zeros
       </a>
+      <a href="../research/squaring-up-2014.pdf" target="_blank">[preprint]</a>
     </td>
   </tr>
   <tr>
@@ -80,9 +85,10 @@ draft: false
       [2013]
     </td>
     <td>
-      <a href="../research/adaptive-2013.pdf" target="_blank">
+      <a href="https://doi.org/10.2514/6.2013-4514" target="_blank">
         Adaptive Control of a Generic Hypersonic Vehicle
       </a>
+      <a href="../research/adaptive-2013.pdf" target="_blank">[preprint]</a>
     </td>
   </tr>
   <tr>
