@@ -9,7 +9,7 @@ tags:
   - control theory
   - python
 keywords: [adaptive learning, control theory, python]
-description: ""
+description: "This post provides an overview of an adaptive controller designed to accommodate plant input constraints on a simple system and provides a simulation using the Python Control Systems Library"
 ---
 
 # Introduction
