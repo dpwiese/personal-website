@@ -1,16 +1,16 @@
 ---
 title: "Canvas Charts in React Native"
 date: 2021-02-06T15:30:00-04:00
-draft: true
+draft: false
 toc: false
-images: ["img/posts/TODO/og-image.png"]
+images: ["img/posts/react-native-canvas-charts/og-image.png"]
 tags: 
   - programming
   - react native
   - data visualization
   - canvas
 keywords: [programming, react native, data visualization, canvas]
-description: "This post provides ... ."
+description: "This post describes a simple implementation of wrapper around a WebView to use the canvas-based plotting library Chart.js in React Native."
 ---
 
 # Introduction
@@ -20,7 +20,7 @@ Common libraries such as [Victory Native](https://formidable.com/open-source/vic
 
 [React Native Charts Wrapper](https://github.com/wuxudong/react-native-charts-wrapper) is a wrapper around the native charting libraries [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) for Android and [Charts](https://github.com/danielgindi/Charts) for iOS, the latter of which I'd enjoyed using in a native iOS project some years ago.
 I expect performance is significantly better than the SVG options, but at the expense of additional installation steps due to the use of native code.
-In addition, matching styling of these charts on other platforms (e.g. web) would add effort if consistentcy was desired.
+In addition, matching styling of these charts on other platforms (e.g. web) would add effort if consistency was desired.
 I really wanted to find a solution that minimized the use of native code, could share styling and configuration with a web-based implementation, and was performant enough to plot thousands of data points simultaneously, and plot data streamed at 60 FPS.
 
 Given the above constraints, it seemed to leave two main options.
@@ -103,7 +103,7 @@ return (
 )
 ```
 
-Within `index.html` the Chart.js script as fetched from the CDN can be replaced with it's contents, ensuring the component will work without internet connectivity:
+Within `index.html` the Chart.js script as fetched from the CDN can be replaced with its contents, ensuring the component will work without internet connectivity:
 
 ```html
 <!-- index.html -->
@@ -171,11 +171,11 @@ const addChart = () => {
 ```
 
 Because data is written to the `WebView` as a JavaScript string, when passing data or a chart configuration object, `JSON.stringify()` needs to be called on it.
-Now the implementation is getting more managable.
+Now the implementation is getting more manageable.
 `index.html` is basically an empty file with the Chart.js library pasted in, and the chart configuration is conveniently defined as an object in the component where the chart is.
 
 To further keep the component uncluttered, and given the relatively large size of the Chart.js configuration object, the config can be moved to a separate file and imported.
-And of course this can be taken a step further by wrapping the `WebView` in a custom `ChartJs` component so that the chart config can be conveniently passed in as a prop:
+This can be taken a step further by wrapping the `WebView` in a custom `ChartJs` component so that the chart config can be conveniently passed in as a prop:
 
 ```jsx
 // ChartJs.js
@@ -225,7 +225,7 @@ This provides very basic implementation of a wrapper around a React Native `WebV
 
 # Real-time Plotting
 
-However if the chart data needs to be frequently updated, the only way to do that is via this `config` prop, causing re-render each time the plot needs to be updated.
+However, if the chart data needs to be frequently updated, the only way to do that is via this `config` prop, causing re-render each time the plot needs to be updated.
 This is not a performant approach to update the plot at 60 FPS.
 
 ## Updating Chart data with Ref
@@ -333,78 +333,4 @@ It may be necessary to find a better solution in the future if tests are actuall
 This post provided a minimal implementation of the canvas-based plotting library Chart.js in React Native.
 I hope to find a more elegant solution for including JavaScript dependencies that are needed within the `WebView`, but for now I am reasonably satisfied with this solution.
 
-<!--
-
-# Appendix
-
-## NOTES
-
-PUTTING `<!DOCTYPE html>` AT TOP OF HTML SEEMS TO SCREW UP IMPORTING OF JAVASCRIPT!
-
-## TODO
-
-* Import Chart.js from separate `.js` source file without copy-paste into `.html` file.
-
-[How to append extension in metro.config.js for Metro Bundler?](https://stackoverflow.com/questions/55484740/how-to-append-extension-in-metro-config-js-for-metro-bundler)
-
-With state of react-native-webview, need to either:
-1. Get JS from web (What I did at the beginning)
-2. Copy-paste JS into single source HTML file (what I'm doing now)
-3. Run local webserver on RN?
-
-Can’t add JS extension to Assets:
-https://github.com/expo/expo-cli/issues/1507
-
-Basically tried renaming my js files I wanted to import to `.webviewjs` or some other extension which could be specified and bundled with Metro.
-
-But I think importing them was still an issue?
-
-This was after I had tried to bundle the code with Metro as described above, and then get the URI to the bundled code so I could insert it into the html:
-[How to obtain a URI for an image asset in React Native (With Expo)](https://dev.to/fdefreitas/how-to-obtain-a-uri-for-an-image-asset-in-react-native-with-expo-7bm)
-
-Seems I have no problem with configuring assets.
-When I try from within the HTML to load the script, the app knows its there (because it errors if I enter the name or directory of a script that does not exist)
-
-### Trying to install and use fron mpm
-
-```sh
-% npm i chart.js@3.0.0-beta.10
-```
-
-## Going to have problem when bundling this app for release?
-
-https://github.com/facebook/react-native/issues/1442#issuecomment-384004929
-https://stackoverflow.com/questions/57994130/how-to-load-the-local-file-in-react-native-ios-webview
-
-## More TODO
-
-* Type Chart.js configuration (instead of any)
-* Test on other environments (simulator, Android, iPhone)
-* Test and quantify performance
-
-Types for Chart.js v2:
-https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/chart.js/index.d.ts
-
-## References (Not to include above)
-
-This was the best post for how to call ref from child to parent:
-[Call child method from parent](https://stackoverflow.com/questions/37949981/call-child-method-from-parent)
-
-https://stackoverflow.com/questions/55002137/typescript-noemit-use-case
-
-https://cdn.jsdelivr.net/npm/chart.js@3.0.0-beta.8/dist/chart.js
-
-[Import statements in TypeScript: which syntax to use](https://blog.atomist.com/typescript-imports/)
-
-> You can always const thing = require("Anything"); just like in JS, but you won't get typing. You also won't get compile-time checking that the module is available.
-
-[How to Send State of Current Component as a Parameter to Another External Method Using React](https://www.pluralsight.com/guides/how-to-send-state-of-current-component-as-a-parameter-to-another-external-method-using-react)
-
-## Random
-
-```sh {linenos=false}
-# NOTE: THIS CREATES FONT FILES?! IS THAT GOOD?
-npx react-native link
-```
-
--->
+<img src="/img/posts/react-native-canvas-charts/iphone.png" width="500" />
