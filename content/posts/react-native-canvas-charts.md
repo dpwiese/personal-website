@@ -61,6 +61,7 @@ return (
       html: `
       <html>
         <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0-beta.10"></script>
         </head>
         <body>
@@ -110,6 +111,7 @@ Within `index.html` the Chart.js script as fetched from the CDN can be replaced 
 
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
       /*!
        * Chart.js v3.0.0-beta.8
