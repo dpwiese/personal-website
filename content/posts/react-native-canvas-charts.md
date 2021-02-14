@@ -13,6 +13,8 @@ keywords: [programming, react native, data visualization, canvas]
 description: "This post describes a simple implementation of wrapper around a WebView to use the canvas-based plotting library Chart.js in React Native."
 ---
 
+<img src="/img/posts/react-native-canvas-charts/iphones.png" width="800" />
+
 # Introduction
 
 Charting libraries in React Native aren't well suited for plotting lots of data or streaming data at a high frequency.
@@ -334,5 +336,3 @@ It may be necessary to find a better solution in the future if tests are actuall
 
 This post provided a minimal implementation of the canvas-based plotting library Chart.js in React Native.
 I hope to find a more elegant solution for including JavaScript dependencies that are needed within the `WebView`, but for now I am reasonably satisfied with this solution.
-
-<img src="/img/posts/react-native-canvas-charts/iphone.png" width="500" />
