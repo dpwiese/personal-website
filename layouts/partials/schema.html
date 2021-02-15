@@ -1,0 +1,62 @@
+<script type="application/ld+json">
+{{ $author :=  or (.Params.author) (.Site.Author.name) }}
+{{ $org_name :=  .Site.Title }}
+{{ if eq .Section "posts" }}
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "articleSection": "{{ .Section }}",
+  "accountablePerson" : {
+    "@type": "Person",
+    "name": "{{ $author }}"
+  },
+  "author": {
+    "@type": "Person",
+    "name": {{ $author }}
+  },
+  "copyrightHolder" : "{{ $org_name }}",
+  "copyrightYear" : "{{ .Date.Format "2006" }}",
+  "creator" : {
+    "@type": "Person",
+    "name": "{{ $author }}"
+  },
+  "dateCreated": {{ or (.PublishDate) (.Site.Params.publishDate) }},
+  "dateModified": {{ .Lastmod }},
+  "datePublished": {{ or (.PublishDate) (.Site.Params.publishDate) }},
+  "description": {{ or (.Params.description) (.Summary) | plainify | safeHTML }},
+  "headline": "{{ .Title | safeJS }}",
+  "image": {{ with .Params.images }}{{ $firstImage := index . 0 }}{{ $firstImage | absURL }}{{ end }},
+  "inLanguage": {{ .Site.LanguageCode | default "en-us" }},
+  "isFamilyFriendly": "true",
+  "keywords": [{{ range $i, $e := .Params.tags }}{{ if $i }}, {{ end }}{{ $e }}{{ end }}],
+  "mainEntityOfPage": {
+    "@type": "WebPage"
+  },
+  "name": "{{ .Title | safeJS }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ $org_name }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": {{ index .Site.Params.images 0 | absURL }}
+    },
+    "url": {{ .Site.BaseURL }}
+  },
+  "url" : {{ .Permalink | absURL }},
+  "wordCount" : "{{ .WordCount }}"
+}
+{{- else -}}
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "description": "{{ .Site.Params.description }}",
+  "name": {{ .Site.Title }},
+  {{ $urls := slice }}
+  {{- range $element := .Site.Params.social -}}
+    {{ $urls = $urls | append $element.url }}
+  {{- end -}}
+  "sameAs": {{$urls}},
+  "url": {{ .Site.BaseURL }}
+}
+{{- end -}}
+</script>
