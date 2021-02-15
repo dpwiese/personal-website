@@ -1,16 +1,17 @@
 ---
 title: "Making React Native Canvas Charts Package"
 date: 2021-02-14T10:42:00-04:00
-draft: true
+draft: false
 toc: false
 images: ["img/posts/react-native-charts-package/og-image.png"]
 tags: 
   - programming
   - react native
+  - nodejs
   - data visualization
   - canvas
-keywords: [programming, react native, data visualization, canvas]
-description: "This post provides ... ."
+keywords: [programming, react native, node.js, data visualization, canvas]
+description: "This post provides a few notes used when publishing the @dpwiese/react-native-canvas-charts Node.js package."
 ---
 
 <img src="/img/posts/react-native-charts-package/npmjs.png" width="800" style="border-style:solid;border-width:1px"/>
@@ -28,20 +29,22 @@ The steps to make a (scoped) package won't be covered in detail here, but an ove
 2. Configure `package.json` with the packages `main` file and build instructions
 3. Build and publish the package
 
-I had written the original code in TypeScript, and the build step was required to generate consumption-ready JavaScript.
+## Compilation
+
+I had written the wrapper in TypeScript so the build step was required to generate consumption-ready JavaScript.
 I wasn't sure which compiler I wanted to use, but some good information on this was available in the TypeScript docs [Using Babel with TypeScript](https://www.typescriptlang.org/docs/handbook/babel-with-typescript.html).
 [Babel](https://babeljs.io) is the default compiler for React Native, as described in the React Native docs [JavaScript Syntax Transformers](https://reactnative.dev/docs/javascript-environment#javascript-syntax-transformers), so I opted to use that over the TypeScript compiler.
 
-The TypeScript compiler is still used for type checking and for generating type definitions.
+The TypeScript compiler is still used for type checking and generating type definitions.
 The TypeScript docs [Creating .d.ts Files from .js files](https://www.typescriptlang.org/docs/handbook/declaration-files/dts-from-js.html) explain very well how to generate the type definition files.
 This basically just requires in `tsconfig.json` the `"emitDeclarationOnly": true` compiler flag be set.
 However, setting this flag conflicts with the `noEmit` flag, which should be passed when type checking.
-So for this reason I opted not to set these flags in the configuration file, but rather pass them when invoking the compiler command.
-See [package.json](https://github.com/dpwiese/react-native-canvas-charts/blob/master/package.json) for how the build commands are defined.
+For this reason I opted not to set these flags in the configuration file, but rather pass them when invoking the compiler command.
+See [package.json](https://github.com/dpwiese/react-native-canvas-charts/blob/master/package.json) for how the build commands are defined, and [tsconfig.json](https://github.com/dpwiese/react-native-canvas-charts/blob/master/tsconfig.json) and [babel.config.js](https://github.com/dpwiese/react-native-canvas-charts/blob/master/babel.config.js) for the TypeScript and Babel compiler configurations, respectively.
 
 ## Basic Workflow
 
-When building and updating this package, the workflow is as follows.
+With `package.json` created and Babel and TypeScript configured, the basic workflow when writing and updating this package is as follows.
 
 ```sh {linenos=false}
 # 1. Make changes to the package source
@@ -62,12 +65,13 @@ When building and updating this package, the workflow is as follows.
 % npm publish
 ```
 
-This workflow was very easy to follow while building and updating the package.
+This workflow was very easy to follow while developing and testing the package.
 
 ## Build Setup
 
 Given this package is just a simple wrapper around a `WebView` to making plotting with canvas-based libraries more convenient, I had anticipated adding support for several different libraries.
-As such, I wanted to be able to import various components as types specific to each particular charting library:
+As such, I wanted to be able to import various components and types specific to each particular charting library.
+For example:
 
 ```jsx {linenos=false}
 import { Chart, SetData } from "@dpwiese/react-native-canvas-charts/ChartJs";
@@ -77,6 +81,7 @@ import { SetData, UPlot } from "@dpwiese/react-native-canvas-charts/UPlot";
 I figured it would be trivial to configure the package this way, and perhaps it is, although it wasn't as obvious I expected it would be.
 It seemed [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver) could be used for what I was trying to achieve, but it wasn't immediately obvious how to do this, especially given my seemingly very simple use case.
 I looked at [subpath exports](https://nodejs.org/api/packages.html#packages_subpath_exports) as well, but again it still didn't seem to be an obvious and convenient solution.
+Questions like [Import from subfolder of npm package](https://stackoverflow.com/questions/44345257/import-from-subfolder-of-npm-package) on Stack Overflow that seemed to be looking for a similar solution didn't have very helpful answers.
 
 I found the post [Publishing flat npm packages for easier import paths & smaller consumer bundle sizes](https://davidwells.io/blog/publishing-flat-npm-packages-for-easier-import-paths-smaller-consumer-bundle-sizes) that seemed to offer a reasonable solution which I opted to follow instead.
 I won't discuss the pros and cons of this approach in this post - it was suitable for now.
@@ -96,7 +101,7 @@ To ensure I didn't accidentally publish the package from the root directory, the
 },
 ```
 
-I'm sure there are many drawbacks to what I've done, and a lot I don't understand about ES modules, Babel configuration and compilation, and more.
+I'm sure there are many drawbacks to what I've done, and a lot I still don't understand about ES modules, Babel configuration and compilation, and more.
 But for now it's an acceptable result.
 
 Finally my basic workflow was updated as follows:
@@ -126,7 +131,7 @@ Finally my basic workflow was updated as follows:
 
 # Using the Package
 
-Using the package in my React Native demo app was as easy as running the following install commands:
+Installing the package was as easy as running the following commands:
 
 ```sh {linenos=false}
 % npm i --save react-native-webview @dpwiese/react-native-canvas-charts
@@ -134,14 +139,14 @@ Using the package in my React Native demo app was as easy as running the followi
 ```
 
 Note the need to install `react-native-webview` as a dependency.
-While this is a dependency of `@dpwiese/react-native-canvas-charts`, I haven't yet figured out how to make autolinking work for dependencies which themselves have native dependencies, as is the case here.
+While this is already a dependency of `@dpwiese/react-native-canvas-charts`, I haven't yet figured out how to make autolinking work for dependencies which themselves have native dependencies, as is the case here.
 The workaround for now is to require `react-native-webview` be installed along with `@dpwiese/react-native-canvas-charts` which isn't so bad.
 
 This seemed like a problem many others would have already encountered and thus have a straightforward solution.
 I only found resources like the Stack Overflow post [React-Native autolink a dependency of a dependency](https://stackoverflow.com/questions/60707869/react-native-autolink-a-dependency-of-a-dependency) and [How do I add a react-native library containing native code as a dependency in my library?](https://github.com/callstack/react-native-builder-bob#how-do-i-add-a-react-native-library-containing-native-code-as-a-dependency-in-my-library) which weren't much help.
 
 After installing the package, it can be used as shown below.
-See the package's` [README.md](https://github.com/dpwiese/react-native-canvas-charts/blob/master/README.md) for more information.
+See the package's [README.md](https://github.com/dpwiese/react-native-canvas-charts/blob/master/README.md) for more information.
 
 ```jsx
 import { Chart, SetData } from "@dpwiese/react-native-canvas-charts/ChartJs";
