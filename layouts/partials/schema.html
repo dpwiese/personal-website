@@ -1,7 +1,7 @@
 <script type="application/ld+json">
-{{ $author :=  or (.Params.author) (.Site.Author.name) }}
-{{ $org_name :=  .Site.Title }}
-{{ if eq .Section "posts" }}
+{{- $author :=  or (.Params.author) (.Site.Author.name) -}}
+{{- $org_name :=  .Site.Title -}}
+{{- if eq .Section "posts" -}}
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
