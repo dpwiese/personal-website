@@ -15,3 +15,5 @@ latex/**/**.log
 latex/**/**.aux
 latex/**/**.synctex.gz
 latex/**/**.png
+
+.hugo_build.lock
