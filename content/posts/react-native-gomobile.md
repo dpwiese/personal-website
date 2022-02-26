@@ -17,7 +17,7 @@ description: "This post provides a high-level overview of how to build native pa
 
 This document provides a high-level overview of how to build native packages using Go and using them in your React Native app.
 The content on this page was prevented as slides at the Boston React Native Meetup in February 2019, and can be found <a href="/using-go-in-react-native.pdf" target="_blank">here</a>.
-The companion repositories containing all of the code can be found <a href="https://github.com/dpwiese/go-gomobile-demo" target="_blank">here</a> and <a href="https://github.com/dpwiese/react-native-gomobile-demo" target="_blank">here</a>.
+The companion repositories containing all of the code can be found [here](https://github.com/dpwiese/go-gomobile-demo) and [here](https://github.com/dpwiese/react-native-gomobile-demo).
 
 *Update: see how to build your React Native apps with Go powered packages for Mac Catalyst here: [React Native with Go Mobile on Mac Catalyst](/posts/react-native-gomobile-catalyst/).*
 
@@ -58,7 +58,7 @@ Writing your native code in Go *in particular* may be a good choice for the foll
 * Why use Go
   * Go is built with concurrency in mind
   * Go is good for complex projects
-* See a list of <a href="https://github.com/golang/go/wiki/GoUsers" target="_blank">Go Users</a> including: 
+* See a list of [Go Users](https://github.com/golang/go/wiki/GoUsers) including: 
   * Google
   * Dropbox
   * Medium
@@ -67,7 +67,7 @@ Writing your native code in Go *in particular* may be a good choice for the foll
 
 ## Introduction to Go
 
-Start by going through the Golang tutorial: <a href="https://tour.golang.org/welcome/1" target="_blank">A Tour of Go</a>.
+Start by going through the Golang tutorial: [A Tour of Go](https://tour.golang.org/welcome/1).
 It provides a very nice walkthrough to introduce the language.
 You can find more Go resources at the end of this document.
 The following will give the briefest introduction to Go so that following examples can be understood.
@@ -95,14 +95,14 @@ The following will give the briefest introduction to Go so that following exampl
   $ go run example.go
   ```
 
-* You can read about Go naming conventions: <a href="https://golang.org/doc/effective_go.html#names" target="_blank">effective_go.html#names</a> <br> <!-- hack for bullet alignment in safari -->
+* You can read about Go naming conventions: [effective_go.html#names](https://golang.org/doc/effective_go.html#names) <br> <!-- hack for bullet alignment in safari -->
   * Packages <br> <!-- hack for bullet alignment in safari -->
     > lower case, single-word names; no underscores or mixedCaps
 
   * Use camel case instead of snake case <br> <!-- hack for bullet alignment in safari -->
     > use MixedCaps or mixedCaps rather than underscores to write multiword names
 
-  * Note the following regarding visibility of names in Go: <a href="https://golang.org/ref/spec#Exported_identifiers" target="_blank">Exported Identifiers</a> <br> <!-- hack for bullet alignment in safari -->
+  * Note the following regarding visibility of names in Go: [Exported Identifiers](https://golang.org/ref/spec#Exported_identifiers) <br> <!-- hack for bullet alignment in safari -->
     > Names are as important in Go as in any other language.
     They even have semantic effect: ***the visibility of a name outside a package is determined by whether its first character is upper case.***
 
@@ -125,7 +125,7 @@ The following will give the briefest introduction to Go so that following exampl
       fmt.Println("Here I am!")
     }
     ```
-    You can read more about naming and organization: <a href="https://blog.golang.org/organizing-go-code" target="_blank">The Go Blog: Organizing Go Code</a>
+    You can read more about naming and organization: [The Go Blog: Organizing Go Code](https://blog.golang.org/organizing-go-code)
 
 * A sample function implementation <br> <!-- hack for bullet alignment in safari -->
   ```go
@@ -142,8 +142,8 @@ The following will give the briefest introduction to Go so that following exampl
   i := 1
   ```
 
-* Go has <a href="https://tour.golang.org/moretypes/1" target="_blank">pointers</a> <br> <!-- hack for bullet alignment in safari -->
-* Go is <a href="https://golang.org/doc/faq#pass_by_value" target="_blank">pass by value</a>: a function always gets a copy of the thing being passed <br> <!-- hack for bullet alignment in safari -->
+* Go has [pointers](https://tour.golang.org/moretypes/1) <br> <!-- hack for bullet alignment in safari -->
+* Go is [pass by value](https://golang.org/doc/faq#pass_by_value): a function always gets a copy of the thing being passed <br> <!-- hack for bullet alignment in safari -->
 * Defer <br> <!-- hack for bullet alignment in safari -->
   * Schedules a function call (the deferred function) to be run immediately before the function executing the `defer` returns <br> <!-- hack for bullet alignment in safari -->
 * Slices <br> <!-- hack for bullet alignment in safari -->
@@ -151,7 +151,7 @@ The following will give the briefest introduction to Go so that following exampl
   * Slices wrap arrays to give a more general, powerful, and convenient interface to sequences of data
   * Slice are dynamically-sized, flexible view into the elements of an array, that is they hold references to an underlying array
   * In practice, slices are much more common than arrays
-* Go basic types <a href="https://tour.golang.org/basics/11" target="_blank">A Tour of Go: Basics 11</a> <br> <!-- hack for bullet alignment in safari -->
+* Go basic types [A Tour of Go: Basics 11](https://tour.golang.org/basics/11) <br> <!-- hack for bullet alignment in safari -->
   * `bool`, `string`, sized and signed integers, sized float and complex numbers
 
 ## Prerequisites
@@ -217,11 +217,11 @@ Let's see if we can solve this problem a little quicker with Go.
 
 Gomobile is a tool for building and running mobile apps written in Go.
 See the following links:
-* <a href="https://godoc.org/golang.org/x/mobile/cmd/gomobile" target="_blank">Godoc: Command gomobile</a>  
-* <a href="https://github.com/golang/go/wiki/Mobile" target="_blank">Golang Mobile Github Wiki</a>
+* [Godoc: Command gomobile](https://godoc.org/golang.org/x/mobile/cmd/gomobile)  
+* [Golang Mobile Github Wiki](https://github.com/golang/go/wiki/Mobile)
 
 Gomobile uses `gobind`, which generates language bindings that make it possible to call Go functions from Java and Objective-C.
-Read more: <a href="https://godoc.org/golang.org/x/mobile/cmd/gobind" target="_blank">Command gobind</a>.
+Read more: [Command gobind](https://godoc.org/golang.org/x/mobile/cmd/gobind).
 This command basically generates bindings from a Go package that can be invoked from Java (through C and the Java Native Interface) and Objective-C.
 
 ## Building a Go Package
@@ -337,7 +337,7 @@ RCT_EXPORT_METHOD(solveBVP: (RCTResponseSenderBlock)callback)
 We can see in the implementation above that the function `solveBVP` is exported with a callback.
 Thus, our Go code will be called across the bridge from the JavaScript side and the callback will fire when Go has finished.
 Note also that the argument passed to the callback is an array.
-<a href="https://facebook.github.io/react-native/docs/native-modules-ios.html" target="_blank">React Native Docs: Native Modules</a>
+[React Native Docs: Native Modules](https://facebook.github.io/react-native/docs/native-modules-ios.html)
 
 > `RCTResponseSenderBlock` accepts only one argument - an array of parameters to pass to the JavaScript callback.
 
@@ -365,7 +365,7 @@ Let's pass some data across the bridge to our Go package.*
 # Passing Data Across the Bridge
 
 But now say we want to pass data across the bridge.
-The following basic Go types can be passed across the bridge: <a href="https://godoc.org/golang.org/x/mobile/cmd/gobind#hdr-Type_restrictions" target="_blank">Type Restrictions</a>
+The following basic Go types can be passed across the bridge: [Type Restrictions](https://godoc.org/golang.org/x/mobile/cmd/gobind#hdr-Type_restrictions)
 * Signed integer and floating point
 * String and boolean
 * Byte slices
@@ -483,7 +483,7 @@ func base64StringFromFloat64Slice(arr []float64) string {
 
 The above sample functions allow us to convert between base64 strings and float64 in Go.
 Modifying these functions to accommodate other data types should be straightforward.
-Handing of data in this way might remind you of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays" target="_blank">Typed Arrays</a> in JavaScript, where buffers and views are used.
+Handing of data in this way might remind you of [Typed Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays) in JavaScript, where buffers and views are used.
 
 ### JavaScript
 
@@ -575,8 +575,8 @@ With the above, we should now have the ability to:
 # Testing a Go Package
 
 Use the go testing framework.
-<a href="https://golang.org/pkg/testing/" target="_blank">Go package testing</a>
-When writing tests using Go Testing, don’t have to expose functions via export (or in this case first capital letter) in order to test them, or use a module like <a href="https://github.com/jhnns/rewire" target="_blank">rewire</a>.
+[Go package testing](https://golang.org/pkg/testing/)
+When writing tests using Go Testing, don’t have to expose functions via export (or in this case first capital letter) in order to test them, or use a module like [rewire](https://github.com/jhnns/rewire).
 So say we want to test our Go function in file `sample.go`:
 
 ```go
@@ -659,14 +659,14 @@ Go testing package also offers benchmarking.
 
 ## Linting and Formatting
 
-You can get help formatting your Go code with <a href="https://golang.org/cmd/gofmt/" target="_blank">Gofmt</a>
+You can get help formatting your Go code with [Gofmt](https://golang.org/cmd/gofmt/)
 
 ```bash {linenos=false}&nbsp;
 $ gofmt -d .
 ```
 
 where the `-d` flag shows a diff, instead of rewriting files.
-<a href="https://github.com/golang/lint" target="_blank">Golint</a> can be helpful as well:
+[Golint](https://github.com/golang/lint) can be helpful as well:
 
 ```bash {linenos=false}&nbsp;
 $ golint <filename>.go
@@ -717,32 +717,32 @@ Likewise, the mobile team need not concern themselves with the inner workings of
 # Resources
 
 * **Go language specification:** a reference manual for the Go programming language
-  * <a href="https://golang.org/ref/spec" target="_blank">htt<span></span>ps://golang.org/ref/spec</a>
+  * [https://golang.org/ref/spec](https://golang.org/ref/spec)
 * **A Tour of Go:** interactive examples introducing Go
-  * <a href="https://tour.golang.org/" target="_blank">htt<span></span>ps://tour.golang.org/</a>
+  * [https://tour.golang.org/](https://tour.golang.org/)
 * **How To Write Go Code:** The go programming language docs
-  * <a href="https://golang.org/doc/code.html" target="_blank">htt<span></span>ps://golang.org/doc/code.html</a>
+  * [https://golang.org/doc/code.html](https://golang.org/doc/code.html)
 * **Effective Go:** A large resource on how to writing clear, idiomatic Go code
-  * <a href="https://golang.org/doc/effective_go.html" target="_blank">htt<span></span>ps://golang.org/doc/effective_go.html</a>
+  * [https://golang.org/doc/effective_go.html](https://golang.org/doc/effective_go.html)
 * **Go By Example:** A long list of concise Go examples
-  * <a href="https://gobyexample.com/" target="_blank">htt<span></span>ps://gobyexample.com/</a>
+  * [https://gobyexample.com/](https://gobyexample.com/)
 * **The Go Playground**
-  * <a href="https://play.golang.org/" target="_blank">htt<span></span>ps://play.golang.org/</a>
+  * [https://play.golang.org/](https://play.golang.org/)
 * **The Go Blog**
-  * <a href="https://blog.golang.org/" target="_blank">htt<span></span>ps://blog.golang.org/</a>
+  * [https://blog.golang.org/](https://blog.golang.org/)
 * **Go package sources**
-  * <a href="https://golang.org/src/" target="_blank">htt<span></span>ps://golang.org/src/</a>
+  * [https://golang.org/src/](https://golang.org/src/)
 * **Go Code Review Comments:** common comments made during reviews of Go code
-  * <a href="https://github.com/golang/go/wiki/CodeReviewComments" target="_blank">htt<span></span>ps://github.com/golang/go/wiki/CodeReviewComments</a>
+  * [https://github.com/golang/go/wiki/CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments)
 * **React Native: Why and How to Build Your Native Code in Go:** first blog post I stumbled upon when starting this work
-  * <a href="https://hackernoon.com/react-native-why-and-how-to-build-your-native-code-in-go-9fee492f0daa" target="_blank">htt<span></span>ps://hackernoon.com/react-native-why-and-how-to-build-your-native-code-in-go-9fee492f0daa</a>
+  * [https://hackernoon.com/react-native-why-and-how-to-build-your-native-code-in-go-9fee492f0daa](https://hackernoon.com/react-native-why-and-how-to-build-your-native-code-in-go-9fee492f0daa)
 * A curated list of awesome Go frameworks, libraries and software.
-  * <a href="https://github.com/avelino/awesome-go" target="_blank">htt<span></span>ps://github.com/avelino/awesome-go</a>
+  * [https://github.com/avelino/awesome-go](https://github.com/avelino/awesome-go)
 * A short blog post about writing unit tests using testing package
-  * <a href="https://blog.alexellis.io/golang-writing-unit-tests/" target="_blank">htt<span></span>ps://blog.alexellis.io/golang-writing-unit-tests/</a>
+  * [https://blog.alexellis.io/golang-writing-unit-tests/](https://blog.alexellis.io/golang-writing-unit-tests/)
 * Go on Wikipedia
-  * <a href="https://en.wikipedia.org/wiki/Go_(programming_language)" target="_blank">htt<span></span>ps://en.wikipedia.org/wiki/Go_(programming_language)</a>
+  * [https://en.wikipedia.org/wiki/Go_(programming_language)](https://en.wikipedia.org/wiki/Go_(programming_language))
 * Go-perfbook
-  * <a href="https://github.com/dgryski/go-perfbook" target="_blank">htt<span></span>ps://github.com/dgryski/go-perfbook</a>
+  * [https://github.com/dgryski/go-perfbook](https://github.com/dgryski/go-perfbook)
   * This document outlines best practices for writing high-performance Go code.
-* <a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html" target="_blank">What are Frameworks</a>
+* [What are Frameworks](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html)
