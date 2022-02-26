@@ -146,12 +146,14 @@ With the reparameterization the control input can be expressed
 
 Defining the following errors
 
+<p>
 \begin{align}
   \label{eqn.adaptive.adaptivepi.e1}
-  e_{1}&=\dot{x}_{d}+\lambda e \\\\
+  e_{1}&=\dot{x}_{d}+\lambda e \\
   \label{eqn.adaptive.adaptivepi.e2}
   e_{2}&=e+\lambda\int edt
 \end{align}
+</p>
 
 allows the control law \eqref{eqn.adaptive.adaptivepi.alglaw1} to be written
 
@@ -194,9 +196,11 @@ where damping coefficient parameter error is
 
 Differentiating the error $e$ gives
 
+<p>
 \begin{equation*}
   \dot{e}=\dot{x}_{d}-\frac{1}{J}\left(\tilde{B~}x+\hat{J~}e_{1}+Ke_{2}\right)
 \end{equation*}
+</p>
 
 Differentiating $e_{2}$ gives
 
@@ -237,27 +241,31 @@ Using the update laws in \eqref{eqn.adaptive.adaptivepi.update1} and \eqref{eqn.
   \dot{V}=-Ke_{2}^{2}
 \end{equation}
 
+<p>
 Thus $\dot{V}\leq0$.
 With $e_{2}$, $\tilde{J~}$, $\tilde{B~}\in\mathcal{L}_{\infty} \Rightarrow \dot{e}_{2} \in\mathcal{L}_{\infty}$ by \eqref{eqn.adaptive.adaptivepi.e2dot}.
 And $e_{2}\in\mathcal{L}_{\infty} \Rightarrow e\in\mathcal{L}_{\infty}$ and $e\in\mathcal{L}_{\infty} \Rightarrow e_{1}\in\mathcal{L}_{\infty}$ by \eqref{eqn.adaptive.adaptivepi.e1} and \eqref{eqn.adaptive.adaptivepi.e2}.
 From \eqref{eqn.adaptive.adaptivepi.vdot} $e_{2}\in\mathcal{L}_{2}$ and using Barbalat's lemma this implies $\lim_{t\rightarrow\infty} e_{2}(t)=0 \Rightarrow \lim_{t\rightarrow\infty} e(t)=0$.
 Note that this result does not imply convergence of the parameter estimates to their true values.
+</p>
 
 ## System Summary
 
 The closed-loop system can be described by the following equations.
 
+<p>
 \begin{align*}
-  &\textbf{Plant:} &\hspace{0.5in} J\dot{x}+Bx&=u \\\\
-  &\textbf{Control:} & u&=\hat{J~}e_{1}+\hat{B~}x+Ke_{2} \\\\
-  &\textbf{Error:} & e&=x_{d}-x \\\\
-  & & e_{1}&=\dot{x}_{d}+\lambda{} e \\\\
-  & & e_{2}&=e+\lambda\int{} e(\tau)d\tau{} \\\\
-  &\textbf{Parameterization:} & k_{p}&=K+J\lambda{} \\\\
-  & & k_{i}&=K\lambda{} \\\\
-  &\textbf{Update laws:} & \dot{\hat{J~}}&=\gamma_{1}e_{2}e_{1} \\\\
-  & & \dot{\hat{B~}}&=\gamma_{2}e_{2}x \\\\
+  &\textbf{Plant:} &\hspace{0.5in} J\dot{x}+Bx&=u \\
+  &\textbf{Control:} & u&=\hat{J~}e_{1}+\hat{B~}x+Ke_{2} \\
+  &\textbf{Error:} & e&=x_{d}-x \\
+  & & e_{1}&=\dot{x}_{d}+\lambda{} e \\
+  & & e_{2}&=e+\lambda\int{} e(\tau)d\tau{} \\
+  &\textbf{Parameterization:} & k_{p}&=K+J\lambda{} \\
+  & & k_{i}&=K\lambda{} \\
+  &\textbf{Update laws:} & \dot{\hat{J~}}&=\gamma_{1}e_{2}e_{1} \\
+  & & \dot{\hat{B~}}&=\gamma_{2}e_{2}x
 \end{align*}
+</p>
 
 # Simulation with the Python Control Systems Library
 

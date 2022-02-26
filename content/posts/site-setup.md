@@ -390,10 +390,12 @@ Ultimately I decided to stick with Hugo's default markdown processor and use Mat
 The results of the MathJax integration are shown below.
 First is an underbraced integral expression of mass conservation:
 
+<p>
 $$
 \underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
 =\underbrace{-\oint_{S}\rho\underline{v}\cdot\underline{n}dS}_{\text{Net inflow of mass}}
 $$
+</p>
 
 ```tex
 \underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
