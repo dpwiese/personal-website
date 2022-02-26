@@ -23,7 +23,7 @@ As the data and the corresponding CRC values are generated on and transmitted an
 Specifically, a webpage which allows a payload to be entered as a query parameter and persisted after the CRC check is performed.
 Moreover, the source code which performs the check is available for all to see and even edit in a browser as desired.
 
-**The result can be found here: [CRC Calculator]( {{< ref "/crc-calculator.md" >}} ) and the source code here: <a href="https://github.com/dpwiese/crc-calculator" target="_blank">htt<span></span>ps://github.com/dpwiese/crc-calculator</a>.**
+**The result can be found here: [CRC Calculator](/crc-calculator/) and the source code here: [https://github.com/dpwiese/crc-calculator](https://github.com/dpwiese/crc-calculator).**
 
 <div style="display:flex;flex-direction:row;justify-content:center;">
   <div style="display:flex;flex-direction:row;justify-content:center;max-width:500px;">
@@ -35,7 +35,7 @@ Moreover, the source code which performs the check is available for all to see a
   </div>
 </div>
 
-This post was inspired by the <a href="http://www.ghsi.de/pages/subpages/Online%20CRC%20Calculation/" target="_blank">GHS Infotronic Online CRC Calculation</a>.
+This post was inspired by the [GHS Infotronic Online CRC Calculation](http://www.ghsi.de/pages/subpages/Online%20CRC%20Calculation/).
 While there are many other websites that can perform such simple calculations, I particularly liked that this one kept the polynomial and message in the query parameters, allowing specific inputs, and thus the corresponding outputs, to be easily shared with a single hyperlink.
 For some weeks this page lived in a tab in my browser, and I found myself constantly inserting links into notes or sharing it with others.
 However, I was unable to find a similar site to calculate CRC-32 checksum which left the payload in the query parameters, leading to this post.
@@ -50,7 +50,7 @@ The goal for this project was to make:
 
 To satisfy these goals, I initially wrote a single HTML page with embedded JavaScript and CSS amounting to under a hundred lines.
 The CRC calculation algorithm is very well documented and simple implementations can be found in nearly every language, making the implementation of the algorithm quite straightfoward.
-For example, the <a href="https://www.tahapaksu.com/crc/" target="_blank">tahapaksu.com Online CRC Calculation</a> page used the few lines of JavaScript needed to calculate a CRC-32 (as well as several other) checksum.
+For example, the [tahapaksu.com Online CRC Calculation](https://www.tahapaksu.com/crc/) page used the few lines of JavaScript needed to calculate a CRC-32 (as well as several other) checksum.
 
 After this first pass I quickly became uncomfortable working with the CRC-32 algorithm without types, as the functions were using hex strings, typed arrays, numbers, and more, which quickly became difficult to keep track of.
 I also wanted to an easy way to test the few functions required to ingest the data enter by the user and calculate the CRC-32.
@@ -67,7 +67,7 @@ Compilation and testing is accomplished with the following.
 % npm run test
 ```
 
-To test the unexported functions <a href="https://github.com/jhnns/rewire" target="_blank">rewire</a> was used, noting that the arguement in the `rewire()` call is the path of the built JavaScript output as opposed to the TypeScript.
+To test the unexported functions [rewire](https://github.com/jhnns/rewire) was used, noting that the arguement in the `rewire()` call is the path of the built JavaScript output as opposed to the TypeScript.
 
 ```ts
 const Utils = rewire("../built/crc-utils.js");
@@ -97,8 +97,8 @@ I think it sufficiently lowers the bar versus the alternatives, which may be hos
 
 Finally, when sharing the URL to the single page with it's included JavaScript, one can easily view the underlying source code in their browser to understand and verify the implementation.
 However viewing the source in browser is not ideal, and it seemed helpful to simply import and display in a code block the JavaScript source for easy inspection.
-As this site is built with Hugo this is accomplished very easily with a shortcode and Hugos <a href="https://gohugo.io/functions/readfile/" target="_blank">`readFile`</a> command.
-This is well described <a href="https://stackoverflow.com/questions/39539812/how-can-another-file-be-included-in-a-hugo-markdown-page" target="_blank">here</a> and shown below:
+As this site is built with Hugo this is accomplished very easily with a shortcode and Hugos <a href="https://gohugo.io/functions/readfile/" target="_blank"><code style="color:#1269d3;">readFile</code></a> command.
+This is well described [here](https://stackoverflow.com/questions/39539812/how-can-another-file-be-included-in-a-hugo-markdown-page) and shown below:
 
 ```go
 {{ $file := .Get "file" | readFile }}
