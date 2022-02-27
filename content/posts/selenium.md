@@ -184,30 +184,74 @@ The first useful tool I discovered was Chrome DevTools [XPath Function](https://
 This was really helpful when learning XPath selector syntax, as it can be based in the Chrome (and other browsers that support it) console to immediately view and experiment with the results.
 For example `$x("//div")` will return all `div`s.
 
-
-[devhints.io Xpath cheatsheet](https://devhints.io/xpath)
-
+This post won't go into any detail of XPath, but will share the selectors which I found myself using occasionally.
+The [devhints.io Xpath cheatsheet](https://devhints.io/xpath) is a better resource to learn about XPath.
 
 ```python
-# Get only one level deep versus infinite. The latter is nice to find nested elements but when
-# iterating over returned elements it can get text twice For example if we have 
-# <div>hello <i>world</i></div> then "world" will be retrieved twice. So the first example only
-# goes one level deep.
-nested_elem = elem.find_elements(By.XPATH, "./*")
-nested_elem = elem.find_elements(By.XPATH, ".//*")
+# Select all children of elem
+children = elem.find_elements(By.XPATH, "*")
+children = elem.find_elements(By.XPATH, "./*")
 
-# Finding by XPATH based on partial match against element ID
-links = driver.find_elements(By.XPATH, "//div[contains(@id, 'my-div-id')]")
-chapters = driver.find_elements(By.XPATH, "//a[starts-with(@id, 'my-anchor-id-prefix-')]")
+# Select all descendants of elem
+descendants = elem.find_elements(By.XPATH, ".//*")
 
-# Find the first child element by XPATH
-first_element = elem.find_elements(By.XPATH, "*")[0]
+# Finding by XPATH based on partial match against element ID using contains, starts-with, or ends-with
+divs = driver.find_elements(By.XPATH, "//div[contains(@id, 'my-div-id')]")
+anchors = driver.find_elements(By.XPATH, "//a[starts-with(@id, 'my-anchor-id-prefix-')]")
+more_divs = driver.find_elements(By.XPATH, "//div[ends-with(@id, '-my-div-id-suffix')]")
+```
+
+## Retrieving Element Attributes and More
+
+Now that elements on the page can be found, information about them will likely want to be captured, whether it is text or images.
+In the case of this project, saving an image wasn't sufficient as they were overlayed with `<div>`s carefully placed on top of the image as numbered annotations that needed to be captured as well, so a screenshot was necessary.
+
+```python
+# Get innerText
+elem_inner_text = elem.get_attribute('innerText')
+
+# Get innerHTML, making sure to unescape and strip surrounding whitespace
+elem_inner_html =  html.unescape(chapter.get_attribute('innerHTML').strip())
+
+# Get more HTML properties and attributes
+img_alt = img.get_property("alt")
+img_id = img.get_attribute("id")
+
+# Change window size
+driver.set_window_size(1440, 800)
+driver.maximize_window()
+
+# Take a screenshot and save locally
+img.screenshot("/my/absolute/path/file.png")
+```
+
+## Manipulating Elements
+
+There also may be elements that need to be manipulated along the way.
+In this case, there were elements with animations on top of the image element that I wanted to disable before taking the screenshot.
+The below shows how `execute_script()` can be used to manipulate elements, here by changing some style properties.
+
+```python
+# Find all h2 elements
+header = driver.find_elements(By.CSS_SELECTOR, "h2")
+
+# Make one of the h2 elements text red
+driver.execute_script("arguments[0].style.color = 'red'", header[3])
+
+# Can do the entire manipulation in JavaScript
+driver.execute_script("document.getElementsByClassName('my-class-name')[0].style.animation = 'none';")
 ```
 
 ## Race Conditions
 
-Challenge: race conditions between when the browser is instructed to do something and the browser completes the instructions: https://www.selenium.dev/documentation/webdriver/waits/
-
-Discuss the use of `time.sleep(2)` versus waits: https://www.selenium.dev/documentation/webdriver/waits/
+The last challenge encountered in this project were race conditions.
+These conditions occur between when the browser is instructed to do something and it completes the instructions.
+Initially this was solved by well placed `time.sleep()`s after navigating to a new page, for example.
+The Selenium [waits](https://www.selenium.dev/documentation/webdriver/waits/) doc describes the more elegant approach of using `WebDriverWait` that will wait for a condition to be truthy before proceeding.
+This was useful when locating elements to wait for them to appear before proceeding, and not just assuming they would be available after some fixed period of time as with `time.sleep()`.
 
 # Summary
+
+Looking at the few lines of code above they seem almost trivial, and for this project they were.
+But these few capabilities--finding elements, retrieving and manipulating their attributes/properties, and using waits to deal with the asynchronous nature of the browser interactions--were the core tools needed to quickly, efficiently, and programmatically navigate around a website and retrieve desired content.
+I expect I'll find new ways to leverage this capability next time I'm confronted with some repetitious tasks in the browser.
