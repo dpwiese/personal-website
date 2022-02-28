@@ -1,13 +1,15 @@
 ---
 title: "Browser Automation with Selenium and Python"
-date: 2022-02-21T09:18:19-05:00
-draft: true
+date: 2022-02-27T09:18:19-05:00
+draft: false
 toc: false
 images:
 tags: 
   - programming
   - python
-keywords: [programming, python]
+  - selenium
+  - webdriver
+keywords: [programming, python, selenium, webdriver]
 description: "This post describes how to automate browser tasks with Selenium and Python."
 ---
 
