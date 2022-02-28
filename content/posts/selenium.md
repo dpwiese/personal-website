@@ -13,37 +13,39 @@ description: "This post describes how to automate browser tasks with Selenium an
 
 # Introduction
 
-This project started out of the need to automate a tedious browser task of navigating to hundreds of pages and downloading images and text from the page to create an offline set of flashcards.
-Writing a bit of JavaScript in a Chrome [Snippet](https://developer.chrome.com/docs/devtools/javascript/snippets/) seemed like a natural place to start, using the [Document](https://developer.mozilla.org/en-US/docs/Web/API/Document) Web API to find the desired elements by their various HTML attributes, and navigating to various pages where the content lives.
+This project started out of the need to automate a tedious browser task involving navigating to hundreds of pages and downloading images and text from the page to create an offline set of flashcards.
+Writing a bit of JavaScript in a Chrome [Snippet](https://developer.chrome.com/docs/devtools/javascript/snippets/) seemed like a natural place to start, using the [Document](https://developer.mozilla.org/en-US/docs/Web/API/Document) Web API to find the desired elements by their various HTML attributes, and navigating to various pages where the content lives, and pulling text from the body of the page.
 
 ## JavaScript Chrome Snippet Attempt
 
 Two main difficulties were encountered with this approach.
 The first was around how to automatically trigger the Snippet to run when the <code style="color:#1269d3;">[load](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event)</code> event fired, making sure the necessary content was present.
-The second was actually downloading the content from the site, which CORS issues made difficult.
+The second was actually downloading images from the site, which CORS issues made difficult.
 
 When looking for solutions to the former problem, Chrome Extensions seemed to offer a solution, as did the simpler and less elegant solution of using <code style="color:#1269d3;">[setInterval](https://developer.mozilla.org/en-US/docs/Web/API/setInterval)</code> to wait a fixed amount of time between operations, determined through trial-and-error to be suitable to allow the page and its resources to load.
-The latter problem proved a bit more difficult, and after a few minutes of tinkering a suitable solution was found: simply print the desired text and image URLs to the console as JSON from where they could be copied out and pasted into a separate file for local post-processing.
+The latter problem proved a bit more difficult, and after a few minutes of tinkering a suitable solution for this particular case was found: simply print the desired text and image URLs to the console as JSON from where they could be copied out and pasted into a separate file for local post-processing.
 
 This awkward solution worked well enough, with a few lines of JavaScript quickly spitting to the console JSON with hundreds of URLs and text descriptions.
 A local Python script was used to download the images and name them as desired.
-However, this approach was very crude and unsatisfying, and soon new requirements made it clear that a new approach was needed.
+However, this approach only worked as easily as it did because the images were publicly accessible, making them trivial to download once their URLs were retrieved.
+It was also very crude and unsatisfying, and soon new requirements made it clear that a new approach was needed.
 For example, the images were overlayed with `<div>`s carefully placed on top of the image as numbered annotations that needed to be captured as well.
-For this reason new approaches were considered, finally landing on Selenium.
+For this reason Selenium was chosen instead.
 
 # Selenium
 
 [Selenium](https://www.selenium.dev) is a framework for automating browsers, used primarily for testing web applications but also useful for automating web-based tasks.
 Selenium provides several tools, [WebDriver](https://www.selenium.dev/documentation/webdriver/) being the the API used to drive the browser that is needed for the problem at hand.
 The [W3C WebDriver](https://w3c.github.io/webdriver/) specification has standardized this interface, and it is implemented through a browser-specific driver that controls the browser of choice performing the desired commands.
-For example, [ChromeDriver](https://chromedriver.chromium.org/getting-started) is used to drive Chrome, which is the browser driver used for this project.
+For example, [ChromeDriver](https://chromedriver.chromium.org/getting-started) is used to drive Chrome, which is the browser driver used for this project, but many other browser drivers are available.
 
 ## WebDriver and DevTools
 
 There are alternatives to WebDriver to control the browser, for example the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/) or [Microsoft Edge DevTools](https://docs.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/) (that are based off of the Chromium tools).
 Alternative frameworks to Selenium/WebDriver exist, some of which use WebDriver, others DevTools, and some that offer support for both.
-Each of these frameworks offers their own advantages and features, but under the hood the mechanism by which they control the browser will come with its own benefits and limitations.
-For example [Puppeteer](https://pptr.dev) uses the DevTools protocol, [Playwright](https://playwright.dev) uses the Chrome DevTools for Chromium-based browsers, and similar but custom protocols for Firefox and WebKit, and [WebDriverIO](https://webdriver.io) that supports both WebDriver and DevTools, as well as [Protractor](https://www.protractortest.org/#/), [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/), and [Cypress](https://www.cypress.io).
+Each of these frameworks offers their own advantages and features, but under the hood the mechanism by which they control the browser comes with its own benefits and limitations.
+For example [Puppeteer](https://pptr.dev) uses the DevTools protocol, [Playwright](https://playwright.dev) uses the Chrome DevTools for Chromium-based browsers and similar but custom protocols for Firefox and WebKit, and [WebDriverIO](https://webdriver.io) that supports both WebDriver and DevTools.
+There is also [Protractor](https://www.protractortest.org/#/), [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/), [Cypress](https://www.cypress.io), and more not listed here.
 Previously I'd only had very limited exposure to Cypress used for testing a React web application.
 The [Cypress Trade-offs](https://docs.cypress.io/guides/references/trade-offs#Automation-restrictions) doc states plainly that Cypress is not a general purpose automation tool, and the [Cypress Key Differences](https://docs.cypress.io/guides/overview/key-differences) and [Why Cypress](https://docs.cypress.io/guides/overview/why-cypress) docs describe some of its limitations and how it is different from Selenium.
 This post won't attempt any further to describe or compare these alternatives with Selenium, nor was deep consideration given to these alternatives for the purposes of this project.
@@ -56,8 +58,8 @@ For this project Python was selected.
 # Selenium with Python
 
 The [PyPI documentation](https://pypi.org/project/selenium/) and [Selenium with Python](https://selenium-python.readthedocs.io) docs are straightforward enough to follow to install the Selenium library.
-Given how specific the code is to the website being scraped--leveraging specific element class names and IDs, for example--the full code will not be included here.
-Rather important or interesting bits will genericized and shared.
+Given how specific the code is to the website being scraped--leveraging the particular structure and specific element class names and IDs, for example--the full Python Selenium code written for this project will not be included here.
+Rather the important or interesting bits will genericized and shared with a few comments.
 For what it's worth, the particular site that was being scraped is written in Angular, but the Selenium implementation is agnostic to what framework was used to create the web application.
 
 Typical dependencies for a simple project like this are shown below.
@@ -82,7 +84,7 @@ driver.get('https://danielwiese.com')
 ```
 
 Should the particular site require a login to access the content that needs scraping, logging in is very straightforward.
-It will involve finding the login form, entering credentions, and clicking the login button.
+It will involve finding the login form, entering credentials, and clicking the login button.
 
 ```python
 # Find input fields and sign-in button
@@ -102,8 +104,8 @@ sign_in_button.click()
 
 After having signed in, the page may present all the information that needs to be scraped, but likely navigation to many pages will be required to retrieve the content.
 In this case, the content was located on pages, each accessible by clicking a button on the main page.
-So each of these button elements must be retrieved so they can be iterated over, clicking into each one.
-This is the first small issue encountered.
+So each of these button elements must be retrieved so they can be iterated over, clicking into each one to retrieve the desired content.
+This is where the first small issue was encountered.
 
 ```python
 # Find all the buttons by class name
@@ -141,7 +143,7 @@ Again getting the list of all elements by class name, it can be verified that wi
 ```
 
 To iterate over all the buttons with class `button-class-name`, each time clicking into the page thus updating the browsing context, knowledge of which elements have and have not been traversed needs to be retained independent of the browsing context.
-One solution was to leverage that each button element had an `ID` attribute set.
+One solution was to leverage that each button element had an `ID` attribute as shown below.
 
 ```python
 # Find all the buttons by class name
@@ -163,6 +165,7 @@ for el_id in elems_id_arr:
 
 However, it may not be the case that a list of elements have an `ID` attribute.
 In this caes, when the browsing context updates, `find_elements()` would need to be called again.
+Furthermore, we'd need to be assured that regardless of the context each `find_elements()` call would return the elements in the same order.
 The [Locator Strategies](https://w3c.github.io/webdriver/webdriver-spec.html#locator-strategies) W3C doc indicates that <code style="color:#1269d3;">[querySelectorAll()](https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall)</code> is called to return the elements as a [collection](https://dom.spec.whatwg.org/#concept-collection-static), which will be returned in [tree order](https://dom.spec.whatwg.org/#concept-tree-order):
 
 > The collection then represents a view of the subtree rooted at the collection’s root, containing only nodes that match the given filter. The view is linear. In the absence of specific requirements to the contrary, the nodes within the collection must be sorted in tree order.
@@ -176,16 +179,16 @@ It's also worth mentioning in [Element Location Strategies](https://www.w3.org/T
 
 ## Finding Elements by XPath
 
-Above, `find_elements` was used to return an (ordered) list of elements matching the specified class name, or ID.
+Above, `find_elements()` was used to return an (ordered) list of elements matching the specified class name, or ID.
 Selenium offers [other ways to find elements](https://selenium-python.readthedocs.io/locating-elements.html), some of which are fairly obvious and easy to use, others less so.
 Particularly by XPath, which I was not very familiar with but found very powerful.
 
-The first useful tool I discovered was Chrome DevTools [XPath Function](https://developer.chrome.com/docs/devtools/console/utilities/#xpath-function) `$x(path, [startNode])`.
+The first useful tool I discovered was Chrome DevTools [XPath Function](https://developer.chrome.com/docs/devtools/console/utilities/#xpath-function): `$x()`.
 This was really helpful when learning XPath selector syntax, as it can be based in the Chrome (and other browsers that support it) console to immediately view and experiment with the results.
-For example `$x("//div")` will return all `div`s.
+For example entering `$x("//div")` into the Chrome console will return all `div`s on the current webpage.
 
 This post won't go into any detail of XPath, but will share the selectors which I found myself using occasionally.
-The [devhints.io Xpath cheatsheet](https://devhints.io/xpath) is a better resource to learn about XPath.
+The [devhints.io Xpath cheatsheet](https://devhints.io/xpath) is a helpful resource when finding elements by XPath.
 
 ```python
 # Select all children of elem
@@ -205,6 +208,7 @@ more_divs = driver.find_elements(By.XPATH, "//div[ends-with(@id, '-my-div-id-suf
 
 Now that elements on the page can be found, information about them will likely want to be captured, whether it is text or images.
 In the case of this project, saving an image wasn't sufficient as they were overlayed with `<div>`s carefully placed on top of the image as numbered annotations that needed to be captured as well, so a screenshot was necessary.
+It was also helpful to change the screen size therby changing the size of the element being captured with the screenshot.
 
 ```python
 # Get innerText
