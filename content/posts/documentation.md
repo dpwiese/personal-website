@@ -19,7 +19,7 @@ While in graduate school this was primarily in Latex, documenting thousands of p
 For the past few years my work has been less academic, less mathematical, and involved more programming.
 It was also not often distributed or published.
 As such my documentation lately has been primarily in Markdown.
-I found myself initially using Atom with the <a href="https://atom.io/packages/markdown-pdf" target="_blank">markdown-pdf</a> plugin to periodically generate PDFs when necessary.
+I found myself initially using Atom with the [markdown-pdf](https://atom.io/packages/markdown-pdf) plugin to periodically generate PDFs when necessary.
 This approach was fine, but it provided no real support for equations, and Atom was not my preferred editor.
 
 I was looking for a better solution than this that provided the following:
@@ -48,7 +48,7 @@ That is, if I could adopt a solution with a sufficiently simple syntax that allo
 # Solution: Markdown and Pandoc
 
 After considering the above requirements for a simple, easy-to-read syntax, markdown was a good choice.
-Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs including <a href="https://pandoc.org/" target="_blank">Pandoc</a> and good support online at Github, Gitlab, and with <a href="https://gohugo.io/" target="_blank">Hugo</a>, Jekyll, and more.
+Furthermore, it is widely supported on and offline, with easy tooling to generate PDFs including [Pandoc](https://pandoc.org/) and good support online at Github, Gitlab, and with [Hugo](https://gohugo.io/), Jekyll, and more.
 Markdown supports embedded HTML and Latex with tools like KaTex and MathJax.
 
 For the generation of PDFs Pandoc is easy to use and supports Latex.
@@ -77,13 +77,13 @@ The Basic Pandoc command for generating `doc.pdf` from `doc.md` is:
 $ pandoc doc.md -o doc.pdf
 ```
 
-For more about Pandoc check out the <a href="https://pandoc.org/MANUAL.html" target="_blank">Pandoc User’s Guide</a>.
+For more about Pandoc check out the [Pandoc User’s Guide](https://pandoc.org/MANUAL.html).
 
 ## Bibliography
 
 A bibliography, in the form of a `.bib` can be easily be included with Pandoc.
-To format the references, the <a href="https://citationstyles.org/" target="_blank">Citation Style Language</a> can be specified.
-Thousands of CSL files can be found <a href="https://github.com/citation-style-language/styles" target="_blank">here</a>.
+To format the references, the [Citation Style Language](https://citationstyles.org/) can be specified.
+Thousands of CSL files can be found [here](https://github.com/citation-style-language/styles).
 The following Pandoc options can be used to include the bibliography.
 
 ```bash {linenos=false}&nbsp;
@@ -96,13 +96,13 @@ Citing the bib entry `my-citation` are accomplished in markdown by `[@my-citatio
 
 ## Styling
 
-To style the Pandoc generated output, <a href="https://github.com/jgm/pandoc/wiki/User-contributed-templates" target="_blank">several options</a> for templates were available that can be used with the `--template` option.
-The <a href="https://github.com/Wandmalfarbe/pandoc-latex-template" target="_blank">Eisvogel</a> Pandoc Latex template was one of the simplest and easiest.
+To style the Pandoc generated output, [several options](https://github.com/jgm/pandoc/wiki/User-contributed-templates) for templates were available that can be used with the `--template` option.
+The [Eisvogel](https://github.com/Wandmalfarbe/pandoc-latex-template) Pandoc Latex template was one of the simplest and easiest.
 Just download it, put it in the default pandoc template location `~/.pandoc/templates/`, and used with `--template eisvogel`.
 The result out-of-the-box is quite good, additional styling options will be described below.
 
-Docs on Pandoc's different flavors of markdown described in the docs: <a href="https://pandoc.org/MANUAL.html#pandocs-markdown" target="_blank">Pandoc’s Markdown</a>
-It says in the post <a href="https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/" target="_blank">Customizing pandoc to generate beautiful pdfs from markdown</a>:
+Docs on Pandoc's different flavors of markdown described in the docs: [Pandoc’s Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown)
+It says in the post [Customizing pandoc to generate beautiful pdfs from markdown](https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/):
 
 > GitHub style markdown is recommended if you wish to use the same source (or with minor changes) in multiple places.
 
@@ -111,7 +111,7 @@ I chose to use `markdown` instead, as `yaml_metadata_block` not supported by `gf
 ## Bash Script
 
 With the Pandoc options above (using filters, including a bibliography, specifying CSL file, and applying a template) the command to run Pandoc was becoming quite long.
-As was well described in the blog post <a href="https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/" target="_blank">Customizing pandoc to generate beautiful pdfs from markdown</a> using a simple script to call Pandoc was an obvious solution.
+As was well described in the blog post [Customizing pandoc to generate beautiful pdfs from markdown](https://learnbyexample.github.io/tutorial/ebook-generation/customizing-pandoc/) using a simple script to call Pandoc was an obvious solution.
 Calling Pandoc to convert a markdown to PDF required the following command:
 
 ```bash {linenos=false}&nbsp;
@@ -187,10 +187,10 @@ There is lots of information on Pandoc filters written in Python, php, Lua, etc.
 This solution would require creating a filter called, for example, `filter.lua` that would handle the offending code when using Pandoc using the option `--lua-filter=filter.lua`.
 
 A few minutes were spent looking at the filters, but I realized it might be a bit involved and so this option was set aside to come back to after seeing if there may be more simpler options.
-The <a href="https://pandoc.org/filters.html" target="_blank">Pandoc Filters</a> docs were a useful reference.
+The [Pandoc Filters](https://pandoc.org/filters.html) docs were a useful reference.
 As filters were an interesting option, I was particularly interested in 
-<a href="https://pandoc.org/lua-filters.html" target="_blank">Pandoc Lua Filters</a> as they seemed to be frequently used with success and I'd enjoyed working with Lua before.
-Filters can also be written in Python and used with Panflute, as described in the blog post <a href="https://lee-phillips.org/panflute-gnuplot/" target="_blank">Technical Writing with Pandoc and Panflute</a>.
+[Pandoc Lua Filters](https://pandoc.org/lua-filters.html) as they seemed to be frequently used with success and I'd enjoyed working with Lua before.
+Filters can also be written in Python and used with Panflute, as described in the blog post [Technical Writing with Pandoc and Panflute](https://lee-phillips.org/panflute-gnuplot/).
 
 ## Solution Option 4: Replace Offending Argument with sed
 
@@ -249,7 +249,7 @@ To see what fonts are installed, the following command can be used:
 fc-list | grep "SF-Pro-Text-Regular"
 ```
 
-The San Francisco font, for example, can be downloaded in `.ttf` <a href="https://github.com/supermarin/YosemiteSanFranciscoFont" target="_blank">here</a>.
+The San Francisco font, for example, can be downloaded in `.ttf` [here](https://github.com/supermarin/YosemiteSanFranciscoFont).
 
 ## Styling Code
 
@@ -272,12 +272,11 @@ as with our header for heading fonts.
 The contents of this header which are included in the linked `.pandoc` repo were overly complex.
 The details will not be covered here, but some helpful references were:
 
-- A gist with a bunch of options for `lstset`: <a href="https://gist.github.com/nhtranngoc/88b72d9bfb656a3de227eea38ed80627" target="_blank">LaTex settings for embedding Python with Monokai theme</a>.
-- StackExchange answer: <a href="https://tex.stackexchange.com/questions/30845/how-to-redefine-lstinline-to-automatically-highlight-or-draw-frames-around-all/30851#30851" target="_blank">How to redefine &#92;lstinline to automatically highlight or draw frames around all inline code snippets?</a>
-- StackExchange answer: <a href="https://tex.stackexchange.com/questions/357227/adding-background-color-to-verb-or-lstinline-command-without-colorbox" target="_blank">Adding background color to &#92;verb or &#92;lstinline command without &#92;Colorbox
-</a>
-- StackExchange answer: <a href="https://tex.stackexchange.com/questions/64750/avoid-line-breaks-after-lstinline" target="_blank">Avoid line breaks after &#92;lstinline</a>
-- StackExchange answer: <a href="https://tex.stackexchange.com/questions/28179/colored-background-in-inline-listings" target="_blank">Colored background in inline listings</a>
+- A gist with a bunch of options for `lstset`: [LaTex settings for embedding Python with Monokai theme](https://gist.github.com/nhtranngoc/88b72d9bfb656a3de227eea38ed80627).
+- StackExchange answer: [How to redefine \lstinline to automatically highlight or draw frames around all inline code snippets?](https://tex.stackexchange.com/questions/30845/how-to-redefine-lstinline-to-automatically-highlight-or-draw-frames-around-all/30851#30851)
+- StackExchange answer: [Adding background color to \verb or \lstinline command without \Colorbox](https://tex.stackexchange.com/questions/357227/adding-background-color-to-verb-or-lstinline-command-without-colorbox)
+- StackExchange answer: [Avoid line breaks after \lstinline](https://tex.stackexchange.com/questions/64750/avoid-line-breaks-after-lstinline)
+- StackExchange answer: [Colored background in inline listings](https://tex.stackexchange.com/questions/28179/colored-background-in-inline-listings)
 
 The result in its current form was acceptable, although not great - the inline code just didn't look quite right.
 This could be improved with the Latex header, but it was already much more complicated than desired.
@@ -299,7 +298,7 @@ The block code can be styled with a Pandoc style, which caan be exported, modifi
 ```
 
 This provides a very basic styling only to the Highlight environment.
-This is well described in the Docs: <a href="https://pandoc.org/MANUAL.html#syntax-highlighting" target="_blank">Syntax highlighting</a>.
+This is well described in the Docs: [Syntax highlighting](https://pandoc.org/MANUAL.html#syntax-highlighting).
 This is probably not as good of an option as using listings (when writing in Latex natively, this has been my prefered approach for styling block code) but is the prefered approach for now due to its simplicity.
 To further style the block code, the `fvextra` package can be used.
 `fvset` can be used to apply options to verbatim environment used for block code, allowing the addition of line numbers, background color, margins, and more to be set.
@@ -315,8 +314,8 @@ To specify the hyperlink color in the generated PDF, another Latex header can be
 Another issue when generating a PDF was with HTML links in the markdown source.
 Remember from <a href="/posts/site-setup/" target="_blank">setting up this site</a> that HTML links were used to enable opening the link in a new tab.
 A Lua filter was used to handle HTML links from markdown document and keep the links in the generated PDF.
-Fortunately, a suitable filter was found in the Stack Overflow answer <a href="https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf" target="_blank">HTML-formatted hyperlinks not preserved in bookdown PDF</a>, so it did not need to be written from scratch.
-There were also similar filters using Panflute as described here: <a href="https://gist.github.com/dixonsiu/28c473f93722e586e6d53b035923967c" target="_blank">How to convert markdown link to html using Pandoc</a>.
+Fortunately, a suitable filter was found in the Stack Overflow answer [HTML-formatted hyperlinks not preserved in bookdown PDF](https://stackoverflow.com/questions/52958312/html-formatted-hyperlinks-not-preserved-in-bookdown-pdf), so it did not need to be written from scratch.
+There were also similar filters using Panflute as described here: [How to convert markdown link to html using Pandoc](https://gist.github.com/dixonsiu/28c473f93722e586e6d53b035923967c).
 
 # Conclusions
 
@@ -362,4 +361,4 @@ $ var your = "code here"
 
 * The PDF generated exactly from the markdown source used to create this page is available:
 <a href="/documentation.pdf" target="_blank">documentation.pdf</a>
-* My `.pandoc` directory, including all Pandoc options, Latex headers, and Lua filters is available: <a href="https://github.com/dpwiese/.pandoc" target="_blank">htt<span></span>ps://github.com/dpwiese/.pandoc</a>
+* My `.pandoc` directory, including all Pandoc options, Latex headers, and Lua filters is available: [https://github.com/dpwiese/.pandoc](https://github.com/dpwiese/.pandoc)

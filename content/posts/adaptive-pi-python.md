@@ -18,12 +18,12 @@ During graduate school I spent years studying, learning, and researching dynamic
 The majority of my work was theoretical - deriving new algorithms to learn about and control unique systems in new ways and prove that these algorithms would work.
 Theory was applied to determine how well such algorithms would work and understand the situations when they would fail.
 However, it was always interesting and useful to simulate the systems to actually see how they responded over time and gain additional insight into their performance.
-Almost every simulation was done in <a href="https://www.mathworks.com/products/matlab.html" target="_blank">MATLAB</a>/<a href="https://www.mathworks.com/products/simulink.html" target="_blank">Simulink</a>.
+Almost every simulation was done in [MATLAB](https://www.mathworks.com/products/matlab.html)/[Simulink](https://www.mathworks.com/products/simulink.html).
 Overall, I had a positive experience using these tools with expensive licenses provided to me for free during my tenure as a graduate student.
 Now several years out of school I thought it'd be nice to dig up some of the more interesting academic/classroom examples and make them available for others to use and learn from.
 However, I wanted to make sure these examples could be used for free, without requiring MATLAB/Simulink.
 
-After a bit of searching around I found the <a href="http://python-control.org/" target="_blank">Python Control Systems Library</a> and was able to quickly implement a simple adaptive control example.
+After a bit of searching around I found the [Python Control Systems Library](http://python-control.org/) and was able to quickly implement a simple adaptive control example.
 I've been long meaning to write a post (or series of posts) introducing some interesting bits of system dynamics and control to the non-control engineer.
 This is not that post.
 I'm not going to attempt to introduce adaptive control or provide an accessible walkthrough of stability theory.
@@ -146,12 +146,14 @@ With the reparameterization the control input can be expressed
 
 Defining the following errors
 
+<p>
 \begin{align}
   \label{eqn.adaptive.adaptivepi.e1}
-  e_{1}&=\dot{x}_{d}+\lambda e \\\\
+  e_{1}&=\dot{x}_{d}+\lambda e \\
   \label{eqn.adaptive.adaptivepi.e2}
   e_{2}&=e+\lambda\int edt
 \end{align}
+</p>
 
 allows the control law \eqref{eqn.adaptive.adaptivepi.alglaw1} to be written
 
@@ -194,9 +196,11 @@ where damping coefficient parameter error is
 
 Differentiating the error $e$ gives
 
+<p>
 \begin{equation*}
   \dot{e}=\dot{x}_{d}-\frac{1}{J}\left(\tilde{B~}x+\hat{J~}e_{1}+Ke_{2}\right)
 \end{equation*}
+</p>
 
 Differentiating $e_{2}$ gives
 
@@ -237,35 +241,39 @@ Using the update laws in \eqref{eqn.adaptive.adaptivepi.update1} and \eqref{eqn.
   \dot{V}=-Ke_{2}^{2}
 \end{equation}
 
+<p>
 Thus $\dot{V}\leq0$.
 With $e_{2}$, $\tilde{J~}$, $\tilde{B~}\in\mathcal{L}_{\infty} \Rightarrow \dot{e}_{2} \in\mathcal{L}_{\infty}$ by \eqref{eqn.adaptive.adaptivepi.e2dot}.
 And $e_{2}\in\mathcal{L}_{\infty} \Rightarrow e\in\mathcal{L}_{\infty}$ and $e\in\mathcal{L}_{\infty} \Rightarrow e_{1}\in\mathcal{L}_{\infty}$ by \eqref{eqn.adaptive.adaptivepi.e1} and \eqref{eqn.adaptive.adaptivepi.e2}.
 From \eqref{eqn.adaptive.adaptivepi.vdot} $e_{2}\in\mathcal{L}_{2}$ and using Barbalat's lemma this implies $\lim_{t\rightarrow\infty} e_{2}(t)=0 \Rightarrow \lim_{t\rightarrow\infty} e(t)=0$.
 Note that this result does not imply convergence of the parameter estimates to their true values.
+</p>
 
 ## System Summary
 
 The closed-loop system can be described by the following equations.
 
+<p>
 \begin{align*}
-  &\textbf{Plant:} &\hspace{0.5in} J\dot{x}+Bx&=u \\\\
-  &\textbf{Control:} & u&=\hat{J~}e_{1}+\hat{B~}x+Ke_{2} \\\\
-  &\textbf{Error:} & e&=x_{d}-x \\\\
-  & & e_{1}&=\dot{x}_{d}+\lambda{} e \\\\
-  & & e_{2}&=e+\lambda\int{} e(\tau)d\tau{} \\\\
-  &\textbf{Parameterization:} & k_{p}&=K+J\lambda{} \\\\
-  & & k_{i}&=K\lambda{} \\\\
-  &\textbf{Update laws:} & \dot{\hat{J~}}&=\gamma_{1}e_{2}e_{1} \\\\
-  & & \dot{\hat{B~}}&=\gamma_{2}e_{2}x \\\\
+  &\textbf{Plant:} &\hspace{0.5in} J\dot{x}+Bx&=u \\
+  &\textbf{Control:} & u&=\hat{J~}e_{1}+\hat{B~}x+Ke_{2} \\
+  &\textbf{Error:} & e&=x_{d}-x \\
+  & & e_{1}&=\dot{x}_{d}+\lambda{} e \\
+  & & e_{2}&=e+\lambda\int{} e(\tau)d\tau{} \\
+  &\textbf{Parameterization:} & k_{p}&=K+J\lambda{} \\
+  & & k_{i}&=K\lambda{} \\
+  &\textbf{Update laws:} & \dot{\hat{J~}}&=\gamma_{1}e_{2}e_{1} \\
+  & & \dot{\hat{B~}}&=\gamma_{2}e_{2}x
 \end{align*}
+</p>
 
 # Simulation with the Python Control Systems Library
 
 With the simple DC motor example above, the adaptive PI controller was proposed along with parameter estimate update laws, and stability proved.
 The system can now be implemented in a simulation to show how it actually responds.
-For this, the <a href="http://python-control.org/" target="_blank">Python Control Systems Library</a> is used.
+For this, the [Python Control Systems Library](http://python-control.org/) is used.
 The implementation of the above system will be presented without great detail.
-The full code is available on Github: <a href="https://github.com/dpwiese/control-examples/tree/master/adaptive-pi" target="_blank">dpwiese/control-examples/adaptive-pi</a>.
+The full code is available on Github: [dpwiese/control-examples/adaptive-pi](https://github.com/dpwiese/control-examples/tree/master/adaptive-pi).
 Furthermore the documentation for the Python Control Systems Library is quite good.
 
 The first step is defining the plant as a `LinearIOSystem` class, which, as the name suggests, represents a linear system.
@@ -359,7 +367,7 @@ def adaptive_pi_output(_t, x_state, u_input, _params):
 ```
 
 With the plant and controller defined, they only need to be connected and then the closed-loop system can be simulated.
-This is accomplished with the `InterconnectedSystem` class, that is explained well in the <a href="https://python-control.readthedocs.io/en/0.8.3/generated/control.iosys.InterconnectedSystem.html?highlight=InterconnectedSystem#control.iosys.InterconnectedSystem" target="_blank">docs</a>:
+This is accomplished with the `InterconnectedSystem` class, that is explained well in the [docs](https://python-control.readthedocs.io/en/0.8.3/generated/control.iosys.InterconnectedSystem.html?highlight=InterconnectedSystem#control.iosys.InterconnectedSystem):
 
 > The InterconnectedSystem class is used to represent an input/output system that consists of an interconnection between a set of subystems.
 > The outputs of each subsystem can be summed together to to provide inputs to other subsystems.
@@ -392,6 +400,6 @@ T_OUT, Y_OUT = control.input_output_response(IO_CLOSED, T, U, X0)
 The results of the simulation are plotted using `matplotlib` and shown below.
 The initial motor velocity and parameter estimates are well of from their desired values.
 Tracking is poor and control effort somewhat erratic, although reasonable in magnitude, until about $t=30$ when the parameter estimates stability and tracking error approaches zero.
-To see how the system performs <em>without</em> adaptation, download the <a href="https://github.com/dpwiese/control-examples/tree/master/adaptive-pi" target="_blank">source code</a> and try it out.
+To see how the system performs <em>without</em> adaptation, download the [source code](https://github.com/dpwiese/control-examples/tree/master/adaptive-pi) and try it out.
 
 <img src="/img/posts/adaptive-pi-python/plot.png" width="700" />

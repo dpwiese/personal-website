@@ -61,11 +61,13 @@ and parameter error as
 
 with matching conditions
 
+<p>
 \begin{equation}\label{eqn.adaptive.saturation.matching}
   a_{m}=a_{p}+b_{p}\theta^{*}
   \hspace{0.5in}
   b_{m}=b_{p}k^{*}
 \end{equation}
+</p>
 
 and error dynamics
 

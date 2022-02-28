@@ -49,7 +49,7 @@ This site is currently hosted using Github Pages, but it just as easily could ha
 # Picking a Static Site Generator
 
 Once I had decided that a static site generator was the best choice for my needs, I had to pick one.
-There are quite a few popular options such as <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a>, <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>, <a href="https://gohugo.io/" target="_blank">Hugo</a>, and <a href="https://getpelican.com/" target="_blank">Pelican</a> to name a few, and many comparisons between these and others can be found online.
+There are quite a few popular options such as [Gatsby](https://www.gatsbyjs.org/), [Jekyll](https://jekyllrb.com/), [Hugo](https://gohugo.io/), and [Pelican](https://getpelican.com/) to name a few, and many comparisons between these and others can be found online.
 When evaluating these and other options almost all of them were at least reasonable choices.
 However, I didn't need the capabilities of React or want the associated complexity of using it and GraphQL which turned me away from Gatsby.
 Jekyll was a strong consideration.
@@ -58,10 +58,10 @@ I ultimately went with Hugo for two primary reasons: benchmarks indicated it to 
 # Setting up Hugo
 
 This section will provide a brief overview of setting up Hugo, and my process and workflow for creating content and deploying the site.
-The best place to start is the <a href="https://gohugo.io/documentation/" target="_blank">Hugo Docs</a>.
-Themes can be found at: <a href="https://themes.gohugo.io/" target="_blank">htt<span></span>ps://themes.gohugo.io/</a>.
+The best place to start is the [Hugo Docs](https://gohugo.io/documentation/).
+Themes can be found at: [https://themes.gohugo.io/](https://themes.gohugo.io/).
 
-For this site I chose the <a href="https://themes.gohugo.io/hermit/" target="_blank">hermit</a> theme.
+For this site I chose the [hermit](https://themes.gohugo.io/hermit/) theme.
 With the following few commands the site was setup and I was ready to start writing content.
 
 ```bash
@@ -106,16 +106,16 @@ Then, the `public` folder should be made a submodule from the `dpwiese.github.io
 $ git submodule add -b master git@github.com:dpwiese/dpwiese.github.io.git public
 ```
 
-This is described more completely in the Hugo docs: <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/" target="_blank">Host on Github</a>.
-Note the following in <a href="https://help.github.com/en/github/working-with-github-pages/about-github-pages#user--organization-pages" target="_blank">About GitHub Pages</a> that says, for a user or organization page, it must be hosted from the `master` branch, hence the use of `-b master` in the command above.
+This is described more completely in the Hugo docs: [Host on Github](https://gohugo.io/hosting-and-deployment/hosting-on-github/).
+Note the following in [About GitHub Pages](https://help.github.com/en/github/working-with-github-pages/about-github-pages#user--organization-pages) that says, for a user or organization page, it must be hosted from the `master` branch, hence the use of `-b master` in the command above.
 
 > The default publishing source for user and organization sites is the master branch.
 If the repository for your user or organization site has a master branch, your site will publish automatically from that branch.
 You cannot choose a different publishing source for user or organization sites.
 
-Note as well that Github Pages are subject to the limitations described under their <a href="https://help.github.com/en/github/working-with-github-pages/about-github-pages#guidelines-for-using-github-pages" target="_blank">Guidelines for using GitHub Pages</a>.
+Note as well that Github Pages are subject to the limitations described under their [Guidelines for using GitHub Pages](https://help.github.com/en/github/working-with-github-pages/about-github-pages#guidelines-for-using-github-pages).
 These limitations should not be a limitation for the purposes of this site.
-In any case, another natural alternative was S3, to which this site could be easily deployed by appropriate configuration of `config.toml` as described in the <a href="https://gohugo.io/hosting-and-deployment/hugo-deploy/" target="_blank">Hugo Deploy</a> docs.
+In any case, another natural alternative was S3, to which this site could be easily deployed by appropriate configuration of `config.toml` as described in the [Hugo Deploy](https://gohugo.io/hosting-and-deployment/hugo-deploy/) docs.
 
 ## Workflow
 
@@ -165,7 +165,7 @@ However, when inspecting the generated HTML when doing this, the following comme
 ```
 
 After a bit of Googling and reading through the docs, I learned that with the latest version of Hugo v0.60 that was released just days before having installed it, the following addition to `config.toml` was needed.
-Per the <a href="https://gohugo.io/news/0.60.0-relnotes/" target="_blank">v0.60 release notes</a> and also in the <a href="https://gohugo.io/getting-started/configuration-markup/#goldmark" target="_blank">Configure Markup</a> docs, the following statement is made regarding inline HTML:
+Per the [v0.60 release notes](https://gohugo.io/news/0.60.0-relnotes/) and also in the [Configure Markup](https://gohugo.io/getting-started/configuration-markup/#goldmark) docs, the following statement is made regarding inline HTML:
 
 > By default, Goldmark does not render raw HTMLs and potentially dangerous links.
 If you have lots of inline HTML in your Markdown files, you may have to enable the `unsafe` mode:
@@ -188,8 +188,8 @@ I considered two solutions to this problem.
 
 ## Shortcodes
 
-A relatively easy and simple way around this was using <a href="https://gohugo.io/content-management/shortcodes/" target="_blank">shortcodes</a>.
-More information can be found in the Hugo Docs <a href="https://gohugo.io/templates/shortcode-templates" target="_blank">Create Your Own Shortcodes</a>.
+A relatively easy and simple way around this was using [shortcodes](https://gohugo.io/content-management/shortcodes/).
+More information can be found in the Hugo Docs [Create Your Own Shortcodes](https://gohugo.io/templates/shortcode-templates).
 The following shortcode file was created in `./layouts/shortcodes/plainlink.html`.
 
 ```html {linenos=false}&nbsp;
@@ -211,7 +211,7 @@ A downside to the above method is that the shortcode now contained in the markdo
 This means that if any portion of this markdown source containing shortcode is ported anywhere else (e.g. Github wiki) I'll have to live with awkward shortcode in the displayed output, or manually fix the source to not require shortcode.
 
 An alternative method to write HTML links in a way that was more portable was desired.
-Fortunately I found the following suggestion in this <a href="https://stackoverflow.com/a/53462722" target="_blank">Stack Overflow answer</a>: simply insert an empty div in the URL text so it is not interpreted as a URL:
+Fortunately I found the following suggestion in this [Stack Overflow answer](https://stackoverflow.com/a/53462722): simply insert an empty div in the URL text so it is not interpreted as a URL:
 
 ```html {linenos=false}&nbsp;
 <a href="https://gohugo.io/" target="_blank">htt<span></span>ps://gohugo.io/</a>
@@ -238,23 +238,23 @@ Thus, with a simple template `./layouts/_default/_markup/render-link.html` with 
 # Latex
 
 Next I wanted a configuration that would enable Latex to be rendered on the page.
-I wanted to use <a href="https://katex.org/" target="_blank">KaTeX</a> as it is known to be faster and lighter weight than the obvious alternative, <a href="https://www.mathjax.org/" target="_blank">MathJax</a>.
-I found some nice information online, such as the blog post <a href="https://eankeen.github.io/blog/posts/render-latex-with-katex-in-hugo-blog/" target="_blank">Render LaTeX with KaTex in Hugo Blog</a>.
+I wanted to use [KaTeX](https://katex.org/) as it is known to be faster and lighter weight than the obvious alternative, [MathJax](https://www.mathjax.org/).
+I found some nice information online, such as the blog post [Render LaTeX with KaTex in Hugo Blog](https://eankeen.github.io/blog/posts/render-latex-with-katex-in-hugo-blog/).
 However, due to issues with the markdown processors Goldmark and Blackfriday used by Hugo, an alternative markdown processor was needed.
-The blog post above uses Mmark, which at the time of writing is listed in the Hugo <a href="https://gohugo.io/content-management/formats/#list-of-content-formats" target="_blank">List of content formats</a> as being an alternative, with the comment:
+The blog post above uses Mmark, which at the time of writing is listed in the Hugo [List of content formats](https://gohugo.io/content-management/formats/#list-of-content-formats) as being an alternative, with the comment:
 
 > Mmark is deprecated and will be removed in a future release.
 
-In fact, it seemed to have been just deprecated when this post was written per the <a href="https://gohugo.io/news/0.60.0-relnotes/" target="_blank">v0.60 release notes</a>.
-I looked at other alternatives, such as <a href="https://kramdown.gettalong.org/index.html" target="_blank">kramdown</a>, described in the blog post <a href="https://takuti.me/note/hugo-kramdown-and-katex/" target="_blank">Hugo meets kramdown + KaTeX</a>.
-But the best options seemed to be either use Mmark until it is removed or Goldmark supports KaTex, or use MathJax, as described in the blog post <a href="https://divadnojnarg.github.io/blog/mathjax/" target="_blank">Setting MathJax with Hugo</a>.
+In fact, it seemed to have been just deprecated when this post was written per the [v0.60 release notes](https://gohugo.io/news/0.60.0-relnotes/).
+I looked at other alternatives, such as [kramdown](https://kramdown.gettalong.org/index.html), described in the blog post [Hugo meets kramdown + KaTeX](https://takuti.me/note/hugo-kramdown-and-katex/).
+But the best options seemed to be either use Mmark until it is removed or Goldmark supports KaTex, or use MathJax, as described in the blog post [Setting MathJax with Hugo](https://divadnojnarg.github.io/blog/mathjax/).
 
 While KaTeX does seem to be the preferred Latex interpreter today, MathJax also seems to have been long used and well liked.
 Since neither option seemed to be obviously better than the other I decided to do a quick look for any practical differences between these two Latex interpreters, primarily in their ability to render some of the complex equations I've written before and may write again.
 
 Overall both seemed more-or-less equivalent in their ability to render the equations I provided.
 I did notice, however, that upon finally trying to use the `uuline` function from the `ulem` package to double underline a character, that MathJax would properly display the equation with the unknown function displayed in red plain text while KaTeX would display the entire Latex expression in plain text.
-For reference, here is a list of <a href="https://github.com/KaTeX/KaTeX/wiki/Package-Emulation" target="_blank">additional functions from other LaTeX packages that are emulated by KaTeX</a>.
+For reference, here is a list of [additional functions from other LaTeX packages that are emulated by KaTeX](https://github.com/KaTeX/KaTeX/wiki/Package-Emulation).
 
 I decided that while the way MathJax handled the unknown function was preferred, it ultimately made no difference in my using MathJax over KaTeX - I'd still have to find alternative Latex functions/characters that would properly render the entirety of whatever equation I was writing.
 In the case of `\uuline{*}` this was as simple as `\underline{\underline{*}}`.
@@ -264,7 +264,7 @@ In the case of `\uuline{*}` this was as simple as `\underline{\underline{*}}`.
 I tried KaTeX with Mmark first.
 The KaTeX integration was accomplished exactly as described in the blog post above, shown below for convenience.
 The KaTeX CSS and JavaScript was imported in a footer partial, in this case `extra-foot.html`.
-Here is the code from <a href="https://eankeen.github.io/blog/posts/render-latex-with-katex-in-hugo-blog/" target="_blank">Render LaTeX with KaTex in Hugo Blog</a>:
+Here is the code from [Render LaTeX with KaTex in Hugo Blog](https://eankeen.github.io/blog/posts/render-latex-with-katex-in-hugo-blog/):
 
 ```html
 <link
@@ -325,7 +325,7 @@ Furthermore, Mmark will be deprecated, so I'd rather not be dependent on that.
 ## MathJax
 
 As with Katex, for MathJax the JavaScript was imported in a footer partial, in this case `extra-foot.html`.
-Here is the code from <a href="https://divadnojnarg.github.io/blog/mathjax/" target="_blank">Setting MathJax with Hugo</a>:
+Here is the code from [Setting MathJax with Hugo](https://divadnojnarg.github.io/blog/mathjax/):
 
 ```html
 <script type="text/javascript" async
@@ -390,17 +390,19 @@ Ultimately I decided to stick with Hugo's default markdown processor and use Mat
 The results of the MathJax integration are shown below.
 First is an underbraced integral expression of mass conservation:
 
+<p>
 $$
 \underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
 =\underbrace{-\oint_{S}\rho\underline{v}\cdot\underline{n}dS}_{\text{Net inflow of mass}}
 $$
+</p>
 
 ```tex
 \underbrace{\frac{\partial}{\partial t}\int_{V}\rho dV}_{\text{Rate of change of mass}}
 =\underbrace{-\oint_{S}\rho\underline{v}\cdot\underline{n}dS}_{\text{Net inflow of mass}}
 ```
 
-And next are the Incompressible <a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations" target="_blank">Navier-Stokes equations</a> in an `aligned` environment:
+And next are the Incompressible [Navier-Stokes equations](https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations) in an `aligned` environment:
 
 $$
 \begin{aligned}

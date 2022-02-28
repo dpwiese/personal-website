@@ -62,7 +62,7 @@ But it is an interesting question, and the following simple derivation can give 
 
 # Derivation
 
-Consider following free-body diagram of a glider (an aircraft with failed engine) from <a href="https://www.google.com/books/edition/Airplane_Aerodynamics_and_Performance/bSq-cEf0EWsC" target="_blank">Airplane Aerodynamics and Performance</a> by Jan Roskam.
+Consider following free-body diagram of a glider (an aircraft with failed engine) from [Airplane Aerodynamics and Performance](https://www.google.com/books/edition/Airplane_Aerodynamics_and_Performance/bSq-cEf0EWsC) by Jan Roskam.
 
 <img src="/img/posts/glide-distance/roskam-free-body.jpeg" width="600"/>
 
@@ -115,7 +115,7 @@ Using \eqref{eqn.glidedistance.CL} and \eqref{eqn.glidedistance.CD} and **maximi
 So now it can be easily see from \eqref{eqn.glidedistance.dmax} that the glide distance is not dependent on $W$ at all.
 Rather it depends only on the aerodynamic properties of the aircraft---lift and drag specifically.
 For a small sub-sonic general aviation aircraft like a Cessna, operating only at low altitudes in Earth's atmosphere, $C_{L}$ and $C_{D}$ depend only on angle of attack $\alpha$.
-The relationship between them and thus the maximization of the lift versus the drag coefficient can be read directly from the aircraft's <a href="https://en.wikipedia.org/wiki/Drag_polar" target="_blank">Drag Polar</a>.
+The relationship between them and thus the maximization of the lift versus the drag coefficient can be read directly from the aircraft's [Drag Polar](https://en.wikipedia.org/wiki/Drag_polar).
 The drag polar is not provided in the Aircraft Information Manual, but it is something very well characterized by the aircraft manufactuer, and used to presribe $d_{\max}$ in the maximum glide charts shown above.
 
 ## Best Glide Speed
