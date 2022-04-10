@@ -153,3 +153,11 @@ a[href^="#fn:"] {
 }
 a[href^="#fn:"]:before{ content: '[' }
 a[href^="#fn:"]:after{ content: ']' }
+
+::-webkit-scrollbar {
+  background: #fafbfc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #88898A;
+}
