@@ -23,7 +23,7 @@ pygmentsUseClasses  = true
   dateformNumTime = "2006-01-02 15:04 -0700"
 
   # Metadata mostly used in document's head
-  themeColor = "#494f5c"
+  themeColor = "#fafbfc"
 
   # Toggling this option needs to rebuild SCSS, requires Hugo extended version
   justifyContent = false  # Set "text-align: justify" to `.content`.
