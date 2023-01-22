@@ -1,7 +1,7 @@
 ---
 title: "Generating Aviation Checklists with Make"
 date: 2023-01-22T08:13:22-05:00
-draft: true
+draft: false
 toc: false
 images: ["img/posts/makefile-checklists/og-image.jpg"]
 tags: 
