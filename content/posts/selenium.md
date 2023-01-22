@@ -3,7 +3,7 @@ title: "Browser Automation with Selenium and Python"
 date: 2022-02-27T09:18:19-05:00
 draft: false
 toc: false
-images:
+images: ["img/posts/selenium/og-image.jpg"]
 tags: 
   - programming
   - python
