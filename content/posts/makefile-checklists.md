@@ -15,19 +15,19 @@ description: "This post describes how to use Make and Pandoc to generate PDF out
 # Introduction
 
 The safe operation of aircraft is enabled in large part by following checklists across all phases of flight.
-While manufacturers provide the basic checklist items for most things in the aircraft flight manual, supplemental checklists, often in single card or small booklet, provide a more convenient format to use during aircraft operations.
-Such checklists, often created by maintained by flight schools, individuals, or sold by third parties, allow for additional items to be included beyond those specified by the manufacturer.
+While manufacturers provide important checklist items for most things in the aircraft flight manual, supplemental checklists, often in single card or small booklet, can provide a more convenient format to use during aircraft operations.
+Such checklists, often created by maintained by flight schools, individuals, or sold by third parties, allow for additional items to be included beyond those specified by the manufacturer, such as including information from other parts of the flight manual.
 This is particularly useful if aircraft has been modified from its original configuration, or when used for flight training, where additional information and context within the checklist is beneficial to the learner.
 
 *Disclaimer: the checklist image below is a representative output using the method described in this post and should not be used for the operation of your aircraft. Consult your aircraft's pilot operating handbook / approved flight manual to ensure safe and proper operation.*
 
 <img src="/img/posts/makefile-checklists/checklist.jpg" width="600" style="border-style:solid;border-width:1px"/>
 
-My experience in general aviation has led me to develop and maintain my own checklists.
+My experience in general aviation has led me to develop and maintain my own checklists that I use when I fly.
 Originally, these were in the form `.docx` documents that were created in Microsoft Word.
 
 While I've not attempted to understand the `.docx` specification, I encountered enough difficulty when attempting to open and edit old checklists in other applications like Apple's Pages and Google Docs which support the `.docx` format.
-I decided to recreate my checklists in a more open format.
+I decided to recreate my old checklists in a more open format, and use this format for future checklist creation.
 
 I wanted to create simple source documents in a human-readable file format that was widely accessible by open-source software, that could be converted to PDF also using open-source software, and that was easily styled to achieve the desired appearance.
 **HTML and CSS were the obvious choice to generate the desired document layout, and [Pandoc](https://pandoc.org/) quickly became a natural choice to convert these source files into a PDF.**
@@ -45,7 +45,9 @@ To simplify the passing of many command-line options each time Pandoc is run, th
 pandoc --defaults defaults.yaml -o out.pdf in.md
 ```
 
-The `defaults.yaml` file contains fields that correspond to command-line option settings with the mapping between the two described in the [Pandoc User's Guide](https://pandoc.org/MANUAL.html) [Defaults files](https://pandoc.org/MANUAL.html#defaults-files).
+<!-- TODO@dpwiese - figure out why normal single quote ' needs some weird escaping -->
+
+The `defaults.yaml` file contains fields that correspond to command-line option settings with the mapping between the two described in the [Pandoc User’s Guide](https://pandoc.org/MANUAL.html) [Defaults files](https://pandoc.org/MANUAL.html#defaults-files).
 The settings in `defaults.yaml` are overridden by subsequent command-line options.
 Some of the more important options specified in `defaults.yaml` are the document template, Lua filters, and LaTeX headers.
 
@@ -57,9 +59,9 @@ With reasonable defaults specified for a class of documents and individual docum
 
 # Updated Approach
 
-It was easy enough to throw together some simple HTML and CSS and generate an acceptable output.
-Due to the relatively large size of the HTML document, each single-sided page of the checklist was saved as a single file, and several files constituted a complete checklist, usually just a few pages.
-I also maintained checklists for more about ten aircraft, resulting in about 50 different HTML files.
+It was easy enough to throw together some simple HTML and CSS and use Pandoc to generate an acceptable output.
+Due to the relatively large size of the HTML document, each single-sided page of the checklist was saved as a single HTML file, and several files constituted a complete checklist, usually just a few pages.
+I also maintained checklists for more about ten aircraft, resulting in about 50 different HTML files in total at the time of this writing.
 After the checklists were created, the nature of any future updates were expected to be small - the addition or deletion of a single item, rewording of an item, or the swapping of position of a pair of items after which an update checklist would be generated.
 
 I wrote a small shell script that contained the Pandoc command that I would run when I wanted to update the checklists.
@@ -68,10 +70,10 @@ However, with each checklist taking a few seconds to generate the output, I quic
 
 # Make
 
-I hadn't really worked with Make before, except in projects which already incorporated it, and where any of my modifications to the `makefile` were trivial.
+I hadn't really worked with Make before, except in projects which already incorporated it, and where any of my modifications to the existing `makefile`s were trivial.
 [makefiletutorial.com](https://makefiletutorial.com) was a great place to start, and I stumbled across Github user [rueycheng](https://gist.github.com/rueycheng)'s' [GNU Make Cheatsheet](https://gist.github.com/rueycheng/42e355d1480fd7a33ee81c866c7fdf78) to be very helpful as well.
 Below are my notes on how I used Make to satisfy the above use case.
-From my limited use with Make on this project, it seems very powerful but also took a little bit to start understanding its capabilities.
+From my limited use with Make on this project, it seems very powerful but also took me a little bit to start understanding its capabilities.
 
 First check what version of Make is installed.
 
@@ -91,7 +93,7 @@ make --version
 
 As I put together a simple `makefile`, I started to formulate some additional constraints that I wanted to respect.
 First, I wanted to keep my existing project directory and naming structure as shown below, and make Make work with that structure, rather than adopt a directory structure that might be better suited to how Make might normally be used.
-I wanted the addition of new aircraft checklists to be as straightforward as possible, and simply be able to run `make all` to generate the new checklist, without any changes to the `makefile`.
+Second, I wanted the addition of new aircraft checklists to be as straightforward as possible, and simply be able to run `make all` to generate the new checklist, without any changes to the `makefile`.
 
 <img src="/img/posts/makefile-checklists/directories.png" width="260" style="border-style:solid;border-width:1px"/>
 
@@ -167,9 +169,9 @@ The resulting command is below.
 ```
 
 A command like this would be run for each `plane` directory I had as long as the required rule existed in the makefile.
-With minimal knowledge of Make, and a couple dozen line `makefile`, the project was nearly complete.
+With minimal knowledge of Make, and a couple dozen line `makefile`, the project was nearly complete, although this solution didn't satisfy my constraints.
 
-**One unsatisfying part of this solution was the need for a new rule to be added each time a new checklist source directory was created.**
+**The most unsatisfying part of this solution was the need for a new rule to be added each time a new checklist source directory was created.**
 While not really a huge deal, it seemed easy enough solve to write a single rule to specify generically each target's prerequesites and the command to generate the target.
 
 ## A More Flexible Solution
