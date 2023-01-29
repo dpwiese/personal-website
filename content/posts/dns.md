@@ -4,7 +4,7 @@ date: 2021-01-16T10:50:00-04:00
 draft: false
 toc: false
 images: ["img/posts/dns/og-image.png"]
-tags: 
+tags:
   - programming
   - dns
   - aws

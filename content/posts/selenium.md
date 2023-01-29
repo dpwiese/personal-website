@@ -4,7 +4,7 @@ date: 2022-02-27T09:18:19-05:00
 draft: false
 toc: false
 images: ["img/posts/selenium/og-image.jpg"]
-tags: 
+tags:
   - programming
   - python
   - selenium

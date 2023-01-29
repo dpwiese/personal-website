@@ -4,7 +4,7 @@ date: 2020-08-29T14:16:00-04:00
 draft: false
 toc: false
 images: ["img/posts/adaptive-mimo-python/og-image.png"]
-tags: 
+tags:
   - adaptive learning
   - control theory
   - python
