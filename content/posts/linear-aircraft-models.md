@@ -83,7 +83,7 @@ Given the assumed functional dependence of $X$, this would result in the followi
 \end{equation*}
 
 By studying aircraft aerodynamic data it is found that many of the stability derivatives under most flight conditions can be neglected.
-Some such stability derivatives which are commonly neglected are the following, some of which are indicated in Ref. [^nelson.flight.1998] (pg. 149).
+Some such stability derivatives which are commonly neglected are the following, some of which are indicated in Ref. [^nelson.flight.1998] (pg. 149) and Ref. [^mclean.flight.1990] (pg. 33).
 
 \begin{equation*}
   X_{\dot{u}}
@@ -97,6 +97,11 @@ Some such stability derivatives which are commonly neglected are the following, 
   Z_{\dot{\delta_{e}}}
   M_{\dot{\delta_{e}}}
 \end{equation*}
+
+This neglecting of stability derivatives is another statement that there is not a strong functional dependence of the forces or moments on particular state variables or inputs and their derivatives.
+
+Finally, when linearizing the equations of motion, it is quite often the case that the equilibrium flight condition is steady, straight and level flight at cruise.
+This implies, among other things, that the pitch angle, angle of attack, and flight path angle are small.
 
 <!--
 Another simplification made along the way is a change of axes between the perhaps more obvious choice of the body-fixed axes to a stability axis system.
@@ -601,15 +606,8 @@ Also use $\dot{\psi}=r$
 \end{equation*}
 
 From Yechout [^yechout.flight.2003] pg. 291 has equations in stability axis system.
-<!--
-# TODO
-
-* Need to find electronic copies of these (and reference them) or remove them...
-  * McLean [^mclean.flight.1990]
 
 [^mclean.flight.1990]: McLean, D., Automatic Flight Control Systems, Prentice Hall, 1990, [https://books.google.com/books?id=cJNTAAAAMAAJ](https://books.google.com/books?id=cJNTAAAAMAAJ).
--->
-
 [^nelson.flight.1998]: Nelson, R. C., Flight Stability and Automatic Control, 2nd Edition, McGraw-Hill Education, 1998 [https://books.google.com/books?id=Z4lTAAAAMAAJ](https://books.google.com/books?id=Z4lTAAAAMAAJ).
 [^yechout.flight.2003]: Yechout, T. R., Introduction to Aircraft Flight Mechanics, AIAA, 2003, [https://books.google.com/books?id=a_c2V0zAFwcC](https://books.google.com/books?id=a_c2V0zAFwcC).
 [^stengel.flight.2004]: Stengel, R. F., Flight Dynamics, Princeton University Press, 2004, [https://books.google.com/books?id=dWKYDwAAQBAJ](https://books.google.com/books?id=dWKYDwAAQBAJ).
