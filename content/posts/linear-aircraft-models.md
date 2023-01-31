@@ -103,36 +103,6 @@ This neglecting of stability derivatives is another statement that there is not 
 Finally, when linearizing the equations of motion, it is quite often the case that the equilibrium flight condition is steady, straight and level flight at cruise.
 This implies, among other things, that the pitch angle, angle of attack, and flight path angle are small.
 
-<!--
-Another simplification made along the way is a change of axes between the perhaps more obvious choice of the body-fixed axes to a stability axis system.
-This replaces the three velocity components with the *total* velocity and angles of attack and sideslip.
-Eq. 4.1-111a in Ref. [^stengel.flight.2004] (pg. 492) provides the rotation from body-fixed reference frame to stability axis system.
--->
-
-<!--
-A further simplification can be made if it is assumed that the aircraft body axes are aligned to be principal inertial axes.
-In this special case the remaining product of inertia $J_{xz}$ is also zero.
-This simplification is not often used owing to the difficulty of precisely determining the principal inertia axes.
-
-See also Ref. [^durham.flight.2013] Ch. 8.
-
-## Linearizing
-
-Take the nonlinear equations and linearize them *about an equilibrium flight condition*.
-
-The applied forces and moments are functions of the aircraft state and inputs.
-
-The resulting expression can be simplified based on how the state and inputs affect the applied forces and moments.
-
-For example, often $Z_{q}$ will be neglected...
-
-Some references may make different determinations as to what terms are sufficiently small, and it may depend on the particulars of the problem at hand.
-
-Additionally, certain small terms may be sufficiently large to not neglect, but when two such terms are multiplied, their product can be neglected.
-
-McLean (pg. 33) lists stability derivatives which can be neglected?
--->
-
 # Longitudinal
 
 With some background presented on how, starting from Newton's laws, simplified linear aircraft equations of motion can be derived, some simple models are presented.
@@ -276,8 +246,7 @@ Linearizing the altitude equation gives the following
 
 Which can then be included in Equations \eqref{eqn.exdotform.longitudinal} as
 
-\begin{equation}
-  \label{eqn.exdotform.longitudinal5}
+\begin{equation*}
   \begin{bmatrix}
     1 & 0 & 0 & 0 & 0 \\\\
     0 & 1-Z_{\dot{w}} & 0 & 0 & 0 \\\\
@@ -317,12 +286,11 @@ Which can then be included in Equations \eqref{eqn.exdotform.longitudinal} as
     \delta_{\text{th}} \\\\
     \delta_{e}
   \end{bmatrix}
-\end{equation}
+\end{equation*}
 
 and similarly in \eqref{eqn.ss.longitudinal.nelson} as
 
-\begin{equation}
-  \label{eqn.ss.longitudinal.nelson5}
+\begin{equation*}
   \begin{bmatrix}
     \dot{u} \\\\
     \dot{w} \\\\
@@ -355,86 +323,132 @@ and similarly in \eqref{eqn.ss.longitudinal.nelson} as
     \delta_{\text{th}} \\\\
     \delta_{e}
   \end{bmatrix}
+\end{equation*}
+
+### Short-Period Model
+
+It is often the case that the four-state system in \eqref{eqn.ss.longitudinal.nelson} can be further separated into the short-period and phugoid modes.
+This is often presented in the literature without much justification, only that such separation is reasonable for many flight vehicles.
+In order to justify this separation for a particular flight vehicle, **modal analysis** is a helpful tool.
+
+#### Modal Analysis
+
+Modal analysis aims to determine which entries in a given eigenvector are small when the units of each state variable are not the same, so that the various modes may be decoupled.
+Ref. [^durham.flight.2013] Ch. 9 has a helpful section describing this process.
+Modal analysis allows \eqref{eqn.ss.longitudinal.nelson} to be decomposed into the short-period model below as in Ref. [^nelson.flight.1998] (Eq. 4-71).
+
+\begin{equation*}
+  \begin{bmatrix}
+    \dot{w} \\\\
+    \dot{q}
+  \end{bmatrix}=
+  \begin{bmatrix}
+    Z_{w} & u_{\text{eq}} \\\\
+    M_{w}+M_{\dot{w}}Z_{w} & M_{q}+M_{\dot{w}}u_{\text{eq}}
+  \end{bmatrix}
+  \begin{bmatrix}
+     w \\\\
+     q
+  \end{bmatrix}+
+  \begin{bmatrix}
+    Z_{\delta_{e}} \\\\
+    M_{\delta_{e}}+M_{\dot{w}}Z_{\delta_{e}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \delta_{e}
+  \end{bmatrix}
+\end{equation*}
+
+As described above, different terms can be retained or neglected resulting in
+
+\begin{equation}
+  \label{eqn.ss.shortperiod.body}
+  \begin{bmatrix}
+    \dot{w} \\\\
+    \dot{q}
+  \end{bmatrix}=
+  \begin{bmatrix}
+    Z_{w} & Z_{q}+u_{\text{eq}} \\\\
+    M_{w} & M_{q}
+  \end{bmatrix}
+  \begin{bmatrix}
+     w \\\\
+     q
+  \end{bmatrix}+
+  \begin{bmatrix}
+    Z_{\delta_{e}} \\\\
+    M_{\delta_{e}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \delta_{e}
+  \end{bmatrix}
 \end{equation}
 
 ## Stability Axes System
 
 Ref. [^stengel.flight.2004] Eq. 4.1-111a on pg. 492 has good rotation from body-fixed reference frame to stability axis system and gives the small angle approximation in Eq. 4.1-111b.
-
-
-<!--
-Ref. [^nelson.flight.1998] Eq. 4.73 and 4.74 gives
+Consider \eqref{eqn.ss.shortperiod.body} below.
 
 \begin{equation*}
-  \dot{w}=qu+g_{0}\cos(\phi)\cos(\theta)+Z/m
+  \begin{split}
+    \dot{w} &= Z_{w}w + (Z_{q}+u_{\text{eq}})q + Z_{\delta_{e}}\delta_{e} \\\\
+    \dot{q} &= M_{w}w + M_{q}q + M_{\delta_{e}}\delta_{e}
+  \end{split}
+\end{equation*}
+
+Using the following substitutions
+
+\begin{equation*}
+  u_{\text{eq}} = V_{\text{eq}} \qquad
+  w = V_{\text{eq}}\alpha \qquad
+  \dot{w} = V_{\text{eq}}\dot{\alpha} \qquad
+  u = V_{T}
+\end{equation*}
+
+Gives
+
+\begin{equation*}
+  \dot{\alpha} = \frac{Z_{\alpha}}{V_{\text{eq}}}\alpha + (1+\frac{Z_{q}}{V_{\text{eq}}})q + \frac{Z_{\delta_{e}}}{V_{\text{eq}}}\delta_{e}
 \end{equation*}
 
 \begin{equation*}
-  u=V_{T}
+  \dot{q} = M_{\alpha}\alpha + M_{q}q + M_{\delta_{e}}\delta_{e}
 \end{equation*}
+
+where
 
 \begin{equation*}
-  w=\alpha V_{\text{eq}}
+  Z_{\alpha} = Z_{w}V_{\text{eq}} \qquad
+  M_{\alpha} = M_{w}V_{\text{eq}}
 \end{equation*}
+
+Putting these into state-space form we get Ref. [^lavretsky.book.2012] Eq. 1.8
 
 \begin{equation*}
-  \dot{w}=\dot{\alpha}V_{\text{eq}}
+  \begin{bmatrix}
+    \dot{\alpha} \\\\
+    \dot{q}
+  \end{bmatrix}=
+  \begin{bmatrix}
+    \frac{Z_{\alpha}}{V_{\text{eq}}} & 1+\frac{Z_{q}}{V_{\text{eq}}} \\\\
+    M_{\alpha} & M_{q}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \alpha \\\\
+    q
+  \end{bmatrix}+
+  \begin{bmatrix}
+    \frac{Z_{\delta_{e}}}{V_{\text{eq}}} \\\\
+    M_{\delta_{e}}
+  \end{bmatrix}
+  \delta_{e}
 \end{equation*}
 
-\begin{equation*}
-  \dot{w}=qu+g_{0}\cos(\phi)\cos(\theta)+Z/m
-\end{equation*}
+Ref. [^nelson.flight.1998] Eq. 4.75 presents the short-period model as well, although neglecting and retaining a couple terms different than Ref. [^lavretsky.book.2012].
 
-\begin{equation*}
-  \dot{\alpha}V_{\text{eq}}=qV_{\text{eq}}+g\cos(\theta)+Z/m
-\end{equation*}
+### Incorporation of Additional State Variables
 
-\begin{equation*}
-  \dot{\alpha}V_{\text{eq}}=qV_{\text{eq}}+g\cos(\theta)+Z/m
-\end{equation*}
-
-\begin{equation*}
-  \dot{\alpha}V_{\text{eq}}=qV_{\text{eq}}+g\cos(\theta)+Z/m
-\end{equation*}
-
-\begin{equation*}
-  M_{\alpha} = u_{\text{eq}}M_{w} \\\\
-  Z_{\alpha} = u_{\text{eq}}Z_{w} \\\\
-  M_{\dot{\alpha}} = u_{\text{eq}}M_{\dot{w}}
-\end{equation*}
-
-\begin{equation*}
-  \alpha = \theta - \gamma
-\end{equation*}
-
-\begin{equation*}
-  \sin(\alpha) = \frac{w}{U_{\text{eq}}}
-\end{equation*}
-
-approximating
-
-\begin{equation*}
-  \alpha \approx \frac{w}{V_{\text{eq}}}
-\end{equation*}
-
-so
-
-\begin{equation*}
-  w = \alpha V_{\text{eq}}
-\end{equation*}
-
-\begin{equation*}
-  \dot{w} = \dot{\alpha} V_{\text{eq}}
-\end{equation*}
-
-\begin{equation*}
-  \dot{\alpha} = \frac{\dot{w}}{V_{\text{eq}}}
-\end{equation*}
-
-## GIVES...
--->
-
-Lavretsky Wise [^lavretsky.book.2012] Eq. 1.7
+The transformation of any of the higher order models (those including velocity, pitch angle, and altitude, for example) can also be converted to the stability axis system as in Ref. [^lavretsky.book.2012] Eq. 1.7 below.
 
 \begin{equation*}
   \begin{bmatrix}
@@ -462,12 +476,10 @@ Lavretsky Wise [^lavretsky.book.2012] Eq. 1.7
     0 & 0
   \end{bmatrix}
   \begin{bmatrix}
-  \delta_{\text{th}} \\\\
-  \delta_{e}
+    \delta_{\text{th}} \\\\
+    \delta_{e}
   \end{bmatrix}
 \end{equation*}
-
-### Incorporation of Additional State Variables
 
 This can be extended with altitude as in Ref. [^lavretsky.book.2012] Eq. 1.10
 
@@ -512,6 +524,7 @@ Giving
   \end{bmatrix}
 \end{equation*}
 
+<!--
 Vertical acceleration can also be included using the assumption $a_{z}\approx-\ddot{h}$ where $\ddot{h}$ is given by
 
 \begin{equation*}
@@ -522,6 +535,7 @@ Vertical acceleration can also be included using the assumption $a_{z}\approx-\d
   &=Z_{V}V_{T}+Z_{\alpha}\alpha+Z_{q}q-g\sin(\gamma_{\text{eq}})\theta-V_{\text{eq}}X_{\delta_{\text{th}}}\sin(\alpha_{\text{eq}})\delta_{\text{th}}+Z_{\delta_{e}}\delta_{e}
 \end{split}
 \end{equation*}
+-->
 
 # Lateral-Directional
 
@@ -605,11 +619,14 @@ Also use $\dot{\psi}=r$
   \end{bmatrix}
 \end{equation*}
 
+<!--
 From Yechout [^yechout.flight.2003] pg. 291 has equations in stability axis system.
+
+[^yechout.flight.2003]: Yechout, T. R., Introduction to Aircraft Flight Mechanics, AIAA, 2003, [https://books.google.com/books?id=a_c2V0zAFwcC](https://books.google.com/books?id=a_c2V0zAFwcC).
+-->
 
 [^mclean.flight.1990]: McLean, D., Automatic Flight Control Systems, Prentice Hall, 1990, [https://books.google.com/books?id=cJNTAAAAMAAJ](https://books.google.com/books?id=cJNTAAAAMAAJ).
 [^nelson.flight.1998]: Nelson, R. C., Flight Stability and Automatic Control, 2nd Edition, McGraw-Hill Education, 1998 [https://books.google.com/books?id=Z4lTAAAAMAAJ](https://books.google.com/books?id=Z4lTAAAAMAAJ).
-[^yechout.flight.2003]: Yechout, T. R., Introduction to Aircraft Flight Mechanics, AIAA, 2003, [https://books.google.com/books?id=a_c2V0zAFwcC](https://books.google.com/books?id=a_c2V0zAFwcC).
 [^stengel.flight.2004]: Stengel, R. F., Flight Dynamics, Princeton University Press, 2004, [https://books.google.com/books?id=dWKYDwAAQBAJ](https://books.google.com/books?id=dWKYDwAAQBAJ).
 [^lavretsky.book.2012]: Lavretsky, E. and Wise, K., Robust and Adaptive Control: With Aerospace Applications, Springer London, 2012 [https://books.google.com/books?id=cRefvQEACAAJ](https://books.google.com/books?id=cRefvQEACAAJ).
 [^cook.flight.2012]: Cook, M. V., Flight Dynamics Principles: A Linear Systems Approach to Aircraft Stability and Control, Butterworth-Heinemann, 2012, [https://books.google.com/books?id=hgZDmoL4_DcC](https://books.google.com/books?id=hgZDmoL4_DcC)
