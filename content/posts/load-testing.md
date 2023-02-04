@@ -1,11 +1,10 @@
 ---
 title: "Load Testing With Load Impact"
-date: 2020-09-07T23:11:00-04:00
+date: 2023-02-04T15:30:00-05:00
 draft: true
 toc: false
-# ADD OG IMAGE WITH THIS POST:
-images: ["img/posts/load-testing/og-image.png"]
-tags: 
+images:
+tags:
   - loadimpact
   - programming
   - lua

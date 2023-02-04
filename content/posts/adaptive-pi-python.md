@@ -4,7 +4,7 @@ date: 2020-05-10T19:22:09-04:00
 draft: false
 toc: false
 images: ["img/posts/adaptive-pi-python/og-image.png"]
-tags: 
+tags:
   - adaptive learning
   - control theory
   - python

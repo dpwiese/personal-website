@@ -4,7 +4,7 @@ date: 2020-07-18T17:49:17-05:00
 draft: false
 toc: false
 images: ["img/posts/crc-calculator/og-image.png"]
-tags: 
+tags:
   - programming
   - typescript
 keywords: [programming, typescript]

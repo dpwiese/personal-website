@@ -4,7 +4,7 @@ date: 2021-02-06T15:30:00-04:00
 draft: false
 toc: false
 images: ["img/posts/react-native-canvas-charts/og-image.png"]
-tags: 
+tags:
   - programming
   - react native
   - data visualization

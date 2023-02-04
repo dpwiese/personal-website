@@ -4,7 +4,7 @@ date: 2020-12-12T19:13:00-04:00
 draft: false
 toc: false
 images: ["img/posts/adaptive-control-input-constraints/og-image.png"]
-tags: 
+tags:
   - adaptive learning
   - control theory
   - python

@@ -4,7 +4,7 @@ date: 2023-01-22T08:13:22-05:00
 draft: false
 toc: false
 images: ["img/posts/makefile-checklists/og-image.jpg"]
-tags: 
+tags:
   - programming
   - pandoc
   - aviation
@@ -71,7 +71,7 @@ However, with each checklist taking a few seconds to generate the output, I quic
 # Make
 
 I hadn't really worked with Make before, except in projects which already incorporated it, and where any of my modifications to the existing `makefile`s were trivial.
-[makefiletutorial.com](https://makefiletutorial.com) was a great place to start, and I stumbled across Github user [rueycheng](https://gist.github.com/rueycheng)'s' [GNU Make Cheatsheet](https://gist.github.com/rueycheng/42e355d1480fd7a33ee81c866c7fdf78) to be very helpful as well.
+[makefiletutorial.com](https://makefiletutorial.com) was a great place to start, and I stumbled across Github user [rueycheng](https://gist.github.com/rueycheng)'s [GNU Make Cheatsheet](https://gist.github.com/rueycheng/42e355d1480fd7a33ee81c866c7fdf78) to be very helpful as well.
 Below are my notes on how I used Make to satisfy the above use case.
 From my limited use with Make on this project, it seems very powerful but also took me a little bit to start understanding its capabilities.
 

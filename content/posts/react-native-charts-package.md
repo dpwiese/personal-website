@@ -4,7 +4,7 @@ date: 2021-02-14T10:42:00-04:00
 draft: false
 toc: false
 images: ["img/posts/react-native-charts-package/og-image.png"]
-tags: 
+tags:
   - programming
   - react native
   - nodejs

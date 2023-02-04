@@ -4,7 +4,7 @@ date: 2020-08-23T10:00:00-04:00
 draft: false
 toc: false
 images: ["img/posts/highlightjs-with-hugo/og-image.png"]
-tags: 
+tags:
   - hugo
   - programming
   - javascript
