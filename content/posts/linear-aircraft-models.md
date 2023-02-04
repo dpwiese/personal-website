@@ -3,7 +3,7 @@ title: "Linear Aircraft Models"
 date: 2023-02-04T15:00:00-05:00
 draft: false
 toc: false
-images: ["img/posts/linear-aircraft-models/og-image.jpeg"]
+images: ["img/posts/linear-aircraft-models/og-image.png"]
 tags:
   - flight dynamics
   - control theory
