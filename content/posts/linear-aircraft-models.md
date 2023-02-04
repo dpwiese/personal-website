@@ -1,9 +1,9 @@
 ---
 title: "Linear Aircraft Models"
-date: 2023-01-28T19:25:59-05:00
-draft: true
+date: 2023-02-04T15:00:00-05:00
+draft: false
 toc: false
-images:
+images: ["img/posts/linear-aircraft-models/og-image.jpeg"]
 tags:
   - flight dynamics
   - control theory
@@ -16,32 +16,32 @@ description: "This post presents some simple linear aircraft models and provides
 
 This post presents some simple linear aircraft models and provides their implementation in Python for use with the [Python Control Systems Library](http://python-control.org/).
 Such models can be easily found across many references on aircraft flight mechanics, although these models typically vary slightly depending on the assumptions and simplifications made during their derivation.
-This post aims to provide a little bit more cohesion between these different models to better allow the variant best suited for use in control synthesis and simulation.
+This post aims to provide some additional cohesion between these different models to better allow the variant best suited for use in control synthesis and simulation, and point to the various references which may be most useful.
 
 # Derivation from First Principles
 
-The derivation of the models begins with nothing more than Newton's laws - how to describe the motion of a body acted upon by forces and moments.
-In deriving these equations, some initial assumptions are commonly made for atmospheric flight vehicles - that the Earth is flat and nonrotating, and that the aircraft is a rigid body, thus neglecting the effects of rotating turbo machinery in the aircraft.
-Ref. [^stevenslewis.flight.2015] presents these nonlinear equations in their matrix form in (eq. 1.7-18) and in scalar form as the twelve nonlinear differential equations in Table 2.5-1.
+The derivation of the models begins with nothing more than Newton's laws - the description of the motion of a body acted upon by forces and moments.
+In deriving these equations, some initial assumptions are commonly made for atmospheric flight vehicles - that the Earth is flat and nonrotating, and that the aircraft is a rigid body, thus neglecting the effects of rotating turbo machinery and sloshing fuel in the aircraft.
+Ref. [^stevenslewis.flight.2015] presents these nonlinear equations in their matrix form in (eq. 1.7-18) and in scalar form as the twelve nonlinear differential equations in Table 2.5-1 shown below.
 
 <img src="/img/posts/linear-aircraft-models/stevens-lewis-table-2-5-1.png" width="500" />
 
-Ref. [^stengel.flight.2004] (Eq. 3.6-19 to 3.6-30) provides these equations as well.
+Ref. [^stengel.flight.2004] (Eq. 3.6-19 to 3.6-30) provides these twelve equations as well, albeit with slightly different notation.
 
 <img src="/img/posts/linear-aircraft-models/stengel-eqns-3-6-19-30.png" width="500" />
 
-Ref. [^yechout.flight.2003] Ch. 4 as well as other references provide these equations.
+Ref. [^yechout.flight.2003] Ch. 4 provide these equations as well, along with many of the references below.
 The state is the vehicle's position and orientation along with its linear and angular velocity, each in three dimensions.
 
 It is worth noting here that the axis system affixed to the vehicle is somewhat arbitrary.
-It's origin is at the center of gravity and the $x-z$ axes lie in the vehicles (assumed) plane of symmetry, but can be rotated about the $y$ axis.
+Its origin is at the center of gravity and the $x-z$ axes lie in the vehicles (assumed) plane of symmetry, but can be rotated about the $y$ axis.
 These *general body-fixed axes* are simply the datum that was chosen when designing the aircraft.
 So, while this selection is somewhat arbitrary, it is fixed to the aircraft and independent of flight condition.
 
 # Simplification of Nonlinear Equations
 
 These equations, while some simplifications have already been made in deriving them, can be further simplified for many aerospace applications.
-The goal is often to linearize them about a desired flight condition and decouple the longitudinal and lateral-directional dynamics.
+The goal is often to linearize them about a desired flight condition and decouple the longitudinal and lateral-directional dynamics, resulting in the lowest order, linear system that appropriately models the aircraft.
 The validity of the linearization and decoupling can be verified to ensure such simplification is reasonable.
 
 The next steps in simplification involves examining any quantities that can be neglected, and determining the functional dependence of the applied forces and moments (due to aerodynamic and propulsive forces).
@@ -59,7 +59,7 @@ where by left-multiplying both sides by $E^{-1}$ they can be written
 \end{equation*}
 
 This is the final state-space form of the equations as they are implemented for analysis and control synthesis.
-Selected outputs can be given by:
+Selected outputs are given by:
 
 \begin{equation*}
   y = Cx + Du
@@ -620,6 +620,9 @@ See for example the following model as in Ref. [^cook.flight.2012] Example 4.4 (
   \end{bmatrix}
 \end{equation*}
 
+When this equation is left-multiplied by $E^{-1}$ a form such as that in Ref. [^nelson.flight.1998] (Eq. 5.33) is obtained.
+Neglecting $J_{xz}$ makes $E$ and its inverse the identity matrix.
+
 ## Stability Axes Systems
 
 In converting between the general body-fixed and stability axes, the axes are rotated about the lateral $y$ axis of the aircraft.
@@ -627,7 +630,8 @@ In the longitudinal case, this doesn't result in any transformation between the 
 In the lateral-directional case, the angular rates must be expressed differently when using stability axes.
 Ref. [^cook.flight.2012] (Eq. 2.12) gives the direction cosine matrix that can be used to accomplish such transformation resulting in Ref. [^durham.flight.2013] (Eq. 7.7).
 However, assuming small angles results in the approximation of these angular rates being equivalent in both axes systems.
-The result is a state-space representation such as Ref. [^adams.robust.1994] (Eq. 2.14) below.
+
+The result is a state-space representation such as Ref. [^adams.robust.1994] (Eq. 2.14) or [^nelson.flight.1998] (Eq. 5.35) below.
 
 \begin{equation*}
   \begin{bmatrix}
@@ -638,7 +642,7 @@ The result is a state-space representation such as Ref. [^adams.robust.1994] (Eq
     \dot{\psi}
   \end{bmatrix}=
   \begin{bmatrix}
-    Y_{\beta} & 0 & -1 & \frac{g}{u_{\text{eq}}} & 0 \\\\
+    \frac{Y_{\beta}}{V_{\text{eq}}} & \frac{Y_{p}}{V_{\text{eq}}} & \frac{Y_{r}}{V_{\text{eq}}}-1 & \frac{g\cos(\theta_{\text{eq}})}{V_{\text{eq}}} & 0 \\\\
     L_{\beta} & L_{p} & L_{r} & 0 & 0\\\\
     N_{\beta} & N_{p} & N_{r} & 0 & 0 \\\\
     0 & 1 & 0 & 0 & 0 \\\\
@@ -652,7 +656,7 @@ The result is a state-space representation such as Ref. [^adams.robust.1994] (Eq
     \psi
   \end{bmatrix}+
   \begin{bmatrix}
-    0 & Y_{\delta_{r}} \\\\
+    \frac{Y_{\delta_{a}}}{V_{\text{eq}}} & \frac{Y_{\delta_{r}}}{V_{\text{eq}}} \\\\
     L_{\delta_{a}} & L_{\delta_{r}} \\\\
     N_{\delta_{a}} & N_{\delta_{r}} \\\\
     0 & 0 \\\\
@@ -664,12 +668,21 @@ The result is a state-space representation such as Ref. [^adams.robust.1994] (Eq
   \end{bmatrix}
 \end{equation*}
 
+where
+
+\begin{equation*}
+Y_{\beta} = Y_{v}V_{\text{eq}} \qquad
+L_{\beta} = L_{v}V_{\text{eq}} \qquad
+N_{\beta} = N_{v}V_{\text{eq}}
+\end{equation*}
+
 # Implementation in Python
 
 The implementation of the above models for use in the Python Control Systems Library is straightforward.
-The equilibrium flight condition, mass properties, and stability derivatives for the vehicle must be defined.
+The equilibrium flight condition, mass properties, and stability and control derivatives for the vehicle must be defined.
 These are usually available in the references below for a variety of different aircraft.
 Then, the for matrices $A$, $B$, $C$, and $D$ of the desired model must be populated with these values.
+See [dpwiese/control-examples/aircraft-dynamics](https://github.com/dpwiese/control-examples/tree/main/aircraft-dynamics) on Github.
 
 [^mclean.flight.1990]: McLean, D., Automatic Flight Control Systems, Prentice Hall, 1990, [https://books.google.com/books?id=cJNTAAAAMAAJ](https://books.google.com/books?id=cJNTAAAAMAAJ).
 [^adams.robust.1994]: Adams, R. J. and Buffington, J. M. and Sparks, A. G., Robust Multivariable Flight Control, Springer-Verlag, 1994, [https://books.google.com/books?id=cHBTAAAAMAAJ](https://books.google.com/books?id=cHBTAAAAMAAJ).
