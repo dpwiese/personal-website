@@ -4,8 +4,12 @@ date: 2023-12-10T10:41:00-05:00
 draft: false
 toc: false
 images:
-tags: 
-  - untagged
+tags:
+  - plantuml
+  - docker
+  - make
+keywords: [plantuml, docker, make]
+description: "This post provides a basic overview to install and use PlantUML to seamlessly generate diagrams from the command line."
 ---
 
 # Introduction
