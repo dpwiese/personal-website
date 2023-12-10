@@ -1,6 +1,6 @@
 ---
-title: "Plantuml Diagrams"
-date: 2023-12-09T14:08:42-05:00
+title: "PlantUML Diagrams"
+date: 2023-12-10T9:29:00-05:00
 draft: true
 toc: false
 images:
@@ -147,12 +147,12 @@ PlantUML supports math like the example below from [plantuml.com/ascii-math](htt
 
 ```plaintext
 @startuml
-:<math>int_0^1f(x)dx</math>;
-:<math>x^2+y_1+z_12^34</math>;
+:<latex>\int_0^1f(x)dx</latex>;
+:<latex>x^2+y_1+z_{12}^{34}</latex>;
 note right
 Try also
-<math>d/dxf(x)=lim_(h->0)(f(x+h)-f(x))/h</math>
-<math>P(y|bb"x") or f(bb"x")+epsilon</math>
+<latex>\dfrac{d}{dx}f(x)=\lim\limits_{h \to 0}\dfrac{f(x+h)-f(x)}{h}</latex>
+<latex>P(y|\mathbf{x}) \mbox{ or } f(\mathbf{x})+\epsilon</latex>
 end note
 @enduml
 ```
@@ -256,6 +256,7 @@ docker pull plantuml/plantuml
 For example, the `sample.puml` diagram above can be built using this container with the following command.
 
 ```zsh {linenos=false}&nbsp;
+# Generate sample.png from sample.puml using the plantuml/plantuml image
 docker run --rm -v $PWD:/puml-diagrams plantuml/plantuml -o /puml-diagrams/out /puml-diagrams/src/sample/sample.puml
 ```
 
@@ -270,7 +271,7 @@ One option is to simply copy the necessary into the a container running from the
 # Run a new container from the plantuml/plantuml image
 docker run --name puml_container plantuml/plantuml
 
-# Copy all the .jar files into /opt
+# Copy all the .jar files into puml_container to the /opt directory (where PlantUML is installed)
 docker cp jars/. puml_container:/opt
 
 # Save the container as new image
@@ -280,6 +281,34 @@ docker commit puml_container dpwiese/plantuml
 docker run --rm -v $PWD:/puml-diagrams dpwiese/plantuml -o /puml-diagrams/out /puml-diagrams/src/sample/sample-math.puml
 ```
 
+This was easy enough to do, might become a bit tedious if more configuration was required to a running container.
+Another option is to perform this configuration with a Dockerfile and create the new image from that.
+
 ## Option 2: Building Our Own Docker Image from Dockerfile
 
-One option is to create a new image with these dependencies installed.
+We can leverage a Dockerfile from an existing OpenJDK Distribution such as Amazon Corretto ([Dockerfile](https://github.com/corretto/corretto-docker/blob/main/8/jdk/debian/Dockerfile)) and specify here the installation of dependencies.
+In this case, that is `apt install -y graphviz` and `COPY ./jars /user/share/java`.
+With those lines added the following commands can be walked through to generate the new image.
+
+```zsh
+# Build the new image from the Dockerfil
+docker build -t buster-slim-plantuml:1-2023.12 -f Dockerfile .
+
+# Run a container from this newly created image
+docker run --rm -v $PWD:/puml-diagrams buster-slim-plantuml:1-2023.12 java -jar /usr/share/java/plantuml-1.2023.12.jar -o /puml-diagrams/out /puml-diagrams/src/sample/sample-math.puml
+```
+
+One noticable difference in the way this second image was created is that it doesn't use the PlantUML entry point defined in the first image.
+That entrypoint could have been overridden, but it just makes calls to run PlantUML more verbose.
+Without this entrypoint though, it makes it easier to pass arguments to `java`, should they be needed.
+
+This image can be further modified as needed and uploaded to a repository where it may be more easily accessible.
+As of the time of writing I have not done, and won't describe that process here.
+
+# Using a Makefile
+
+The above steps and commands, while not terribly difficult to run, are a bit cumbersome to remember and modify each time a new diagram is created.
+To further simplify this process, it made sense to create a makefile, and adopt a project structure like the one I use at [github.com/dpwiese/checklists](https://github.com/dpwiese/checklists) to create aviation checklists.
+With basic knowledge of Make, and the commands above, the makefile can be easily assembled.
+There isn't too much to describe here, and the makefile can be found in the sample project repository at [github.com/dpwiese/puml-diagrams-sample](https://github.com/dpwiese/puml-diagrams-sample).
+The objective achieved via the use of this makefile was to map the above commands to things like `make fonts`, `make png`, `make pdf`, and so on.
