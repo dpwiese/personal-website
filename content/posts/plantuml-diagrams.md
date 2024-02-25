@@ -3,6 +3,7 @@ title: "PlantUML Diagrams"
 date: 2023-12-10T10:41:00-05:00
 draft: false
 toc: false
+images: ["img/posts/plantuml-diagrams/og-image.jpeg"]
 images:
 tags:
   - plantuml

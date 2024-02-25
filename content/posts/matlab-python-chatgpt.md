@@ -3,6 +3,7 @@ title: "Matlab to Python with ChatGPT"
 date: 2023-12-09T12:38:15-05:00
 draft: false
 toc: false
+images: ["img/posts/matlab-python-chatgpt/og-image.jpeg"]
 images:
 tags:
   - matlab
