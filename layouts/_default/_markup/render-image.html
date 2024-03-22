@@ -1,0 +1,21 @@
+{{ if .Title }}
+{{ $styling := index (findRE `\{(.*?)\}` .Title) 0 }}
+{{ $titleText := trim .Title $styling }}
+  {{ if .Text }}
+  <figure>
+    <img src="{{ .Destination | safeURL }}" alt="{{ default "alt" .Text }}" {{ trim $styling "{}" | safeHTMLAttr }}>
+    <figcaption>{{ .Text | safeHTML }}</figcaption>
+  </figure>
+  {{ else }}
+    <img src="{{ .Destination | safeURL }}" {{ trim $styling "{}" | safeHTMLAttr }}>
+  {{ end }}
+{{ else }}
+  {{ if .Text }}
+  <figure>
+    <img src="{{ .Destination | safeURL }}" alt="{{ default "alt" .Text }}">
+    <figcaption>{{ .Text | safeHTML }}</figcaption>
+  </figure>
+  {{ else }}
+    <img src="{{ .Destination | safeURL }}">
+  {{ end }}
+{{ end }}
