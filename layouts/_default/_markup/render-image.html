@@ -7,7 +7,7 @@
     <figcaption>{{ .Text | safeHTML }}</figcaption>
   </figure>
   {{ else }}
-    <img src="{{ .Destination | safeURL }}" alt="{{ default "alt" .Text }}" {{ trim $styling "{}" | safeHTMLAttr }}>
+    <img src="{{ .Destination | safeURL }}" {{ trim $styling "{}" | safeHTMLAttr }}>
   {{ end }}
 {{ else }}
   {{ if .Text }}
@@ -16,6 +16,6 @@
     <figcaption>{{ .Text | safeHTML }}</figcaption>
   </figure>
   {{ else }}
-    <img src="{{ .Destination | safeURL }}" alt="{{ default "alt" .Text }}">
+    <img src="{{ .Destination | safeURL }}">
   {{ end }}
 {{ end }}
