@@ -218,8 +218,7 @@ PREREQS = $(wildcard $(SRC)/$(subst .pdf,,$(notdir $@))/*.html)
 
 # Checklist Source
 
-The checklist source is exceedingly simple and not valuable enough to share here.
-It's a 3-column flexbox layout with minimal CSS.
+The checklist source can be found at [github.com/dpwiese/checklists](https://github.com/dpwiese/checklists).
 
 # Summary
 
